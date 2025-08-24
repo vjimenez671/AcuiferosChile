@@ -1,6 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "../../styles/Footer.css";
-import logoSrc from "../imagenes/AcuíferosChile.jpg"; // sube un nivel desde components → front/imagenes
 
 export const Footer = () => {
   return (
@@ -17,11 +17,11 @@ export const Footer = () => {
         <div>
           <h4>Mapa</h4>
           <ul className="foot-links">
-            <li><a href="/">Inicio</a></li>
-            <li><a href="/servicios">Servicios</a></li>
-            <li><a href="/proyectos">Proyectos</a></li>
-            <li><a href="/impacto">Impacto</a></li>
-            <li><a href="/contacto">Contacto</a></li>
+            <li><Link to="/">Inicio</Link></li>
+            <li><Link to="/servicios">Servicios</Link></li>
+            <li><Link to="/proyectos">Proyectos</Link></li>
+            <li><Link to="/impacto">Impacto</Link></li>
+            <li><Link to="/contacto">Contacto</Link></li>
           </ul>
         </div>
         <div>
@@ -35,7 +35,7 @@ export const Footer = () => {
       </div>
       <div className="legal">
         <span>© {new Date().getFullYear()} Acuíferos Chile</span>
-        <a href="/privacidad">Privacidad</a>
+        <Link to="/privacidad">Privacidad</Link>
       </div>
     </footer>
   );
