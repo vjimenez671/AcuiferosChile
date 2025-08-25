@@ -42,7 +42,7 @@ app.config['MAIL_STARTTLS']    = os.getenv('MAIL_STARTTLS', '1').lower() in ('1'
 app.config['MAIL_SSL']         = os.getenv('MAIL_SSL', '0').lower() in ('1', 'true', 'yes')
 app.config['MAIL_FROM']        = os.getenv('MAIL_FROM', 'no-reply@localhost')
 app.config['MAIL_FROM_NAME']   = os.getenv('MAIL_FROM_NAME', 'Acuíferos Chile')
-app.config['MAIL_TO']          = os.getenv('MAIL_TO', 'vicentejimenez.prog@gmail.com')
+app.config['MAIL_TO']          = os.getenv('MAIL_TO', 'ojimenez@acuiferoschile.com')
 
 MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)
