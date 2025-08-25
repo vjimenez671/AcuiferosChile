@@ -1,12 +1,54 @@
-import { Link } from "react-router-dom";
-import React, { useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import "../../styles/Navbar.css";
 import logoSrc from "../imagenes/Logo.png";
 
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const [isAuth, setIsAuth] = useState(false);
+  const [userName, setUserName] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const toggle = () => setOpen((v) => !v);
   const close = () => setOpen(false);
+
+  const checkAuth = () => {
+    const token = localStorage.getItem("token");
+    const user = localStorage.getItem("user");
+    if (token && user) {
+      setIsAuth(true);
+      try {
+        const parsed = JSON.parse(user);
+        setUserName(parsed.name || "");
+      } catch {
+        setUserName("");
+      }
+    } else {
+      setIsAuth(false);
+      setUserName("");
+    }
+  };
+
+  useEffect(() => {
+    checkAuth();
+  }, [location.pathname]);
+
+  useEffect(() => {
+    const onAuthChanged = () => checkAuth();
+    window.addEventListener("auth-changed", onAuthChanged);
+    return () => window.removeEventListener("auth-changed", onAuthChanged);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setIsAuth(false);
+    setUserName("");
+    window.dispatchEvent(new Event("auth-changed"));
+    close();
+    navigate("/");
+  };
 
   return (
     <nav className="navbar" aria-label="Primary">
@@ -36,7 +78,22 @@ export const Navbar = () => {
         <li className="elemento"><Link to="/servicios" onClick={close}>Servicios</Link></li>
         <li className="elemento"><Link to="/proyectos" onClick={close}>Proyectos</Link></li>
         <li className="elemento"><Link to="/impacto" onClick={close}>Impacto</Link></li>
-        <li className="elemento"><Link className="btn btn-primary" to="/contacto" onClick={close}>Contáctanos</Link></li>
+        <li className="elemento">
+          <Link className="btn btn-primary" to="/contacto" onClick={close}>Contáctanos</Link>
+        </li>
+
+        {!isAuth ? (
+          <li className="elemento">
+            <Link className="btn btn-ghost" to="/signin" onClick={close}>Iniciar sesión</Link>
+          </li>
+        ) : (
+          <>
+            <li className="elemento bienvenido">Bienvenido/a {userName}</li>
+            <li className="elemento">
+              <button className="btn btn-ghost btn-logout" onClick={handleLogout}>Cerrar sesión</button>
+            </li>
+          </>
+        )}
       </ul>
     </nav>
   );
