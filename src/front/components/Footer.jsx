@@ -27,8 +27,7 @@ export const Footer = () => {
         <div>
           <h4>Contacto</h4>
           <ul className="foot-links">
-            <li><a href="mailto:contacto@acuiferoschile.cl">contacto@acuiferoschile.cl</a></li>
-            <li><a href="tel:+56900000000">+56 9 0000 0000</a></li>
+            <li><a href="mailto:ojimenez@acuiferoschile.com">ojimenez@acuiferoschile.com</a></li>
             <li>Santiago, Chile</li>
           </ul>
         </div>

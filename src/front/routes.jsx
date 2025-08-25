@@ -9,8 +9,8 @@ import { Layout } from "./pages/Layout";
 import { Home } from "./pages/Home";
 import { Single } from "./pages/Single";
 import { Demo } from "./pages/Demo";
-// routes.jsx
-import About from "./pages/About"; // sin llaves
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 
 
 export const router = createBrowserRouter(
@@ -29,6 +29,7 @@ export const router = createBrowserRouter(
         <Route path="/single/:theId" element={ <Single />} />  {/* Dynamic route for single items */}
         <Route path="/demo" element={<Demo />} />
         <Route path="/quienes-somos" element={<About />} />
+        <Route path="/contacto" element={<Contact />} />
 
       </Route>
     )

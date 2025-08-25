@@ -29,7 +29,10 @@
   --transition: 180ms ease;
 }
 
-.ac-about { color: var(--ink-900); }
+.ac-about { 
+  color: var(--ink-900);
+  background-color: #f0f8fc; 
+}
 .container { max-width: 1200px; margin: 0 auto; padding: 0 var(--space-5); }
 .section { padding: var(--space-6) 0; }
 .section-head { margin-bottom: var(--space-4); }
@@ -49,7 +52,9 @@
 }
 
 .about-intro .section-head { margin-bottom: var(--space-2); }
-.about-team.section { padding-top: var(--space-4); padding-bottom: var(--space-4); }
+.about-team.section { 
+  padding-top: 1%; 
+  padding-bottom: var(--space-4); }
 
 .team-grid {
   display: grid;
@@ -122,4 +127,8 @@
   .member-avatar { width: 72px; height: 72px; }
   .avatar-initials { font-size: 1.1rem; }
   .member-name { font-size: 1rem; }
+}
+
+h1, h2 {
+    margin-bottom: 2%;
 }

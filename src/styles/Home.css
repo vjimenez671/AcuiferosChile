@@ -149,6 +149,7 @@ a:hover { color: var(--blue-500); }
   grid-template-columns: repeat(4, 1fr);
   gap: .25rem;
   padding: var(--space-4) 0;
+  height: 14vh;
 }
 .kpi {
   display: grid;
@@ -163,7 +164,10 @@ a:hover { color: var(--blue-500); }
 .kpi-note { font-size: var(--fs-xs); color: var(--ink-700); opacity: .9; }
 
 /* ---- SECTIONS ---- */
-.section { padding: var(--space-6) 0; }
+.section { 
+  padding: var(--space-6) 0;
+  background-color: #f0f8fc;
+ }
 .section.alt { background: var(--white); }
 .section-head { 
   margin-bottom: var(--space-4); 
