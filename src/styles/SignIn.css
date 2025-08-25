@@ -3,8 +3,8 @@
   display: grid;
   align-items: center;
   justify-items: center;
-  padding: 6rem 1rem 2rem; /* padding top por navbar fija */
-  background: var(--bg, #F7FBFD);
+  padding: 6rem 1rem 2rem;
+  background: #f0f8fc;
 }
 
 .auth-card {
@@ -16,6 +16,7 @@
   box-shadow: var(--shadow-sm, 0 4px 12px rgba(14,58,91,.1));
   display: grid;
   gap: 1rem;
+  margin-top: -20vh;
 }
 
 .auth-card h1 {

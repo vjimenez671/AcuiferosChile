@@ -93,18 +93,16 @@ export default function Contact() {
             <label className="field">
               <span>Tu correo (desde registro)</span>
               <input type="email" value={userEmail} readOnly />
-              <small className="help">
-              </small>
-            </label>
-
-            <label className="field">
-              <span>Tema</span>
-              <select name="topic" value={form.topic} onChange={onChange}>
-                <option value="general">Consulta general</option>
-                <option value="proyecto">Nuevo proyecto</option>
-              </select>
             </label>
           </div>
+
+          <label className="field">
+            <span>Tema</span>
+            <select name="topic" value={form.topic} onChange={onChange}>
+              <option value="general">Consulta general</option>
+              <option value="proyecto">Proyecto</option>
+            </select>
+          </label>
 
           <label className="field">
             <span>Asunto *</span>

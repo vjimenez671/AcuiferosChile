@@ -3,9 +3,8 @@
   display: grid;
   align-items: start;
   justify-items: center;
-  padding: 6rem 1rem 2rem; /* margen top por navbar fija */
-  background: var(--bg, #F7FBFD);
-  margin-bottom: 5%;
+  padding: 6rem 1rem 7rem; /* margen top por navbar fija */
+  background: #f0f8fc;
 }
 
 .contact-card {
@@ -20,18 +19,20 @@
 #contact-title {
   font-size: clamp(1.6rem, 1.2rem + 2vw, 2.2rem);
   color: var(--blue-900, #0E3A5B);
-  margin-bottom: .5rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+
 }
 
 .intro {
   color: var(--ink-800, #1A2E3D);
-  margin-bottom: 1rem;
+  margin-bottom: 1.4rem;
   font-size: var(--fs-md, 1.05rem);
 }
 
 .contact-form {
   display: grid;
-  gap: 1rem;
+  gap: 1.2rem; /* más aire entre campos */
 }
 
 .grid-two {
@@ -45,7 +46,7 @@
 
 .field {
   display: grid;
-  gap: .4rem;
+  gap: .4rem; /* mantiene cercanía entre label e input */
 }
 
 .field span {
@@ -86,6 +87,7 @@ input:focus, select:focus, textarea:focus {
   gap: .6rem;
   font-size: .95rem;
   color: var(--ink-800, #1A2E3D);
+  margin-top: 1.4rem; /* más espacio arriba */
 }
 
 .error {
@@ -95,6 +97,7 @@ input:focus, select:focus, textarea:focus {
   border-radius: 10px;
   padding: .6rem .8rem;
   font-size: .95rem;
+  margin-top: .6rem; /* pegado al campo anterior */
 }
 
 .ok {
@@ -104,12 +107,14 @@ input:focus, select:focus, textarea:focus {
   border-radius: 10px;
   padding: .6rem .8rem;
   font-size: .95rem;
+  margin-top: .6rem;
 }
 
 .actions {
   display: flex;
   gap: .75rem;
   flex-wrap: wrap;
+  margin-top: 1.6rem; /* destaca el bloque de botones */
 }
 
 .btn {
@@ -142,7 +147,7 @@ input:focus, select:focus, textarea:focus {
 .btn-ghost:hover { background: #fff; box-shadow: var(--shadow-sm, 0 4px 12px rgba(14,58,91,.1)); }
 
 .note {
-  margin-top: .5rem;
+  margin-top: 1.2rem; /* más aire final */
   color: var(--ink-700, #274053);
   font-size: .9rem;
 }

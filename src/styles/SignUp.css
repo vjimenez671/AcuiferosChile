@@ -4,10 +4,10 @@
   align-items: center;
   justify-items: center;
   padding: 6rem 1rem 2rem; /* margen superior por navbar fija */
-  background: var(--bg, #F7FBFD);
+  background: #f0f8fc;
 }
 
-.auth-card {
+.card-auth {
   width: min(640px, 92vw);
   background: var(--white, #fff);
   border: 1px solid #E4EEF4;
@@ -16,9 +16,10 @@
   box-shadow: var(--shadow-sm, 0 4px 12px rgba(14,58,91,.1));
   display: grid;
   gap: 1rem;
+  margin-bottom: 5rem;
 }
 
-.auth-card h1 {
+.card-auth h1 {
   font-size: clamp(1.4rem, 1.1rem + 1.2vw, 2rem);
   color: var(--blue-900, #0E3A5B);
   margin-bottom: .5rem;

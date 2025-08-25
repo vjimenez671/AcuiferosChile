@@ -59,7 +59,7 @@ export default function SignUp() {
 
   return (
     <main className="auth-wrapper">
-      <form className="auth-card" onSubmit={onSubmit} aria-labelledby="signup-title">
+      <form className="card-auth" onSubmit={onSubmit} aria-labelledby="signup-title">
         <h1 id="signup-title">Crear cuenta</h1>
 
         <div className="grid-two">
