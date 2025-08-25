@@ -1,179 +1,169 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../../styles/Contact.css";
 
-const TO_EMAIL = "vicentejimenez.prog@gmail.com";
+const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3001";
 
 export default function Contact() {
+  const navigate = useNavigate();
+  const [userEmail, setUserEmail] = useState("");
+  const [userName, setUserName] = useState("");
   const [form, setForm] = useState({
-    nombre: "",
-    correo: "",
-    telefono: "",
-    asunto: "",
-    mensaje: "",
-    website: "", // honeypot antispam
+    topic: "general",
+    subject: "",
+    message: "",
+    link: "",
+    copyMe: true,
   });
+  const [error, setError] = useState("");
+  const [okMsg, setOkMsg] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  // Proteger ruta: si no hay sesión, redirigir a /signin
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const userRaw = localStorage.getItem("user");
+    if (!token || !userRaw) {
+      navigate("/signin", { replace: true });
+      return;
+    }
+    try {
+      const user = JSON.parse(userRaw);
+      setUserEmail(user?.email || "");
+      setUserName(user?.name || "");
+    } catch {
+      setUserEmail("");
+      setUserName("");
+    }
+  }, [navigate]);
 
   const onChange = (e) => {
-    const { name, value } = e.target;
-    setForm((f) => ({ ...f, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    setForm((f) => ({ ...f, [name]: type === "checkbox" ? checked : value }));
   };
 
-  // Construye el mailto con subject y body formateado
-  const mailtoHref = useMemo(() => {
-    const asunto = form.asunto?.trim() || "Contacto desde sitio web";
-    const lineas = [
-      `Nombre: ${form.nombre || "-"}`,
-      `Correo: ${form.correo || "-"}`,
-      form.telefono ? `Teléfono: ${form.telefono}` : null,
-      "",
-      "Mensaje:",
-      form.mensaje || "-",
-    ].filter(Boolean);
-    const body = lineas.join("\n");
-    const params = new URLSearchParams({
-      subject: asunto,
-      body,
-    }).toString();
-    return `mailto:${TO_EMAIL}?${params}`;
-  }, [form]);
-
-  const handleOpenEmail = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    // Si el honeypot viene con algo, no enviamos
-    if (form.website) return;
-    window.location.href = mailtoHref;
-  };
+    setError("");
+    setOkMsg("");
 
-  const copyAddress = async () => {
+    if (!form.subject.trim()) return setError("El asunto es obligatorio.");
+    if (!form.message.trim()) return setError("El mensaje es obligatorio.");
+
+    setLoading(true);
     try {
-      await navigator.clipboard.writeText(TO_EMAIL);
-      alert("Dirección copiada al portapapeles.");
-    } catch {
-      // fallback silencioso
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${API_URL}/api/contact`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          topic: form.topic,
+          subject: form.subject,
+          message: form.message,
+          link: form.link,
+          copyMe: form.copyMe,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.msg || data?.message || "No se pudo enviar el correo.");
+
+      setOkMsg("Tu mensaje fue enviado correctamente. ¡Gracias!");
+      setForm((f) => ({ ...f, subject: "", message: "", link: "" }));
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <main className="ac-contact">
-      <section className="section contact-intro" aria-labelledby="contact-title">
-        <div className="container">
-          <div className="linea-divisora"></div>
-          <header className="section-head">
-            <h1 id="contact-title" className="contact-title">Contáctanos</h1>
-            <p className="section-subtitle">
-              Completa el formulario y te abriremos tu cliente de correo con el mensaje pre-llenado.
-              También puedes escribirnos directamente a{" "}
-              <a className="link-mail" href={`mailto:${TO_EMAIL}`}>{TO_EMAIL}</a>.
-            </p>
-          </header>
+    <main className="contact-wrapper">
+      <section className="contact-card" aria-labelledby="contact-title">
+        <h1 id="contact-title">Contáctanos</h1>
+        <p className="intro">
+          {userName ? `Hola ${userName}, ` : ""}completa el formulario y enviaremos tu mensaje al equipo.
+        </p>
 
-          <form className="contact-form" onSubmit={handleOpenEmail}>
-            {/* Honeypot antispam */}
-            <div className="hidden-field" aria-hidden="true">
-              <label htmlFor="website">No completar</label>
-              <input
-                id="website"
-                name="website"
-                type="text"
-                tabIndex={-1}
-                autoComplete="off"
-                value={form.website}
-                onChange={onChange}
-              />
-            </div>
+        <form className="contact-form" onSubmit={onSubmit}>
+          <div className="grid-two">
+            <label className="field">
+              <span>Tu correo (desde registro)</span>
+              <input type="email" value={userEmail} readOnly />
+              <small className="help">
+              </small>
+            </label>
 
-            <div className="form-grid">
-              <div className="form-control">
-                <label htmlFor="nombre">Nombre</label>
-                <input
-                  id="nombre"
-                  name="nombre"
-                  type="text"
-                  placeholder="Tu nombre"
-                  value={form.nombre}
-                  onChange={onChange}
-                  required
-                />
-              </div>
+            <label className="field">
+              <span>Tema</span>
+              <select name="topic" value={form.topic} onChange={onChange}>
+                <option value="general">Consulta general</option>
+                <option value="proyecto">Nuevo proyecto</option>
+              </select>
+            </label>
+          </div>
 
-              <div className="form-control">
-                <label htmlFor="correo">Correo</label>
-                <input
-                  id="correo"
-                  name="correo"
-                  type="email"
-                  placeholder="tucorreo@dominio.com"
-                  value={form.correo}
-                  onChange={onChange}
-                  required
-                />
-              </div>
+          <label className="field">
+            <span>Asunto *</span>
+            <input
+              type="text"
+              name="subject"
+              placeholder="Ej: Interés en ARS para predio en Los Ríos"
+              value={form.subject}
+              onChange={onChange}
+              required
+            />
+          </label>
 
-              <div className="form-control">
-                <label htmlFor="telefono">Teléfono (opcional)</label>
-                <input
-                  id="telefono"
-                  name="telefono"
-                  type="tel"
-                  placeholder="+56 9 1234 5678"
-                  value={form.telefono}
-                  onChange={onChange}
-                />
-              </div>
+          <label className="field">
+            <span>Mensaje *</span>
+            <textarea
+              name="message"
+              rows={7}
+              placeholder="Cuéntanos brevemente el contexto, objetivos y plazos..."
+              value={form.message}
+              onChange={onChange}
+              required
+            />
+          </label>
 
-              <div className="form-control form-span-2">
-                <label htmlFor="asunto">Asunto</label>
-                <input
-                  id="asunto"
-                  name="asunto"
-                  type="text"
-                  placeholder="Asunto del mensaje"
-                  value={form.asunto}
-                  onChange={onChange}
-                />
-              </div>
+          <label className="field">
+            <span>Enlace (opcional)</span>
+            <input
+              type="url"
+              name="link"
+              placeholder="https://… (carpeta, documento, mapa, etc.)"
+              value={form.link}
+              onChange={onChange}
+            />
+          </label>
 
-              <div className="form-control form-span-2">
-                <label htmlFor="mensaje">Mensaje</label>
-                <textarea
-                  id="mensaje"
-                  name="mensaje"
-                  rows="6"
-                  placeholder="Cuéntanos brevemente tu necesidad…"
-                  value={form.mensaje}
-                  onChange={onChange}
-                  required
-                />
-              </div>
-            </div>
+          <label className="check">
+            <input
+              type="checkbox"
+              name="copyMe"
+              checked={form.copyMe}
+              onChange={onChange}
+            />
+            <span>Enviarme una copia (CC) a mi correo</span>
+          </label>
 
-            <div className="actions">
-              <button type="submit" className="btn btn-primary">
-                Abrir correo y enviar
-              </button>
+          {error && <div className="error" role="alert">{error}</div>}
+          {okMsg && <div className="ok" role="status">{okMsg}</div>}
 
-              <a className="btn btn-ghost" href={mailtoHref}>
-                Ver vista previa
-              </a>
+          <div className="actions">
+            <button type="submit" className="btn btn-primary" disabled={loading}>
+              {loading ? "Enviando..." : "Enviar"}
+            </button>
+          </div>
 
-              <button type="button" className="btn btn-ghost" onClick={copyAddress}>
-                Copiar dirección
-              </button>
-            </div>
-
-            <p className="hint">
-              * Al presionar “Abrir correo y enviar” se abrirá tu aplicación de correo con el mensaje pre-llenado para{" "}
-              <strong>{TO_EMAIL}</strong>. Revisa y envía desde tu buzón.
-            </p>
-
-            <noscript>
-              <p>
-                JavaScript está deshabilitado. Puedes escribirnos a{" "}
-                <a href={`mailto:${TO_EMAIL}`}>{TO_EMAIL}</a>.
-              </p>
-            </noscript>
-          </form>
-        </div>
+          <p className="note">
+            Tu correo será enviado desde el servidor y al responder, llegará directo a tu buzón.
+          </p>
+        </form>
       </section>
     </main>
   );

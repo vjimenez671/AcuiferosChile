@@ -15,6 +15,12 @@ import hashlib
 import time
 from functools import wraps
 
+# --- stdlib para SMTP ---
+import smtplib
+import ssl
+from email.message import EmailMessage
+from typing import Optional, List
+
 api = Blueprint('api', __name__)
 
 # Allow CORS requests to this API
@@ -38,7 +44,6 @@ def encode_jwt(payload: dict, secret: str, alg: str = "HS256", exp_seconds: int 
     """
     header = {"alg": alg, "typ": "JWT"}
     payload = dict(payload) if payload else {}
-    # exp en segundos (UNIX epoch)
     payload.setdefault("exp", int(time.time()) + exp_seconds)
     header_b64 = _b64url_encode(json.dumps(header, separators=(',', ':')).encode('utf-8'))
     payload_b64 = _b64url_encode(json.dumps(payload, separators=(',', ':')).encode('utf-8'))
@@ -102,9 +107,11 @@ def login_required(fn):
 
 @api.route('/hello', methods=['POST', 'GET'])
 def handle_hello():
+
     response_body = {
         "message": "Hello! I'm a message that came from the backend, check the network tab on the google inspector and you will see the GET request"
     }
+
     return jsonify(response_body), 200
 
 
@@ -203,3 +210,141 @@ def session_info():
     if not user:
         raise APIException("Usuario no encontrado", status_code=404)
     return jsonify({"user": user.serialize()}), 200
+
+
+# =========================
+# CONTACT: envío de correo por SMTP (server-side)
+# =========================
+
+def _send_mail_smtp(
+    to_addr: str,
+    subject: str,
+    body_text: str,
+    reply_to: Optional[str] = None,
+    cc: Optional[List[str]] = None,
+    from_display_name: Optional[str] = None
+):
+    """
+    Envía correo vía SMTP usando configuración de app.config.
+    Compatible con Gmail, Outlook/Hotmail, Yahoo, etc.
+
+    El envelope sender (MAIL FROM) es app.config['MAIL_FROM'] para cumplir SPF/DMARC.
+    El header "From" usa 'from_display_name' como nombre visible + <MAIL_FROM>.
+    """
+    host      = current_app.config.get('MAIL_SMTP_HOST', '')
+    port      = int(current_app.config.get('MAIL_SMTP_PORT', 587))
+    user      = current_app.config.get('MAIL_SMTP_USER', '')
+    pwd       = current_app.config.get('MAIL_SMTP_PASS', '')
+    use_ssl   = bool(current_app.config.get('MAIL_SSL', False))
+    starttls  = bool(current_app.config.get('MAIL_STARTTLS', True))
+    from_addr = current_app.config.get('MAIL_FROM', 'no-reply@localhost')
+    default_from_name = current_app.config.get('MAIL_FROM_NAME', 'Acuíferos Chile')
+
+    if not host:
+        raise APIException("MAIL_SMTP_HOST no configurado en el servidor", status_code=500)
+
+    display_name = from_display_name or default_from_name
+
+    msg = EmailMessage()
+    msg['Subject'] = subject
+    msg['From'] = f"{display_name} <{from_addr}>"
+    msg['To'] = to_addr
+    if cc:
+        msg['Cc'] = ", ".join(cc)
+    if reply_to:
+        msg['Reply-To'] = reply_to
+    msg['X-Mailer'] = 'AcuiferosChile-Backend'
+    msg.set_content(body_text)
+
+    recipients = [to_addr] + (cc or [])
+
+    # Conexión SMTP
+    if use_ssl:
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL(host=host, port=port, context=context) as server:
+            if user and pwd:
+                server.login(user, pwd)
+            server.send_message(msg, from_addr=from_addr, to_addrs=recipients)
+    else:
+        with smtplib.SMTP(host=host, port=port) as server:
+            server.ehlo()
+            if starttls:
+                context = ssl.create_default_context()
+                server.starttls(context=context)
+                server.ehlo()
+            if user and pwd:
+                server.login(user, pwd)
+            server.send_message(msg, from_addr=from_addr, to_addrs=recipients)
+
+@api.route('/contact', methods=['POST'])
+@login_required
+def send_contact_email():
+    """
+    Envía un correo a MAIL_TO con los datos del usuario autenticado.
+    Body JSON: { topic?, subject*, message*, link?, copyMe? }
+    """
+    data = request.get_json(silent=True) or {}
+    subject = (data.get('subject') or '').strip()
+    message = (data.get('message') or '').strip()
+    link    = (data.get('link') or '').strip()
+    topic   = (data.get('topic') or 'general').strip()
+    copy_me = bool(data.get('copyMe', True))
+
+    if not subject:
+        raise APIException("El asunto es obligatorio.", status_code=400)
+    if not message:
+        raise APIException("El mensaje es obligatorio.", status_code=400)
+
+    # Usuario autenticado
+    user_id = request.jwt_payload.get('sub')
+    user = User.query.get(user_id)
+    if not user:
+        raise APIException("Usuario no encontrado", status_code=404)
+
+    # Destino principal configurado
+    to_addr = current_app.config.get('MAIL_TO', 'vicentejimenez.prog@gmail.com')
+
+    # Cuerpo del correo (texto plano)
+    lines = [
+        f"Tema: {topic_label(topic)}",
+        f"Remitente: {user.name} {user.last_name} <{user.email}>",
+        "",
+        message
+    ]
+    if link:
+        lines += ["", f"Enlace adicional: {link}"]
+    body_text = "\n".join(lines)
+
+    # CC opcional al usuario
+    cc = [user.email] if (copy_me and user.email) else []
+
+    # From visible: "<Nombre Apellido> via Acuíferos Chile" <MAIL_FROM>
+    base_from_name = current_app.config.get('MAIL_FROM_NAME', 'Acuíferos Chile')
+    user_full_name = f"{user.name} {user.last_name}".strip()
+    from_display_name = f"{user_full_name} via {base_from_name}" if user_full_name else base_from_name
+
+    try:
+        _send_mail_smtp(
+            to_addr=to_addr,
+            subject=subject,
+            body_text=body_text,
+            reply_to=user.email,          # al responder, irá al usuario
+            cc=cc,
+            from_display_name=from_display_name
+        )
+    except APIException:
+        raise
+    except Exception as e:
+        raise APIException(f"Error enviando correo: {str(e)}", status_code=500)
+
+    return jsonify({"ok": True, "message": "Correo enviado correctamente"}), 200
+
+def topic_label(value: str) -> str:
+    v = (value or '').lower()
+    if v == 'proyecto':
+        return 'Nuevo proyecto'
+    if v == 'soporte':
+        return 'Soporte técnico'
+    if v == 'prensa':
+        return 'Prensa / Difusión'
+    return 'Consulta general'

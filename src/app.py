@@ -20,7 +20,7 @@ app = Flask(__name__)
 app.url_map.strict_slashes = False
 
 # --- SECRET KEY para firmar JWT (usa variable de entorno en producción) ---
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret-change-me')
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', os.getenv('FLASK_APP_KEY', 'dev-secret-change-me'))
 
 # database condiguration
 db_url = os.getenv("DATABASE_URL")
@@ -31,6 +31,19 @@ else:
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# --- CONFIG SMTP (para /api/contact) ---
+# Compatible con Gmail, Outlook/Hotmail, Yahoo, etc.
+app.config['MAIL_SMTP_HOST']   = os.getenv('MAIL_SMTP_HOST', '')
+app.config['MAIL_SMTP_PORT']   = int(os.getenv('MAIL_SMTP_PORT', '587'))
+app.config['MAIL_SMTP_USER']   = os.getenv('MAIL_SMTP_USER', '')
+app.config['MAIL_SMTP_PASS']   = os.getenv('MAIL_SMTP_PASS', '')
+app.config['MAIL_STARTTLS']    = os.getenv('MAIL_STARTTLS', '1').lower() in ('1', 'true', 'yes')
+app.config['MAIL_SSL']         = os.getenv('MAIL_SSL', '0').lower() in ('1', 'true', 'yes')
+app.config['MAIL_FROM']        = os.getenv('MAIL_FROM', 'no-reply@localhost')
+app.config['MAIL_FROM_NAME']   = os.getenv('MAIL_FROM_NAME', 'Acuíferos Chile')
+app.config['MAIL_TO']          = os.getenv('MAIL_TO', 'vicentejimenez.prog@gmail.com')
+
 MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)
 
