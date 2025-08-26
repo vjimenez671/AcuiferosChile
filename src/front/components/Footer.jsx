@@ -25,9 +25,8 @@ export const Footer = () => {
           </ul>
         </div>
         <div>
-          <h4>Contacto</h4>
+          <h4>Localización</h4>
           <ul className="foot-links">
-            <li><a href="mailto:ojimenez@acuiferoschile.com">ojimenez@acuiferoschile.com</a></li>
             <li>Santiago, Chile</li>
           </ul>
         </div>
