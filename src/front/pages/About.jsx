@@ -52,7 +52,7 @@ const TEAM_ASSOCIATES = [
   {
     name: "Jordi Escorcia",
     initials: "JE",
-    tag: "Cataluña",
+    tag: "Chile",
     bio: "Geólogo con 20+ años de experiencia; experto en hidrogeología, modelación conceptual y numérica de acuíferos. Máster en Hidrología Subterránea."
   }
 ];
