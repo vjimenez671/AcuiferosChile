@@ -286,3 +286,68 @@
   background: var(--surface-alt);   /* tono suave, no blanco */
   border-color: #E4EEF4;
 }
+
+/* =========================
+   NUEVO: Distribución hero
+========================= */
+.rag-hero__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;      /* reparte el ancho */
+  align-items: center;
+  gap: var(--space-5);
+  width: 100%;
+}
+.rag-hero h1,
+.rag-hero .lead { 
+  max-width: none;                      /* libera ancho de texto */
+}
+.rag-hero__right {
+  min-height: 320px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  background:
+    radial-gradient(1200px 600px at 80% 40%, rgba(255,255,255,.16), transparent 60%),
+    linear-gradient(135deg, rgba(255,255,255,.18), rgba(255,255,255,.06));
+  border: 1px solid rgba(255,255,255,.18);
+}
+@media (max-width: 1100px) {
+  .rag-hero__grid { grid-template-columns: 1fr; }
+  .rag-hero__right { display: none; }
+}
+
+
+/* ... todo lo que ya tenías arriba se mantiene igual ... */
+
+/* =========================
+   NUEVO: Distribución hero
+========================= */
+.rag-hero__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;      /* reparte el ancho */
+  align-items: center;
+  gap: var(--space-5);
+  width: 100%;
+}
+
+.rag-hero h1,
+.rag-hero .lead { 
+  max-width: none;                      /* libera ancho de texto */
+}
+
+/* 👉 ahora con imagen */
+.rag-hero__right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.rag-hero__right img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+@media (max-width: 1100px) {
+  .rag-hero__grid { grid-template-columns: 1fr; }
+  .rag-hero__right { display: none; }
+}
