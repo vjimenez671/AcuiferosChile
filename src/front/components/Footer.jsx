@@ -18,6 +18,7 @@ export const Footer = () => {
           <h4>Mapa</h4>
           <ul className="foot-links">
             <li><Link to="/">Inicio</Link></li>
+            <li><Link to="/quienes-somos">¿Quiénes somos?</Link></li>
             <li><Link to="/rag">RAG</Link></li>
             <li><Link to="/clientes">Clientes</Link></li>
             <li><Link to="/blog">Blog</Link></li>
