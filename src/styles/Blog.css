@@ -385,3 +385,87 @@ html, body, #root {
 footer {
   margin-top: auto;
 }
+
+/* ... todas tus variables y estilos previos ... */
+
+/* Vista previa moderada en el composer */
+.image-preview {
+  margin-top: .25rem;
+  border: 1px dashed #D7E7F2;
+  background: #F7FBFD;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+
+  /* Tamaño controlado tipo miniatura */
+  display: inline-block;
+  max-width: 280px;
+  max-height: 220px;
+}
+
+.image-preview img {
+  display: block;
+  max-width: 100%;
+  max-height: 220px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+/* =========================
+   Post Card (ajustamos las imágenes grandes)
+========================= */
+.media-image {
+  width: 100%;
+  max-height: 420px; /* reducido de 520px */
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  border: 1px solid #E4EEF4;
+  cursor: zoom-in;
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+  box-shadow: 0 6px 18px rgba(14,58,91,.10);
+}
+
+/* =========================
+   Miniatura segura para verticales en el feed
+   - Contenedor con altura moderada y responsiva
+   - La imagen usa object-fit: contain (no se recorta)
+========================= */
+.post-media { margin-top: .65rem; }
+
+.media-frame {
+  width: 100%;
+  height: clamp(220px, 40vw, 380px); /* miniatura moderada y fluida */
+  max-height: 420px;
+  background: #F7FBFD;
+  border-radius: var(--radius-sm);
+  border: 1px solid #E4EEF4;
+  box-shadow: 0 6px 18px rgba(14,58,91,.10);
+  overflow: hidden;
+
+  display: grid;
+  place-items: center;
+  cursor: zoom-in;
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+
+.media-frame:hover {
+  transform: scale(1.01);
+  border-color: #D4E7F2;
+  box-shadow: var(--shadow);
+}
+
+/* Dentro del contenedor forzamos contain para no cortar la imagen */
+.media-frame .media-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;    /* muestra la foto completa (ideal vertical) */
+  border-radius: 0;       /* el marco ya tiene borde redondeado */
+  border: none;           /* evita doble borde */
+  box-shadow: none;       /* el marco ya da sombra */
+}
+
+/* Ajuste del pie de foto para esta miniatura */
+.post-media figcaption {
+  text-align: center;
+  margin-top: .35rem;
+}

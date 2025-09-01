@@ -74,7 +74,7 @@ export default function Blog() {
         sources: ["local", "camera", "url"],
         multiple: false,
         folder: "blog",
-        language: "es", // 👈 fuerza idioma español
+        language: "es",
         text: {
           es: {
             menu: { files: "Archivos", url: "URL", camera: "Cámara" },
@@ -101,9 +101,11 @@ export default function Blog() {
     setErrorSubmit("");
     setOkMsg("");
 
-    if (!form.title.trim() || !form.content.trim()) {
-      return setErrorSubmit("Título y contenido son obligatorios.");
+    // Solo título obligatorio
+    if (!form.title.trim()) {
+      return setErrorSubmit("El título es obligatorio.");
     }
+
     setSubmitting(true);
     try {
       const token = localStorage.getItem("token");
@@ -153,8 +155,14 @@ export default function Blog() {
               <input type="text" name="title" value={form.title} onChange={onChange} required />
             </label>
             <label className="field">
-              <span>Contenido *</span>
-              <textarea name="content" rows={6} value={form.content} onChange={onChange} required />
+              <span>Contenido (opcional)</span>
+              <textarea
+                name="content"
+                rows={6}
+                value={form.content}
+                onChange={onChange}
+                placeholder="Escribe algo (opcional)…"
+              />
             </label>
             <div className="grid-attach">
               <label className="field">
@@ -215,11 +223,24 @@ function PostCard({ post }) {
 
   const createdAt = useMemo(() => {
     try {
-      return new Date(post.created_at).toLocaleString();
+      const d = new Date(post.created_at);
+      const dd = String(d.getDate()).padStart(2, "0");
+      const mm = String(d.getMonth() + 1).padStart(2, "0");
+      const yyyy = d.getFullYear();
+      const time = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      return `${dd}/${mm}/${yyyy} ${time}`;
     } catch {
       return post.created_at;
     }
   }, [post.created_at]);
+
+  const openLightbox = () => setOpen(true);
+  const keyOpen = (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      setOpen(true);
+    }
+  };
 
   return (
     <article className="post-card">
@@ -240,12 +261,20 @@ function PostCard({ post }) {
 
       {post.attachment_url && (
         <figure className="post-media">
-          <img
-            src={post.attachment_url}
-            alt={post.title}
-            className="media-image"
-            onClick={() => setOpen(true)}
-          />
+          <div
+            className="media-frame"
+            onClick={openLightbox}
+            onKeyDown={keyOpen}
+            role="button"
+            tabIndex={0}
+            aria-label="Ampliar imagen"
+          >
+            <img
+              src={post.attachment_url}
+              alt={post.title}
+              className="media-image"
+            />
+          </div>
           <figcaption>Haz click para ampliar</figcaption>
           {isOpen && <Lightbox imgSrc={post.attachment_url} onClose={() => setOpen(false)} />}
         </figure>
