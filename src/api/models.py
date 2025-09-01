@@ -23,3 +23,30 @@ class User(db.Model):
             "is_active": self.is_active,
             "created_at": self.created_at.isoformat()
         }
+
+class Post(db.Model):
+    __tablename__ = "post"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    title: Mapped[str] = mapped_column(String(200), nullable=False)
+    content: Mapped[str] = mapped_column(nullable=False)
+    attachment_url: Mapped[str] = mapped_column(String(500), nullable=True)  # enlaces o archivos
+    created_at: Mapped[datetime] = mapped_column(nullable=False, default=datetime.utcnow)
+
+    user_id: Mapped[int] = mapped_column(db.ForeignKey("user.id"), nullable=False)
+    user = db.relationship("User", backref="posts")
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "content": self.content,
+            "attachment_url": self.attachment_url,
+            "created_at": self.created_at.isoformat(),
+            "user": {
+                "id": self.user.id,
+                "name": self.user.name,
+                "last_name": self.user.last_name,
+                "email": self.user.email
+            }
+        }

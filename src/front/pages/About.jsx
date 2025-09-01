@@ -1,6 +1,16 @@
 import React from "react";
 import "../../styles/About.css";
 import orlandoImg from "../imagenes/Orlando Jimenez.jpg";
+import claudioImg from "../imagenes/Claudio Arriagada.jpg";
+import evaImg from "../imagenes/eva-saez.jpg";
+import benjaminImg from "../imagenes/benjamin-santana.png";
+import russellImg from "../imagenes/russell-martin.jpg";
+import enriqueImg from "../imagenes/enrique-fernandez.jpg";
+import jordiImg from "../imagenes/jordi-escorcia.jpg";
+import diegoImg from "../imagenes/diego-anguita.jpg";
+import reynaldoImg from "../imagenes/reynaldo-payano.png";
+
+
 
 const TEAM_MAIN = [
   {
@@ -14,25 +24,29 @@ const TEAM_MAIN = [
     name: "Claudio Arriagada",
     initials: "CA",
     tag: "Chile",
-    bio: "Ingeniero Agrónomo (UACh) y Perito Agrícola (IPA Adolfo Matthei). Especialista en proyectos de riego desde 2004 y en producción de berries por más de 17 años."
+    bio: "Ingeniero Agrónomo (UACh) y Perito Agrícola (IPA Adolfo Matthei). Especialista en proyectos de riego desde 2004 y en producción de berries por más de 17 años.",
+    photo: claudioImg
   },
   {
     name: "Eva Saez",
     initials: "ES",
     tag: "España",
-    bio: "Hidrogeóloga con un MSc en Ingeniería del Terreno con especialidad en Hidrología Subterránea (UPC, Catalunya)."
+    bio: "Hidrogeóloga con un MSc. en Ingeniería del Terreno con especialidad en Hidrología Subterránea de la Universidad Politécnica de Catalunya (UPC).",
+    photo: evaImg
   },
   {
     name: "Alejandra Espinoza",
     initials: "AE",
-    tag: "Chile",
-    bio: "Reseña profesional por agregar..."
+    tag: "?",
+    bio: "Reseña profesional por agregar...",
+    // photo: alejandraImg
   },
   {
     name: "Benjamín Santana",
     initials: "BS",
     tag: "Chile",
-    bio: "Geólogo (U. Andrés Bello) con experiencia en herramientas SIG."
+    bio: "Geólogo (U. Andrés Bello) con experiencia en herramientas SIG.",
+    photo: benjaminImg
   }
 ];
 
@@ -41,19 +55,36 @@ const TEAM_ASSOCIATES = [
     name: "Russel Martin",
     initials: "RM",
     tag: "Australia",
-    bio: "Hidrogeólogo líder global en implementación de recarga de acuíferos. 30 años de experiencia y participación en más de 60 proyectos en todo el mundo."
+    bio: "Hidrogeólogo líder global en implementación de recarga de acuíferos. 30 años de experiencia y participación en más de 60 proyectos en todo el mundo.",
+    photo: russellImg
   },
   {
     name: "Enrique Fernández",
     initials: "EF",
     tag: "España",
-    bio: "Hidrogeólogo líder en recarga gestionada de acuíferos, con más de 90 proyectos a nivel global. Autor, coautor y editor de 22 libros en gestión hídrica."
+    bio: "Hidrogeólogo líder en recarga gestionada de acuíferos, con más de 90 proyectos a nivel global. Autor, coautor y editor de 22 libros en gestión hídrica.",
+    photo: enriqueImg
   },
   {
     name: "Jordi Escorcia",
     initials: "JE",
     tag: "Chile",
-    bio: "Geólogo con 20+ años de experiencia; experto en hidrogeología, modelación conceptual y numérica de acuíferos. Máster en Hidrología Subterránea."
+    bio: "Geólogo (UAB), Máster en Hidrología Subterránea (UPC). Más de 20 años de experiencia en hidrogeología, minería y medio ambiente, con énfasis en modelación hidrogeológica y docencia universitaria.",
+    photo: jordiImg
+  },
+  {
+    name: "Diego Anguita",
+    initials: "DA",
+    tag: "Chile",
+    bio: "Ingeniero Civil en Informática, MBA y Máster en Redes. Experto en gestión estratégica de TI, innovación, optimización de procesos e inteligencia artificial, con trayectoria en dirección de proyectos y liderazgo organizacional.",
+    photo: diegoImg
+  },
+  {
+    name: "Reynaldo Payano",
+    initials: "RP",
+    tag: "?",
+    bio: "Ingeniero Civil Hidrólogo, PhD. 15 años de experiencia en recursos hídricos. Gerente General y socio fundador de INRHED, especialista en estudios hidrológicos y planificación hídrica internacional.",
+    photo: reynaldoImg
   }
 ];
 
@@ -128,7 +159,7 @@ export default function About() {
       <TeamSection
         title="Asociados"
         anchor="asociados"
-        subtitle="Especialistas internacionales que complementan capacidades técnicas y territoriales."
+        subtitle="Especialistas que complementan capacidades técnicas y territoriales."
         list={TEAM_ASSOCIATES}
       />
     </main>

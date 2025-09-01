@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint, current_app
-from api.models import db, User
+from api.models import db, User, Post
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -348,3 +348,32 @@ def topic_label(value: str) -> str:
     if v == 'prensa':
         return 'Prensa / Difusión'
     return 'Consulta general'
+
+
+@api.route("/posts", methods=["GET"])
+@login_required
+def get_posts():
+    posts = Post.query.order_by(Post.created_at.desc()).all()
+    return jsonify([p.serialize() for p in posts]), 200
+
+@api.route("/posts", methods=["POST"])
+@login_required
+def create_post():
+    data = request.get_json(silent=True) or {}
+    title = (data.get("title") or "").strip()
+    content = (data.get("content") or "").strip()
+    attachment_url = (data.get("attachment_url") or "").strip()
+
+    if not title or not content:
+        raise APIException("Título y contenido son obligatorios.", status_code=400)
+
+    user_id = request.jwt_payload.get("sub")
+    user = User.query.get(user_id)
+    if not user:
+        raise APIException("Usuario no encontrado", status_code=404)
+
+    post = Post(title=title, content=content, attachment_url=attachment_url, user=user)
+    db.session.add(post)
+    db.session.commit()
+
+    return jsonify(post.serialize()), 201

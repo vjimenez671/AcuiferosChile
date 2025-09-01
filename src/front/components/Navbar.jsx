@@ -74,13 +74,28 @@ export const Navbar = () => {
       </button>
 
       <ul id="navbar-menu" className={`navbar-menu ${open ? "open" : ""}`}>
-        <li className="elemento"><Link to="/quienes-somos" onClick={close}>Quiénes somos</Link></li>
-        <li className="elemento"><Link to="/servicios" onClick={close}>Servicios</Link></li>
-        <li className="elemento"><Link to="/proyectos" onClick={close}>Proyectos</Link></li>
-        <li className="elemento"><Link to="/impacto" onClick={close}>Impacto</Link></li>
+        <li className="elemento">
+          <Link to="/quienes-somos" onClick={close}>Quiénes somos</Link>
+        </li>
+        <li className="elemento">
+          <Link to="/servicios" onClick={close}>Servicios</Link>
+        </li>
+        <li className="elemento">
+          <Link to="/proyectos" onClick={close}>Proyectos</Link>
+        </li>
+        <li className="elemento">
+          <Link to="/impacto" onClick={close}>Impacto</Link>
+        </li>
         <li className="elemento">
           <Link className="btn btn-primary" to="/contacto" onClick={close}>Contáctanos</Link>
         </li>
+
+        {/* Solo autenticados pueden acceder a Blog */}
+        {isAuth && (
+          <li className="elemento">
+            <Link to="/blog" onClick={close}>Blog</Link>
+          </li>
+        )}
 
         {!isAuth ? (
           <li className="elemento">
@@ -90,7 +105,9 @@ export const Navbar = () => {
           <>
             <li className="elemento bienvenido">Bienvenido/a {userName}</li>
             <li className="elemento">
-              <button className="btn btn-ghost btn-logout" onClick={handleLogout}>Cerrar sesión</button>
+              <button className="btn btn-ghost btn-logout" onClick={handleLogout}>
+                Cerrar sesión
+              </button>
             </li>
           </>
         )}

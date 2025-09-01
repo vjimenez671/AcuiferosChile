@@ -13,6 +13,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import SignIn from "./pages/SignIn.jsx";
 import SignUp from "./pages/SignUp.jsx";
+import Blog from "./pages/Blog.jsx";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -33,6 +34,8 @@ export const router = createBrowserRouter(
       <Route path="/contacto" element={<Contact />} />
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />
+      <Route path="/blog" element={<Blog />} />
+
 
     </Route>
   )
