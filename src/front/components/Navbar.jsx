@@ -80,15 +80,15 @@ export const Navbar = () => {
         <li className="elemento">
           <Link to="/rag" onClick={close}>¿Qué es la RAG?</Link>
         </li>
-        <li className="elemento">
+        {/* <li className="elemento">
           <Link to="/servicios" onClick={close}>Servicios</Link>
-        </li>
+        </li> */}
         <li className="elemento">
-          <Link to="/proyectos" onClick={close}>Proyectos</Link>
+          <Link to="/clientes" onClick={close}>Clientes</Link>
         </li>
-        <li className="elemento">
+        {/* <li className="elemento">
           <Link to="/impacto" onClick={close}>Impacto</Link>
-        </li>
+        </li> */}
 
         {/* Solo autenticados pueden acceder a Blog */}
         {isAuth && (

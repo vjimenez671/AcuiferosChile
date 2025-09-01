@@ -11,14 +11,14 @@ export const Home = () => {
           <div className="hero-inner">
             <div className="hero-text">
               <p className="eyebrow">Gestión hídrica basada en evidencia</p>
-              <h1>Cuidado, recarga y monitoreo de acuíferos en Chile</h1>
+              <h1>Recarga gestionada, monitoreo y trazabilidad para acuíferos en Chile</h1>
               <p className="lead">
-                Soluciones técnicas para la seguridad hídrica: <strong>recarga artificial (ARS)</strong>,
-                monitoreo continuo y <strong>gestión trazable</strong> orientada a sostenibilidad y cumplimiento.
+                Implementamos <strong>Recarga Gestionada de Acuíferos (RAG)</strong>, redes de monitoreo piezométrico y
+                <strong>gobernanza de datos</strong> para mejorar la seguridad hídrica, cumplir normativa y proteger a terceros.
               </p>
               <div className="hero-cta">
-                <Link className="btn btn-primary" to="/proyectos">Ver proyectos</Link>
-                <Link className="btn btn-ghost" to="/servicios" aria-label="Ver servicios">Nuestros servicios</Link>
+                <Link className="btn btn-primary" to="/rag">Explorar RAG</Link>
+                <Link className="btn btn-ghost" to="/clientes" aria-label="Hablar con el equipo">Nuestros clientes</Link>
               </div>
             </div>
             <div className="hero-visual" aria-hidden="true"></div>
@@ -29,23 +29,23 @@ export const Home = () => {
       <section className="kpis">
         <div className="container kpis-inner">
           <div className="kpi">
-            <span className="kpi-label">Volumen gestionado</span>
+            <span className="kpi-label">Volumen recargado/gestionado</span>
             <span className="kpi-value">+200.000 m³</span>
-            <span className="kpi-note">Recarga/gestión*</span>
+            <span className="kpi-note">Balance hídrico trazable*</span>
           </div>
           <div className="kpi">
-            <span className="kpi-label">Operación</span>
+            <span className="kpi-label">Sitios con telemetría</span>
+            <span className="kpi-value">30+</span>
+            <span className="kpi-note">Pozos & estaciones</span>
+          </div>
+          <div className="kpi">
+            <span className="kpi-label">Disponibilidad de datos</span>
             <span className="kpi-value">24/7</span>
-            <span className="kpi-note">Monitoreo y alertas</span>
+            <span className="kpi-note">Alertas y QA/QC</span>
           </div>
           <div className="kpi">
-            <span className="kpi-label">Marco</span>
-            <span className="kpi-value">Normativa</span>
-            <span className="kpi-note">Buenas prácticas DGA / ODS 6</span>
-          </div>
-          <div className="kpi">
-            <span className="kpi-label">Gobernanza</span>
-            <span className="kpi-value">Transparencia</span>
+            <span className="kpi-label">Marco de cumplimiento</span>
+            <span className="kpi-value">DGA & ODS 6</span>
             <span className="kpi-note">Reportes verificables</span>
           </div>
         </div>
@@ -56,28 +56,42 @@ export const Home = () => {
           <div className="section-head">
             <div className="linea-divisora"></div>
             <h2 id="servicios-title">Servicios</h2>
-            <p className="section-subtitle">Ingeniería y operación con foco en resultados y cumplimiento normativo.</p>
+            <p className="section-subtitle">
+              Ingeniería de recarga, monitoreo hidrogeológico y trazabilidad para decisiones y cumplimiento.
+            </p>
           </div>
 
           <div className="grid cards">
             <article className="card">
-              <h3>Recarga Artificial (ARS)</h3>
-              <p>Diseño y operación de obras de infiltración, pozos de recarga y gestión de caudales con balance hídrico y modelación.</p>
+              <h3>RAG (Recarga Gestionada)</h3>
+              <p>
+                Diseño/operación de trincheras y lechos de infiltración, pozos de recarga e inyección controlada;
+                pretratamiento (decantación/filtración) y control de colmatación; ventanas operativas estacionales.
+              </p>
             </article>
 
             <article className="card">
               <h3>Monitoreo & Supervisión</h3>
-              <p>Redes piezométricas, sensórica, tableros y alertas. QA/QC de datos y trazabilidad completa.</p>
+              <p>
+                Redes piezométricas, sensores y telemetría con tableros y alertas. QA/QC, series temporales y
+                líneas base para evaluar respuesta del acuífero y proteger a terceros.
+              </p>
             </article>
 
             <article className="card">
-              <h3>Consultoría Hídrica</h3>
-              <p>Estudios hidrogeológicos, permisos, compliance y planes de gestión sostenible del recurso.</p>
+              <h3>Modelación & Permisos</h3>
+              <p>
+                Balance hídrico, modelación conceptual y numérica de flujo; apoyo en trámites y criterios de DGA,
+                con énfasis en Art. 66/67 y uso de aguas pluviales (Art. 10).
+              </p>
             </article>
 
             <article className="card">
-              <h3>I+D e Innovación</h3>
-              <p>Ensayos, modelación y analítica avanzada para mejorar eficiencia de recarga y protección de acuíferos.</p>
+              <h3>Gobernanza & Transparencia</h3>
+              <p>
+                Protocolos de datos, reportes verificables y trazabilidad de volúmenes. Evidencia para auditorías,
+                due diligence y metas ESG/ODS.
+              </p>
             </article>
           </div>
         </div>
@@ -88,26 +102,37 @@ export const Home = () => {
           <div className="linea-divisora"></div>
           <div className="section-head">
             <h2 id="proyectos-title">Proyectos destacados</h2>
-            <p className="section-subtitle">Intervenciones con métricas claras de impacto social y ambiental.</p>
+            <p className="section-subtitle">
+              Implementaciones con métricas de recarga, control de niveles y reportabilidad continua.
+            </p>
           </div>
 
           <div className="grid projects">
             <article className="project">
-              <div className="tag">Piloto ARS</div>
+              <div className="tag">RAG · Piloto</div>
               <h3>Valle Central</h3>
-              <p>Infiltración estacional con control de sólidos y monitoreo piezométrico.</p>
+              <p>
+                Estanques de infiltración con pretratamiento y monitoreo piezométrico. Mejora estacional de niveles
+                y reducción de escorrentía superficial.
+              </p>
             </article>
 
             <article className="project">
-              <div className="tag">Monitoreo</div>
+              <div className="tag">Monitoreo 24/7</div>
               <h3>Cuenca Norte</h3>
-              <p>Red de pozos con telemetría en tiempo real y tablero de alertas.</p>
+              <p>
+                Red de pozos con telemetría, QA/QC automático y tableros. Alertas tempranas por variaciones de nivel
+                y extracción.
+              </p>
             </article>
 
             <article className="project">
-              <div className="tag">I+D</div>
-              <h3>Altiplano</h3>
-              <p>Ensayos de infiltración en condiciones de alta oscilación térmica.</p>
+              <div className="tag">Modelación & Cumplimiento</div>
+              <h3>Zona Sur</h3>
+              <p>
+                Balance hídrico y modelación para optimizar ventanas operativas de recarga y respaldo de reportes
+                normativos y de sostenibilidad.
+              </p>
             </article>
           </div>
         </div>
