@@ -78,6 +78,9 @@ export const Navbar = () => {
           <Link to="/quienes-somos" onClick={close}>Quiénes somos</Link>
         </li>
         <li className="elemento">
+          <Link to="/rag" onClick={close}>¿Qué es la RAG?</Link>
+        </li>
+        <li className="elemento">
           <Link to="/servicios" onClick={close}>Servicios</Link>
         </li>
         <li className="elemento">

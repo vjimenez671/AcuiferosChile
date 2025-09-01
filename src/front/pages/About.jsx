@@ -82,7 +82,7 @@ const TEAM_ASSOCIATES = [
   {
     name: "Reynaldo Payano",
     initials: "RP",
-    tag: "?",
+    tag: "Chile",
     bio: "Ingeniero Civil Hidrólogo, PhD. 15 años de experiencia en recursos hídricos. Gerente General y socio fundador de INRHED, especialista en estudios hidrológicos y planificación hídrica internacional.",
     photo: reynaldoImg
   }
