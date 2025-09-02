@@ -25,33 +25,28 @@ export default function Blog() {
   const [okMsg, setOkMsg] = useState("");
   const [form, setForm] = useState({ title: "", content: "", attachment_url: "" });
 
-  // usuario actual (guardado por tu flujo de login en localStorage)
-  const currentUserId = useMemo(() => {
+  // usuario actual (si está logueado)
+  const { isAuth, currentUserId } = useMemo(() => {
     try {
-      const u = JSON.parse(localStorage.getItem("user"));
-      return u?.id || null;
+      const token = !!localStorage.getItem("token");
+      const u = JSON.parse(localStorage.getItem("user") || "null");
+      return { isAuth: token && !!u, currentUserId: u?.id || null };
     } catch {
-      return null;
+      return { isAuth: false, currentUserId: null };
     }
   }, []);
 
+  // ✅ YA NO redirige si no hay token; el feed es público
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/signin", { replace: true });
-    } else {
-      fetchPosts(1);
-    }
-  }, [navigate]);
+    fetchPosts(1);
+  }, []);
 
   const fetchPosts = async (page = 1) => {
     setLoadingFeed(true);
     setErrorFeed("");
     try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(`${API_URL}/api/posts?page=${page}&per_page=10`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      // petición pública SIN Authorization
+      const res = await fetch(`${API_URL}/api/posts?page=${page}&per_page=10`);
       const data = await res.json();
       if (!res.ok) throw new Error(data?.message || "No se pudieron cargar las publicaciones.");
       setFeed(data);
@@ -62,7 +57,17 @@ export default function Blog() {
     }
   };
 
+  const requireAuth = () => {
+    if (!localStorage.getItem("token")) {
+      navigate("/signin", { replace: true });
+      return false;
+    }
+    return true;
+  };
+
   const openComposer = () => {
+    // si no hay sesión, vamos a iniciar sesión
+    if (!requireAuth()) return;
     setErrorSubmit("");
     setOkMsg("");
     setComposerOpen(true);
@@ -77,6 +82,7 @@ export default function Blog() {
   };
 
   const attachFromCloudinary = () => {
+    if (!requireAuth()) return;
     if (!window.cloudinary || !CLOUD_NAME || !UPLOAD_PRESET) {
       setErrorSubmit("Cloudinary no está configurado. Usa el campo URL de imagen.");
       return;
@@ -103,6 +109,8 @@ export default function Blog() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    if (!requireAuth()) return;
+
     setErrorSubmit("");
     setOkMsg("");
 
@@ -139,7 +147,7 @@ export default function Blog() {
 
   return (
     <main className="blog page-container">
-      {/* Composer */}
+      {/* Composer (abre modal solo si hay sesión; si no, lleva a /signin) */}
       <section className="composer-card" aria-label="Crear una publicación">
         <div className="composer-avatar" aria-hidden="true">
           <div className="avatar-circle">U</div>
@@ -208,7 +216,7 @@ export default function Blog() {
         </ACModal>
       )}
 
-      {/* Feed */}
+      {/* Feed público */}
       <section className="feed">
         <h2 className="sr-only">Publicaciones recientes</h2>
         {loadingFeed && <div className="feed-state">Cargando publicaciones…</div>}
@@ -223,6 +231,7 @@ export default function Blog() {
             post={p}
             currentUserId={currentUserId}
             onChanged={() => fetchPosts(feed.page)}
+            requireAuth={requireAuth}
           />
         ))}
 
@@ -237,7 +246,7 @@ export default function Blog() {
 }
 
 /* Post Card */
-function PostCard({ post, currentUserId, onChanged }) {
+function PostCard({ post, currentUserId, onChanged, requireAuth }) {
   const [isOpen, setOpen] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState([]);
@@ -247,12 +256,9 @@ function PostCard({ post, currentUserId, onChanged }) {
   const [isEditing, setEditing] = useState(false);
   const [editForm, setEditForm] = useState({ title: post.title, content: post.content, attachment_url: post.attachment_url || "" });
 
-  const [showPicker, setShowPicker] = useState(false);
-
   const isAuthor = post?.user?.id === currentUserId;
 
   useEffect(() => {
-    // si abro edición, sincronizo valores por si post cambió
     setEditForm({ title: post.title, content: post.content, attachment_url: post.attachment_url || "" });
   }, [post]);
 
@@ -277,7 +283,9 @@ function PostCard({ post, currentUserId, onChanged }) {
     }
   };
 
+  // ——— Interacciones requieren sesión ———
   const toggleReaction = async (emoji) => {
+    if (!requireAuth()) return;
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(`${API_URL}/api/posts/${post.id}/reactions`, {
@@ -294,11 +302,19 @@ function PostCard({ post, currentUserId, onChanged }) {
   };
 
   const fetchComments = async () => {
+    // leer comentarios es útil/ok sin sesión
     try {
-      const token = localStorage.getItem("token");
       const res = await fetch(`${API_URL}/api/posts/${post.id}/comments`, {
-        headers: { Authorization: `Bearer ${token}` }
+        // este endpoint sigue protegido, así que si no hay sesión, no mostrará (o puedes exponer GET público también si quieres)
+        headers: localStorage.getItem("token")
+          ? { Authorization: `Bearer ${localStorage.getItem("token")}` }
+          : {}
       });
+      if (res.status === 401 || res.status === 403) {
+        // si no hay sesión, podemos ocultar el panel o invitar a iniciar sesión
+        setComments([]);
+        return;
+      }
       const data = await res.json();
       if (!res.ok) throw new Error(data?.message || "Error cargando comentarios");
       setComments(data);
@@ -308,6 +324,7 @@ function PostCard({ post, currentUserId, onChanged }) {
   };
 
   const sendComment = async () => {
+    if (!requireAuth()) return;
     if (!newComment.trim()) return;
     setBusy(true);
     try {
@@ -330,6 +347,7 @@ function PostCard({ post, currentUserId, onChanged }) {
   };
 
   const deleteComment = async (commentId) => {
+    if (!requireAuth()) return;
     if (!window.confirm("¿Eliminar este comentario?")) return;
     try {
       const token = localStorage.getItem("token");
@@ -348,15 +366,6 @@ function PostCard({ post, currentUserId, onChanged }) {
     }
   };
 
-  const copyLink = async () => {
-    try {
-      await navigator.clipboard.writeText(window.location.origin + window.location.pathname + `#post-${post.id}`);
-      alert("Enlace copiado");
-    } catch {
-      // noop
-    }
-  };
-
   const downloadAttachment = () => {
     if (!post.attachment_url) return;
     const a = document.createElement("a");
@@ -368,12 +377,16 @@ function PostCard({ post, currentUserId, onChanged }) {
     a.remove();
   };
 
-  const openEdit = () => setEditing(true);
+  const openEdit = () => {
+    if (!requireAuth()) return;
+    setEditing(true);
+  };
   const closeEdit = () => setEditing(false);
   const onEditChange = (e) => setEditForm((f) => ({ ...f, [e.target.name]: e.target.value }));
 
   const submitEdit = async (e) => {
     e.preventDefault();
+    if (!requireAuth()) return;
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(`${API_URL}/api/posts/${post.id}`, {
@@ -391,6 +404,7 @@ function PostCard({ post, currentUserId, onChanged }) {
   };
 
   const removePost = async () => {
+    if (!requireAuth()) return;
     if (!window.confirm("¿Eliminar esta publicación?")) return;
     try {
       const token = localStorage.getItem("token");
@@ -443,7 +457,7 @@ function PostCard({ post, currentUserId, onChanged }) {
         <figure className="post-media">
           <div
             className="media-frame"
-            onClick={openLightbox}
+            onClick={() => setOpen(true)}
             onKeyDown={keyOpen}
             role="button"
             tabIndex={0}
@@ -482,18 +496,27 @@ function PostCard({ post, currentUserId, onChanged }) {
               </button>
             );
           })}
-          
         </div>
         <div className="spacer" />
         <button className="btn btn-quiet" onClick={() => setShowComments((s) => !s)}>
           💬 {post.comment_count || 0}
         </button>
-        <button className="btn btn-quiet" onClick={copyLink}>🔗 Compartir</button>
+        <button className="btn btn-quiet" onClick={() => {
+          const url = window.location.origin + window.location.pathname + `#post-${post.id}`;
+          navigator.clipboard.writeText(url).then(() => alert("Enlace copiado"));
+        }}>🔗 Compartir</button>
       </div>
 
       {/* Comments */}
       {showComments && (
         <div className="comments">
+          {comments.length === 0 && (
+            <div className="subhint">
+              {localStorage.getItem("token")
+                ? "Sé el primero en comentar."
+                : "Inicia sesión para ver o escribir comentarios."}
+            </div>
+          )}
           {comments.map((c) => (
             <div className="comment" key={c.id}>
               <div className="avatar-circle small">
@@ -516,6 +539,7 @@ function PostCard({ post, currentUserId, onChanged }) {
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && sendComment()}
+              onFocus={() => { if (!localStorage.getItem("token")) requireAuth(); }}
             />
             <button className="btn btn-primary" onClick={sendComment} disabled={busy || !newComment.trim()}>
               Enviar

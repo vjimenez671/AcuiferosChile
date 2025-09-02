@@ -84,12 +84,10 @@ export const Navbar = () => {
           <Link to="/clientes" onClick={close}>Clientes</Link>
         </li>
 
-        {/* Solo autenticados pueden acceder a Blog */}
-        {isAuth && (
-          <li className="elemento">
-            <Link to="/blog" onClick={close}>Blog</Link>
-          </li>
-        )}
+        {/* Blog SIEMPRE visible (público) */}
+        <li className="elemento">
+          <Link to="/blog" onClick={close}>Blog</Link>
+        </li>
 
         <li className="elemento">
           <Link className="btn btn-primary" to="/contacto" onClick={close}>Contáctanos</Link>

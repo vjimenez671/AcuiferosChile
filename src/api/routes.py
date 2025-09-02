@@ -371,8 +371,10 @@ def _get_current_user() -> User:
 # =========================
 
 @api.route("/posts", methods=["GET"])
-@login_required
 def get_posts():
+    """
+    PÚBLICO: lista de publicaciones con paginación.
+    """
     page = max(int(request.args.get("page", 1)), 1)
     per_page = min(max(int(request.args.get("per_page", 10)), 1), 50)
 
@@ -385,8 +387,8 @@ def get_posts():
              .offset((page - 1) * per_page)
              .all())
 
-    current_user_id = request.jwt_payload.get('sub')
-    data = [p.serialize(current_user_id=current_user_id) for p in items]
+    # público: no hay usuario autenticado
+    data = [p.serialize(current_user_id=None) for p in items]
 
     return jsonify({
         "items": data,
@@ -400,23 +402,27 @@ def get_posts():
 
 
 @api.route("/posts/<int:post_id>", methods=["GET"])
-@login_required
 def get_post(post_id: int):
+    """
+    PÚBLICO: detalle de una publicación.
+    """
     p = Post.query.get_or_404(post_id)
-    current_user_id = request.jwt_payload.get('sub')
-    return jsonify(p.serialize(current_user_id=current_user_id)), 200
+    return jsonify(p.serialize(current_user_id=None)), 200
 
 
 @api.route("/posts", methods=["POST"])
 @login_required
 def create_post():
+    """
+    PRIVADO: crear publicación. Requiere login.
+    """
     data = request.get_json(silent=True) or {}
     title = (data.get("title") or "").strip()
     content = (data.get("content") or "").strip()
     attachment_url = (data.get("attachment_url") or "").strip() or None
 
     if not title:
-        raise APIException("Título y contenido son obligatorios." if not content else "Título es obligatorio.", status_code=400)
+        raise APIException("Título es obligatorio.", status_code=400)
 
     user = _get_current_user()
 
@@ -430,6 +436,9 @@ def create_post():
 @api.route("/posts/<int:post_id>", methods=["PUT"])
 @login_required
 def update_post(post_id: int):
+    """
+    PRIVADO: editar publicación propia.
+    """
     user = _get_current_user()
     post = Post.query.get_or_404(post_id)
     if post.user_id != user.id:
@@ -439,6 +448,9 @@ def update_post(post_id: int):
     title = (data.get("title") or post.title).strip()
     content = (data.get("content") or post.content).strip()
     attachment_url = (data.get("attachment_url") or post.attachment_url or "").strip() or None
+
+    if not title:
+        raise APIException("Título es obligatorio.", status_code=400)
 
     post.title = title
     post.content = content
@@ -451,6 +463,9 @@ def update_post(post_id: int):
 @api.route("/posts/<int:post_id>", methods=["DELETE"])
 @login_required
 def delete_post(post_id: int):
+    """
+    PRIVADO: borrar publicación propia.
+    """
     user = _get_current_user()
     post = Post.query.get_or_404(post_id)
     if post.user_id != user.id:
@@ -468,6 +483,9 @@ def delete_post(post_id: int):
 @api.route("/posts/<int:post_id>/comments", methods=["GET"])
 @login_required
 def list_comments(post_id: int):
+    """
+    (Opcional) Si quieres que VER comentarios sea público, quita @login_required.
+    """
     Post.query.get_or_404(post_id)
     comments = Comment.query.filter_by(post_id=post_id).order_by(Comment.created_at.asc()).all()
     return jsonify([c.serialize() for c in comments]), 200
@@ -476,6 +494,9 @@ def list_comments(post_id: int):
 @api.route("/posts/<int:post_id>/comments", methods=["POST"])
 @login_required
 def add_comment(post_id: int):
+    """
+    PRIVADO: comentar requiere login.
+    """
     user = _get_current_user()
     Post.query.get_or_404(post_id)
     data = request.get_json(silent=True) or {}
@@ -491,6 +512,9 @@ def add_comment(post_id: int):
 @api.route("/posts/<int:post_id>/comments/<int:comment_id>", methods=["DELETE"])
 @login_required
 def delete_comment(post_id: int, comment_id: int):
+    """
+    PRIVADO: borrar comentario propio.
+    """
     user = _get_current_user()
     c = Comment.query.get_or_404(comment_id)
     if c.post_id != post_id:
@@ -509,6 +533,9 @@ def delete_comment(post_id: int, comment_id: int):
 @api.route("/posts/<int:post_id>/reactions", methods=["POST"])
 @login_required
 def react_post(post_id: int):
+    """
+    PRIVADO: reaccionar (toggle) requiere login.
+    """
     user = _get_current_user()
     Post.query.get_or_404(post_id)
     data = request.get_json(silent=True) or {}
