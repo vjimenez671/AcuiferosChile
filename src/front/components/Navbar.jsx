@@ -89,8 +89,9 @@ export const Navbar = () => {
           <Link to="/blog" onClick={close}>Blog</Link>
         </li>
 
+        {/* Contáctanos como link normal (sin botón) */}
         <li className="elemento">
-          <Link className="btn btn-primary" to="/contacto" onClick={close}>Contáctanos</Link>
+          <Link to="/contacto" onClick={close}>Contáctanos</Link>
         </li>
 
         {!isAuth ? (
