@@ -1,11 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../../styles/Home.css";
+import bgUrl from "../imagenes/fondo-home.jpg"; // 👈 importamos la imagen local
 
 export const Home = () => {
   return (
     <main className="ac-home">
-      <header className="hero hero--banner" role="banner" aria-label="Hero principal">
+      <header
+        className="hero hero--banner"
+        role="banner"
+        aria-label="Hero principal"
+        style={{ backgroundImage: `url(${bgUrl})` }} // 👈 aplicamos el fondo aquí
+      >
         <div className="hero-overlay-left" aria-hidden="true"></div>
         <section className="hero-content container">
           <div className="hero-inner">
@@ -13,12 +19,14 @@ export const Home = () => {
               <p className="eyebrow">Gestión hídrica basada en evidencia</p>
               <h1>Recarga gestionada, monitoreo y trazabilidad para acuíferos en Chile</h1>
               <p className="lead">
-                Implementamos <strong>Recarga Gestionada de Acuíferos (RAG)</strong>, redes de monitoreo piezométrico y
+                Implementamos <strong>Recarga Gestionada de Acuíferos (RAG)</strong>, redes de monitoreo piezométrico y{" "}
                 <strong>gobernanza de datos</strong> para mejorar la seguridad hídrica, cumplir normativa y proteger a terceros.
               </p>
               <div className="hero-cta">
                 <Link className="btn btn-primary" to="/rag">Explorar RAG</Link>
-                <Link className="btn btn-ghost" to="/clientes" aria-label="Hablar con el equipo">Nuestros clientes</Link>
+                <Link className="btn btn-ghost" to="/clientes" aria-label="Hablar con el equipo">
+                  Nuestros clientes
+                </Link>
               </div>
             </div>
             <div className="hero-visual" aria-hidden="true"></div>

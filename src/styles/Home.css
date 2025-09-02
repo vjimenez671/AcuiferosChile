@@ -51,9 +51,11 @@ a:hover { color: var(--blue-500); }
   min-height: 560px;
   display: flex;
   align-items: center;
-  background: url("https://www.latercera.com/resizer/OI2-WPWCAhj_BZmdxEo4n-qn0DI=/arc-anglerfish-arc2-prod-copesa/public/YIKF2UTH2NEP7JACPCUA4LA45Y.jpg")
-    center/cover no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
+
 
 /* Overlay más ancho con fade a la derecha */
 .hero-overlay-left {
