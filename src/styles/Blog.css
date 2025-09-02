@@ -27,6 +27,8 @@
   --space-4:1.5rem;
   --space-5:2rem;
   --space-6:3rem;
+  --space-7:4rem;
+  --space-8:5rem;
 
   --fs-xs: clamp(.78rem, .74rem + .2vw, .85rem);
   --fs-sm: clamp(.9rem, .86rem + .2vw, 1rem);
@@ -46,7 +48,7 @@ html, body { background: #f0f8fc }
   margin: 0 auto; 
   padding: 0 var(--space-5);
   background-color: #f0f8fc;
- }
+}
 
 /* =========================
    Blog Layout
@@ -66,7 +68,7 @@ html, body { background: #f0f8fc }
   border-radius: var(--radius);
   box-shadow: var(--shadow-sm);
   padding: var(--space-3);
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-6);
 }
 
 .composer-avatar .avatar-circle {
@@ -221,10 +223,14 @@ html, body { background: #f0f8fc }
 .btn-ghost { background: rgba(255,255,255,0.85); color: var(--blue-800); border-color: #D7E7F2; }
 .btn-ghost:hover { background: #fff; box-shadow: var(--shadow-sm); }
 
+/* Tamaños mini para acciones sutiles */
+.btn.mini { height: 30px; padding: 0 .6rem; font-weight: 700; font-size: 12px; }
+.btn-quiet.mini { height: 28px; padding: 0 .5rem; font-size: 12px; }
+
 /* =========================
    Feed
 ========================= */
-.feed { display: grid; gap: var(--space-3); margin-top: var(--space-4); }
+.feed { display: grid; gap: var(--space-7); margin-top: var(--space-4); }
 .feed-state, .feed-empty {
   background: var(--white);
   border: 1px solid #E4EEF4;
@@ -239,6 +245,7 @@ html, body { background: #f0f8fc }
    Post Card
 ========================= */
 .post-card {
+  position: relative;
   background: var(--white);
   border: 1px solid #E4EEF4;
   border-radius: var(--radius);
@@ -260,9 +267,14 @@ html, body { background: #f0f8fc }
   background: radial-gradient(120% 120% at 0% 0%, #EAF5FB 0%, #CFE6F3 55%, #B9D9EC 100%);
   border: 1px solid #E2EEF6;
 }
+.avatar-circle.small { width: 28px; height: 28px; font-size: 12px; }
 .post-author .meta { display: grid; gap: .15rem; }
 .post-author .name { color: var(--blue-700); font-weight: 800; line-height: 1.1; }
 .post-author .time { color: var(--ink-700); font-size: var(--fs-xs); opacity: .9; }
+
+.post-header-right { position: absolute; top: .9rem; right: .9rem; }
+.owner-actions { display: inline-flex; gap: .35rem; }
+
 .post-title {
   font-size: clamp(1.05rem, .98rem + .4vw, 1.35rem);
   color: var(--blue-900);
@@ -280,7 +292,7 @@ html, body { background: #f0f8fc }
 .post-media { margin-top: .65rem; }
 .media-image {
   width: 100%;
-  max-height: 520px;
+  max-height: 420px; /* reducido para feed más ordenado */
   object-fit: cover;
   border-radius: var(--radius-sm);
   border: 1px solid #E4EEF4;
@@ -298,6 +310,28 @@ html, body { background: #f0f8fc }
   color: var(--ink-700);
   opacity: .9;
   margin-top: .25rem;
+}
+
+/* Miniatura segura y fluida para verticales */
+.media-frame {
+  width: 100%;
+  height: clamp(220px, 40vw, 380px);
+  max-height: 420px;
+  background: #F7FBFD;
+  border-radius: var(--radius-sm);
+  border: 1px solid #E4EEF4;
+  box-shadow: 0 6px 18px rgba(14,58,91,.10);
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  cursor: zoom-in;
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+.media-frame:hover { transform: scale(1.01); border-color: #D4E7F2; box-shadow: var(--shadow); }
+.media-frame .media-image {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  border-radius: 0; border: none; box-shadow: none;
 }
 
 /* =========================
@@ -331,6 +365,149 @@ html, body { background: #f0f8fc }
 .lightbox-close:active { transform: translateY(1px); }
 
 /* =========================
+   Reacciones (emoji chips)
+========================= */
+.post-actions {
+  display: flex; align-items: center; gap: .5rem;
+  border-top: 1px dashed #E7EFF6;
+  margin-top: .8rem; padding-top: .65rem;
+}
+
+.reactions {
+  display: flex; flex-wrap: wrap; gap: .35rem;
+  position: relative;
+}
+
+.reaction {
+  display: inline-flex; align-items: center; gap: .35rem;
+  height: 32px; padding: 0 .6rem;
+  border-radius: 999px;
+  border: 1px solid #E4EEF4;
+  background: #F7FBFD;
+  color: var(--ink-800);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background var(--transition), border-color var(--transition), transform var(--transition), box-shadow var(--transition), color var(--transition);
+  user-select: none;
+}
+.reaction .emoji { font-size: 16px; line-height: 1; }
+.reaction .count { font-size: 12px; font-weight: 800; color: var(--blue-700); }
+
+.reaction:hover { background: #ffffff; border-color: #D4E7F2; box-shadow: var(--shadow-sm); }
+.reaction:active { transform: translateY(1px); }
+.reaction.is-active {
+  background: #E9F6FF;
+  border-color: #BFE3FA;
+  color: var(--blue-900);
+}
+
+/* Picker flotante */
+.emoji-picker {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 30;
+  display: grid;
+  grid-template-columns: repeat(10, 28px);
+  gap: 6px;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #DDEAF3;
+  border-radius: 12px;
+  box-shadow: 0 16px 40px rgba(14,58,91,.16);
+  animation: fadeIn .12s ease;
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-2px);} to { opacity: 1; transform: translateY(0);} }
+
+.emoji-item {
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: #F7FBFD;
+  display: grid; place-items: center;
+  cursor: pointer;
+  transition: transform var(--transition), background var(--transition), border-color var(--transition), box-shadow var(--transition);
+  font-size: 16px;
+}
+.emoji-item:hover { background: #fff; border-color: #D4E7F2; box-shadow: var(--shadow-sm); }
+.emoji-item:active { transform: translateY(1px); }
+
+/* Separador flexible */
+.spacer { flex: 1 1 auto; }
+
+/* =========================
+   Comentarios
+========================= */
+.comments {
+  margin-top: .6rem;
+  padding-top: .6rem;
+  border-top: 1px dashed #E7EFF6;
+  display: grid; gap: .6rem;
+}
+
+.comment {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: .6rem;
+  align-items: start;
+}
+
+.comment-body { display: grid; gap: .25rem; }
+.comment-meta {
+  display: flex; align-items: center; gap: .35rem;
+  font-size: var(--fs-xs); color: var(--ink-700);
+  font-weight: 700;
+}
+.comment-text {
+  font-size: var(--fs-sm);
+  color: var(--ink-800);
+  line-height: 1.45;
+  background: #FAFDFF;
+  border: 1px solid #EAF2F7;
+  border-radius: 10px;
+  padding: .5rem .65rem;
+}
+
+.comment-new {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: .5rem;
+  align-items: center;
+  margin-top: .25rem;
+}
+.comment-new input {
+  height: 40px;
+  border: 1px solid #D7E7F2;
+  background: #fff;
+  border-radius: 10px;
+  padding: 0 .8rem;
+  font-size: var(--fs-sm);
+  color: var(--ink-900);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.comment-new input:focus {
+  outline: none;
+  border-color: #B9D9EC;
+  box-shadow: 0 0 0 3px rgba(41,156,215,.12);
+}
+
+/* =========================
+   Paginación
+========================= */
+.pager {
+  display: flex; align-items: center; justify-content: center;
+  gap: .75rem; margin-top: .5rem;
+}
+.pager-info {
+  font-size: var(--fs-xs);
+  color: var(--ink-700);
+  background: #F7FBFD;
+  border: 1px solid #E4EEF4;
+  padding: .35rem .65rem;
+  border-radius: 999px;
+}
+
+/* =========================
    Estados / Feedback
 ========================= */
 .error, .ok {
@@ -351,6 +528,7 @@ html, body { background: #f0f8fc }
   .composer-card { grid-template-columns: auto 1fr; }
   .composer-actions { display: none; }
   .post-content { font-size: var(--fs-sm); }
+  .emoji-picker { grid-template-columns: repeat(8, 28px); }
 }
 
 /* =========================
@@ -368,40 +546,28 @@ html, body { background: #f0f8fc }
 /* =========================
    Sticky footer SOLO en Blog
 ========================= */
-html, body, #root {
-  height: 100%;
-}
-
+html, body, #root { height: 100%; }
 #root {
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
 }
+.blog.page-container { flex: 1 0 auto; }
+footer { margin-top: auto; }
 
-.blog.page-container {
-  flex: 1 0 auto;
-}
-
-footer {
-  margin-top: auto;
-}
-
-/* ... todas tus variables y estilos previos ... */
-
-/* Vista previa moderada en el composer */
+/* =========================
+   Vista previa moderada en el composer
+========================= */
 .image-preview {
   margin-top: .25rem;
   border: 1px dashed #D7E7F2;
   background: #F7FBFD;
   border-radius: var(--radius-sm);
   overflow: hidden;
-
-  /* Tamaño controlado tipo miniatura */
   display: inline-block;
   max-width: 280px;
   max-height: 220px;
 }
-
 .image-preview img {
   display: block;
   max-width: 100%;
@@ -409,63 +575,4 @@ footer {
   width: auto;
   height: auto;
   object-fit: contain;
-}
-
-/* =========================
-   Post Card (ajustamos las imágenes grandes)
-========================= */
-.media-image {
-  width: 100%;
-  max-height: 420px; /* reducido de 520px */
-  object-fit: cover;
-  border-radius: var(--radius-sm);
-  border: 1px solid #E4EEF4;
-  cursor: zoom-in;
-  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
-  box-shadow: 0 6px 18px rgba(14,58,91,.10);
-}
-
-/* =========================
-   Miniatura segura para verticales en el feed
-   - Contenedor con altura moderada y responsiva
-   - La imagen usa object-fit: contain (no se recorta)
-========================= */
-.post-media { margin-top: .65rem; }
-
-.media-frame {
-  width: 100%;
-  height: clamp(220px, 40vw, 380px); /* miniatura moderada y fluida */
-  max-height: 420px;
-  background: #F7FBFD;
-  border-radius: var(--radius-sm);
-  border: 1px solid #E4EEF4;
-  box-shadow: 0 6px 18px rgba(14,58,91,.10);
-  overflow: hidden;
-
-  display: grid;
-  place-items: center;
-  cursor: zoom-in;
-  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
-}
-
-.media-frame:hover {
-  transform: scale(1.01);
-  border-color: #D4E7F2;
-  box-shadow: var(--shadow);
-}
-
-/* Dentro del contenedor forzamos contain para no cortar la imagen */
-.media-frame .media-image {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;    /* muestra la foto completa (ideal vertical) */
-  border-radius: 0;       /* el marco ya tiene borde redondeado */
-  border: none;           /* evita doble borde */
-  box-shadow: none;       /* el marco ya da sombra */
-}
-
-/* Ajuste del pie de foto para esta miniatura */
-.post-media figcaption {
-  text-align: center;
-  margin-top: .35rem;
 }

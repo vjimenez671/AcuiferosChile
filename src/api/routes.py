@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint, current_app
-from api.models import db, User, Post
+from api.models import db, User, Post, Comment, Reaction
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -20,6 +20,10 @@ import smtplib
 import ssl
 from email.message import EmailMessage
 from typing import Optional, List
+
+# --- utilidades varias ---
+from sqlalchemy import func
+import math
 
 api = Blueprint('api', __name__)
 
@@ -350,11 +354,58 @@ def topic_label(value: str) -> str:
     return 'Consulta general'
 
 
+# =========================
+# Helpers de sesión
+# =========================
+
+def _get_current_user() -> User:
+    user_id = request.jwt_payload.get('sub')
+    user = User.query.get(user_id)
+    if not user:
+        raise APIException("Usuario no encontrado", status_code=404)
+    return user
+
+
+# =========================
+# POSTS: paginación + CRUD
+# =========================
+
 @api.route("/posts", methods=["GET"])
 @login_required
 def get_posts():
-    posts = Post.query.order_by(Post.created_at.desc()).all()
-    return jsonify([p.serialize() for p in posts]), 200
+    page = max(int(request.args.get("page", 1)), 1)
+    per_page = min(max(int(request.args.get("per_page", 10)), 1), 50)
+
+    base_q = Post.query.order_by(Post.created_at.desc())
+
+    total = db.session.query(func.count(Post.id)).scalar()
+    pages = max(math.ceil(total / per_page), 1)
+    items = (base_q
+             .limit(per_page)
+             .offset((page - 1) * per_page)
+             .all())
+
+    current_user_id = request.jwt_payload.get('sub')
+    data = [p.serialize(current_user_id=current_user_id) for p in items]
+
+    return jsonify({
+        "items": data,
+        "page": page,
+        "per_page": per_page,
+        "total": total,
+        "pages": pages,
+        "has_next": page < pages,
+        "has_prev": page > 1,
+    }), 200
+
+
+@api.route("/posts/<int:post_id>", methods=["GET"])
+@login_required
+def get_post(post_id: int):
+    p = Post.query.get_or_404(post_id)
+    current_user_id = request.jwt_payload.get('sub')
+    return jsonify(p.serialize(current_user_id=current_user_id)), 200
+
 
 @api.route("/posts", methods=["POST"])
 @login_required
@@ -362,18 +413,125 @@ def create_post():
     data = request.get_json(silent=True) or {}
     title = (data.get("title") or "").strip()
     content = (data.get("content") or "").strip()
-    attachment_url = (data.get("attachment_url") or "").strip()
+    attachment_url = (data.get("attachment_url") or "").strip() or None
 
-    if not title or not content:
-        raise APIException("Título y contenido son obligatorios.", status_code=400)
+    if not title:
+        raise APIException("Título y contenido son obligatorios." if not content else "Título es obligatorio.", status_code=400)
 
-    user_id = request.jwt_payload.get("sub")
-    user = User.query.get(user_id)
-    if not user:
-        raise APIException("Usuario no encontrado", status_code=404)
+    user = _get_current_user()
 
     post = Post(title=title, content=content, attachment_url=attachment_url, user=user)
     db.session.add(post)
     db.session.commit()
 
-    return jsonify(post.serialize()), 201
+    return jsonify(post.serialize(current_user_id=user.id)), 201
+
+
+@api.route("/posts/<int:post_id>", methods=["PUT"])
+@login_required
+def update_post(post_id: int):
+    user = _get_current_user()
+    post = Post.query.get_or_404(post_id)
+    if post.user_id != user.id:
+        raise APIException("Solo el autor puede editar", status_code=403)
+
+    data = request.get_json(silent=True) or {}
+    title = (data.get("title") or post.title).strip()
+    content = (data.get("content") or post.content).strip()
+    attachment_url = (data.get("attachment_url") or post.attachment_url or "").strip() or None
+
+    post.title = title
+    post.content = content
+    post.attachment_url = attachment_url
+    db.session.commit()
+
+    return jsonify(post.serialize(current_user_id=user.id)), 200
+
+
+@api.route("/posts/<int:post_id>", methods=["DELETE"])
+@login_required
+def delete_post(post_id: int):
+    user = _get_current_user()
+    post = Post.query.get_or_404(post_id)
+    if post.user_id != user.id:
+        raise APIException("Solo el autor puede borrar", status_code=403)
+
+    db.session.delete(post)
+    db.session.commit()
+    return jsonify({"ok": True}), 200
+
+
+# =========================
+# COMMENTS
+# =========================
+
+@api.route("/posts/<int:post_id>/comments", methods=["GET"])
+@login_required
+def list_comments(post_id: int):
+    Post.query.get_or_404(post_id)
+    comments = Comment.query.filter_by(post_id=post_id).order_by(Comment.created_at.asc()).all()
+    return jsonify([c.serialize() for c in comments]), 200
+
+
+@api.route("/posts/<int:post_id>/comments", methods=["POST"])
+@login_required
+def add_comment(post_id: int):
+    user = _get_current_user()
+    Post.query.get_or_404(post_id)
+    data = request.get_json(silent=True) or {}
+    body = (data.get("body") or "").strip()
+    if not body:
+        raise APIException("Comentario vacío", status_code=400)
+    c = Comment(body=body, user_id=user.id, post_id=post_id)
+    db.session.add(c)
+    db.session.commit()
+    return jsonify(c.serialize()), 201
+
+
+@api.route("/posts/<int:post_id>/comments/<int:comment_id>", methods=["DELETE"])
+@login_required
+def delete_comment(post_id: int, comment_id: int):
+    user = _get_current_user()
+    c = Comment.query.get_or_404(comment_id)
+    if c.post_id != post_id:
+        raise APIException("No coincide el post", status_code=400)
+    if c.user_id != user.id:
+        raise APIException("Solo el autor puede borrar su comentario", status_code=403)
+    db.session.delete(c)
+    db.session.commit()
+    return jsonify({"ok": True}), 200
+
+
+# =========================
+# REACTIONS (emoji)
+# =========================
+
+@api.route("/posts/<int:post_id>/reactions", methods=["POST"])
+@login_required
+def react_post(post_id: int):
+    user = _get_current_user()
+    Post.query.get_or_404(post_id)
+    data = request.get_json(silent=True) or {}
+    emoji = (data.get("emoji") or "").strip()
+    if not emoji:
+        raise APIException("Emoji requerido", status_code=400)
+
+    # toggle: si existe -> remove; si no existe -> add
+    existing = Reaction.query.filter_by(user_id=user.id, post_id=post_id, emoji=emoji).first()
+    if existing:
+        db.session.delete(existing)
+        db.session.commit()
+        action = "removed"
+    else:
+        r = Reaction(user_id=user.id, post_id=post_id, emoji=emoji)
+        db.session.add(r)
+        db.session.commit()
+        action = "added"
+
+    post = Post.query.get(post_id)
+    serialized = post.serialize(current_user_id=user.id)
+    return jsonify({
+        "action": action,
+        "reactions": serialized["reactions"],
+        "my_reactions": serialized["my_reactions"],
+    }), 200

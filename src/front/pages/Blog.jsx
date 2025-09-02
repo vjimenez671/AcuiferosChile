@@ -9,9 +9,13 @@ const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3001";
 const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
 const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
+// Conjunto simple de emojis disponibles
+const EMOJI_SET = ["👍","❤️","🔥","👏","😂","😮","😢","🙏","🎉","💡"];
+
 export default function Blog() {
   const navigate = useNavigate();
-  const [posts, setPosts] = useState([]);
+
+  const [feed, setFeed] = useState({ items: [], page: 1, pages: 1, total: 0, has_next: false, has_prev: false });
   const [loadingFeed, setLoadingFeed] = useState(false);
   const [errorFeed, setErrorFeed] = useState("");
 
@@ -21,26 +25,36 @@ export default function Blog() {
   const [okMsg, setOkMsg] = useState("");
   const [form, setForm] = useState({ title: "", content: "", attachment_url: "" });
 
+  // usuario actual (guardado por tu flujo de login en localStorage)
+  const currentUserId = useMemo(() => {
+    try {
+      const u = JSON.parse(localStorage.getItem("user"));
+      return u?.id || null;
+    } catch {
+      return null;
+    }
+  }, []);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
       navigate("/signin", { replace: true });
     } else {
-      fetchPosts();
+      fetchPosts(1);
     }
   }, [navigate]);
 
-  const fetchPosts = async () => {
+  const fetchPosts = async (page = 1) => {
     setLoadingFeed(true);
     setErrorFeed("");
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`${API_URL}/api/posts`, {
+      const res = await fetch(`${API_URL}/api/posts?page=${page}&per_page=10`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data?.message || "No se pudieron cargar las publicaciones.");
-      setPosts(data);
+      setFeed(data);
     } catch (err) {
       setErrorFeed(err.message);
     } finally {
@@ -75,15 +89,6 @@ export default function Blog() {
         multiple: false,
         folder: "blog",
         language: "es",
-        text: {
-          es: {
-            menu: { files: "Archivos", url: "URL", camera: "Cámara" },
-            or: "o",
-            queue: { title: "Cola de carga", done: "Listo" },
-            local: { browse: "Elegir archivos" },
-            crop: { title: "Recortar" },
-          },
-        },
       },
       (error, result) => {
         if (!error && result && result.event === "success") {
@@ -101,7 +106,6 @@ export default function Blog() {
     setErrorSubmit("");
     setOkMsg("");
 
-    // Solo título obligatorio
     if (!form.title.trim()) {
       return setErrorSubmit("El título es obligatorio.");
     }
@@ -122,13 +126,16 @@ export default function Blog() {
       setOkMsg("¡Publicación creada!");
       setForm({ title: "", content: "", attachment_url: "" });
       setComposerOpen(false);
-      fetchPosts();
+      fetchPosts(1);
     } catch (err) {
       setErrorSubmit(err.message);
     } finally {
       setSubmitting(false);
     }
   };
+
+  const loadNext = () => feed.page < feed.pages && fetchPosts(feed.page + 1);
+  const loadPrev = () => feed.page > 1 && fetchPosts(feed.page - 1);
 
   return (
     <main className="blog page-container">
@@ -146,7 +153,7 @@ export default function Blog() {
         </div>
       </section>
 
-      {/* Modal */}
+      {/* Modal crear */}
       {isComposerOpen && (
         <ACModal onClose={closeComposer} title="Crear publicación">
           <form className="composer-form" onSubmit={onSubmit}>
@@ -206,20 +213,48 @@ export default function Blog() {
         <h2 className="sr-only">Publicaciones recientes</h2>
         {loadingFeed && <div className="feed-state">Cargando publicaciones…</div>}
         {errorFeed && <div className="error">{errorFeed}</div>}
-        {!loadingFeed && !errorFeed && posts.length === 0 && (
+        {!loadingFeed && !errorFeed && feed.items.length === 0 && (
           <div className="feed-empty">Aún no hay publicaciones. ¡Sé el primero en compartir algo!</div>
         )}
-        {posts.map((p) => (
-          <PostCard key={p.id} post={p} />
+
+        {feed.items.map((p) => (
+          <PostCard
+            key={p.id}
+            post={p}
+            currentUserId={currentUserId}
+            onChanged={() => fetchPosts(feed.page)}
+          />
         ))}
+
+        <div className="pager">
+          <button className="btn btn-ghost" onClick={loadPrev} disabled={!feed.has_prev}>Anterior</button>
+          <span className="pager-info">Página {feed.page} de {feed.pages}</span>
+          <button className="btn btn-ghost" onClick={loadNext} disabled={!feed.has_next}>Siguiente</button>
+        </div>
       </section>
     </main>
   );
 }
 
 /* Post Card */
-function PostCard({ post }) {
+function PostCard({ post, currentUserId, onChanged }) {
   const [isOpen, setOpen] = useState(false);
+  const [showComments, setShowComments] = useState(false);
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  const [isEditing, setEditing] = useState(false);
+  const [editForm, setEditForm] = useState({ title: post.title, content: post.content, attachment_url: post.attachment_url || "" });
+
+  const [showPicker, setShowPicker] = useState(false);
+
+  const isAuthor = post?.user?.id === currentUserId;
+
+  useEffect(() => {
+    // si abro edición, sincronizo valores por si post cambió
+    setEditForm({ title: post.title, content: post.content, attachment_url: post.attachment_url || "" });
+  }, [post]);
 
   const createdAt = useMemo(() => {
     try {
@@ -242,8 +277,144 @@ function PostCard({ post }) {
     }
   };
 
+  const toggleReaction = async (emoji) => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${API_URL}/api/posts/${post.id}/reactions`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ emoji })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.message || "No se pudo reaccionar");
+      onChanged?.();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const fetchComments = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${API_URL}/api/posts/${post.id}/comments`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.message || "Error cargando comentarios");
+      setComments(data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const sendComment = async () => {
+    if (!newComment.trim()) return;
+    setBusy(true);
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${API_URL}/api/posts/${post.id}/comments`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ body: newComment })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.message || "No se pudo comentar");
+      setNewComment("");
+      setComments((c) => [...c, data]);
+      onChanged?.();
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const deleteComment = async (commentId) => {
+    if (!window.confirm("¿Eliminar este comentario?")) return;
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${API_URL}/api/posts/${post.id}/comments/${commentId}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data?.message || "No se pudo eliminar");
+      }
+      setComments((c) => c.filter((x) => x.id !== commentId));
+      onChanged?.();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const copyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.origin + window.location.pathname + `#post-${post.id}`);
+      alert("Enlace copiado");
+    } catch {
+      // noop
+    }
+  };
+
+  const downloadAttachment = () => {
+    if (!post.attachment_url) return;
+    const a = document.createElement("a");
+    a.href = post.attachment_url;
+    a.download = (post.title || "archivo").replace(/\s+/g, "_");
+    a.target = "_blank";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  };
+
+  const openEdit = () => setEditing(true);
+  const closeEdit = () => setEditing(false);
+  const onEditChange = (e) => setEditForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+
+  const submitEdit = async (e) => {
+    e.preventDefault();
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${API_URL}/api/posts/${post.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify(editForm)
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.message || "No se pudo actualizar");
+      setEditing(false);
+      onChanged?.();
+    } catch (e) {
+      alert(e.message);
+    }
+  };
+
+  const removePost = async () => {
+    if (!window.confirm("¿Eliminar esta publicación?")) return;
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${API_URL}/api/posts/${post.id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data?.message || "No se pudo eliminar");
+      }
+      onChanged?.();
+    } catch (e) {
+      alert(e.message);
+    }
+  };
+
+  useEffect(() => {
+    if (showComments) fetchComments();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showComments]);
+
   return (
-    <article className="post-card">
+    <article className="post-card" id={`post-${post.id}`}>
       <header className="post-header">
         <div className="post-author">
           <div className="avatar-circle">
@@ -254,10 +425,19 @@ function PostCard({ post }) {
             <div className="time">{createdAt}</div>
           </div>
         </div>
-        <h3 className="post-title">{post.title}</h3>
+        <div className="post-header-right">
+          {isAuthor && (
+            <div className="owner-actions">
+              <button className="btn btn-quiet" onClick={openEdit} title="Editar">✏️</button>
+              <button className="btn btn-quiet" onClick={removePost} title="Eliminar">🗑️</button>
+            </div>
+          )}
+        </div>
       </header>
 
-      <div className="post-content">{post.content}</div>
+      <h3 className="post-title">{post.title}</h3>
+
+      <div className="post-content" dangerouslySetInnerHTML={{ __html: linkify(post.content) }} />
 
       {post.attachment_url && (
         <figure className="post-media">
@@ -275,9 +455,97 @@ function PostCard({ post }) {
               className="media-image"
             />
           </div>
-          <figcaption>Haz click para ampliar</figcaption>
+          <figcaption>
+            <button className="btn btn-ghost" onClick={downloadAttachment}>Descargar</button>
+            <span className="sep">•</span>
+            <a href={post.attachment_url} target="_blank" rel="noreferrer">Abrir en pestaña</a>
+          </figcaption>
           {isOpen && <Lightbox imgSrc={post.attachment_url} onClose={() => setOpen(false)} />}
         </figure>
+      )}
+
+      {/* Actions */}
+      <div className="post-actions">
+        <div className="reactions">
+          {EMOJI_SET.map((e) => {
+            const count = post.reactions?.[e] || 0;
+            const mine = (post.my_reactions || []).includes(e);
+            return (
+              <button
+                key={e}
+                className={`reaction ${mine ? "is-active" : ""}`}
+                onClick={() => toggleReaction(e)}
+                title={mine ? "Quitar reacción" : "Reaccionar"}
+              >
+                <span className="emoji">{e}</span>
+                {count > 0 && <span className="count">{count}</span>}
+              </button>
+            );
+          })}
+          
+        </div>
+        <div className="spacer" />
+        <button className="btn btn-quiet" onClick={() => setShowComments((s) => !s)}>
+          💬 {post.comment_count || 0}
+        </button>
+        <button className="btn btn-quiet" onClick={copyLink}>🔗 Compartir</button>
+      </div>
+
+      {/* Comments */}
+      {showComments && (
+        <div className="comments">
+          {comments.map((c) => (
+            <div className="comment" key={c.id}>
+              <div className="avatar-circle small">
+                {initials(`${c.user?.name || ""} ${c.user?.last_name || ""}`)}
+              </div>
+              <div className="comment-body">
+                <div className="comment-meta">
+                  <span>{c.user?.name} {c.user?.last_name}</span>
+                  {c.user?.id === currentUserId && (
+                    <button className="btn btn-quiet mini" title="Eliminar comentario" onClick={() => deleteComment(c.id)}>✕</button>
+                  )}
+                </div>
+                <div className="comment-text">{c.body}</div>
+              </div>
+            </div>
+          ))}
+          <div className="comment-new">
+            <input
+              placeholder="Escribe un comentario…"
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && sendComment()}
+            />
+            <button className="btn btn-primary" onClick={sendComment} disabled={busy || !newComment.trim()}>
+              Enviar
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Modal editar */}
+      {isEditing && (
+        <ACModal title="Editar publicación" onClose={closeEdit}>
+          <form className="composer-form" onSubmit={submitEdit}>
+            <label className="field">
+              <span>Título *</span>
+              <input name="title" value={editForm.title} onChange={onEditChange} required />
+            </label>
+            <label className="field">
+              <span>Contenido</span>
+              <textarea name="content" rows={6} value={editForm.content} onChange={onEditChange} />
+            </label>
+            <label className="field">
+              <span>URL de imagen (opcional)</span>
+              <input name="attachment_url" value={editForm.attachment_url} onChange={onEditChange} placeholder="https://…" />
+            </label>
+            <div className="form-actions">
+              <button type="button" className="btn btn-ghost" onClick={closeEdit}>Cancelar</button>
+              <button className="btn btn-primary">Guardar cambios</button>
+            </div>
+          </form>
+        </ACModal>
       )}
     </article>
   );
@@ -313,7 +581,14 @@ function initials(name = "") {
   return (first + last).toUpperCase();
 }
 
-/* Modal */
+/* Linkify + escape básico */
+function linkify(text = "") {
+  const esc = (s) => s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+  const withLinks = esc(text).replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noreferrer">$1</a>');
+  return withLinks.replace(/\n/g, "<br/>");
+}
+
+/* Modal básico */
 function ACModal({ title, onClose, children }) {
   useEffect(() => {
     const handler = (e) => e.key === "Escape" && onClose?.();
