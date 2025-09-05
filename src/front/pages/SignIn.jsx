@@ -30,7 +30,6 @@ export default function SignIn() {
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      // notificar a Navbar (misma pestaña)
       window.dispatchEvent(new Event("auth-changed"));
 
       navigate("/");

@@ -47,7 +47,14 @@ const TEAM_MAIN = [
     tag: "Chile",
     bio: "Geólogo (U. Andrés Bello) con experiencia en herramientas SIG.",
     photo: benjaminImg
-  }
+  },
+  {
+    name: "Diego Anguita",
+    initials: "DA",
+    tag: "Chile",
+    bio: "Ingeniero Civil en Informática, MBA y Máster en Redes. Experto en gestión estratégica de TI, innovación, optimización de procesos e inteligencia artificial, con trayectoria en dirección de proyectos y liderazgo organizacional.",
+    photo: diegoImg
+  },
 ];
 
 const TEAM_ASSOCIATES = [
@@ -71,13 +78,6 @@ const TEAM_ASSOCIATES = [
     tag: "Chile",
     bio: "Geólogo (UAB), Máster en Hidrología Subterránea (UPC). Más de 20 años de experiencia en hidrogeología, minería y medio ambiente, con énfasis en modelación hidrogeológica y docencia universitaria.",
     photo: jordiImg
-  },
-  {
-    name: "Diego Anguita",
-    initials: "DA",
-    tag: "Chile",
-    bio: "Ingeniero Civil en Informática, MBA y Máster en Redes. Experto en gestión estratégica de TI, innovación, optimización de procesos e inteligencia artificial, con trayectoria en dirección de proyectos y liderazgo organizacional.",
-    photo: diegoImg
   },
   {
     name: "Reynaldo Payano",

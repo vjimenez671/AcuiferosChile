@@ -3,7 +3,6 @@
   display: grid;
   align-items: start;
   justify-items: center;
-  /* 👇 padding inferior aumentado con variable del footer */
   padding: 6rem 1rem calc(7rem + var(--footer-h, 110px));
   background: #f0f8fc;
   margin-bottom: 25%;
@@ -16,7 +15,7 @@
   border-radius: 16px;
   padding: 1.5rem;
   box-shadow: var(--shadow-sm, 0 4px 12px rgba(14,58,91,.1));
-  margin-bottom: 1.25rem; /* 👈 asegura aire antes del footer */
+  margin-bottom: 1.25rem;
 }
 
 #contact-title {
@@ -34,7 +33,7 @@
 
 .contact-form {
   display: grid;
-  gap: 1.2rem; /* más aire entre campos */
+  gap: 1.2rem;
 }
 
 .grid-two {
@@ -48,7 +47,7 @@
 
 .field {
   display: grid;
-  gap: .4rem; /* mantiene cercanía entre label e input */
+  gap: .4rem;
 }
 
 .field span {
@@ -89,7 +88,7 @@ input:focus, select:focus, textarea:focus {
   gap: .6rem;
   font-size: .95rem;
   color: var(--ink-800, #1A2E3D);
-  margin-top: 1.4rem; /* más espacio arriba */
+  margin-top: 1.4rem;
 }
 
 .error {
@@ -99,7 +98,7 @@ input:focus, select:focus, textarea:focus {
   border-radius: 10px;
   padding: .6rem .8rem;
   font-size: .95rem;
-  margin-top: .6rem; /* pegado al campo anterior */
+  margin-top: .6rem;
 }
 
 .ok {
@@ -116,7 +115,7 @@ input:focus, select:focus, textarea:focus {
   display: flex;
   gap: .75rem;
   flex-wrap: wrap;
-  margin-top: 1.6rem; /* destaca el bloque de botones */
+  margin-top: 1.6rem;
 }
 
 .btn {
@@ -133,7 +132,6 @@ input:focus, select:focus, textarea:focus {
 }
 .btn:active { transform: translateY(1px); }
 
-/* Igual que tus estilos de Home.css */
 .btn-primary {
   background: #4564A1;
   color: #fff;
@@ -149,7 +147,7 @@ input:focus, select:focus, textarea:focus {
 .btn-ghost:hover { background: #fff; box-shadow: var(--shadow-sm, 0 4px 12px rgba(14,58,91,.1)); }
 
 .note {
-  margin-top: 1.2rem; /* más aire final */
+  margin-top: 1.2rem;
   color: var(--ink-700, #274053);
   font-size: .9rem;
 }

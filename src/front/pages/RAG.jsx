@@ -6,12 +6,10 @@ import ragImg from "../imagenes/rag-2.png"; // 👈 importa la imagen
 export default function RAG() {
   return (
     <main className="rag-page">
-      {/* HERO */}
       <header className="rag-hero" role="banner" aria-label="Recarga gestionada de acuíferos (RAG)">
         <div className="rag-hero__overlay" aria-hidden="true"></div>
         <section className="container rag-hero__content">
           <div className="rag-hero__grid">
-            {/* Columna izquierda: texto */}
             <div className="rag-hero__text">
               <p className="eyebrow">Gestión hídrica basada en evidencia</p>
               <h1>Recarga Gestionada de Acuíferos (RAG)</h1>
@@ -21,11 +19,9 @@ export default function RAG() {
               </p>
               <div className="hero-cta">
                 <Link className="btn btn-primary" to="/contacto">Conversemos su factibilidad</Link>
-                {/* <Link className="btn btn-ghost" to="/proyectos">Ver proyectos</Link> */}
               </div>
             </div>
 
-            {/* Columna derecha: imagen */}
             <div className="rag-hero__right">
               <img src={ragImg} alt="Recarga gestionada de acuíferos" />
             </div>
@@ -33,7 +29,6 @@ export default function RAG() {
         </section>
       </header>
 
-      {/* BLOQUE 1: DEFINICIONES */}
       <section className="section">
         <div className="container">
           <div className="section-head">
@@ -81,7 +76,6 @@ export default function RAG() {
         </div>
       </section>
 
-      {/* BLOQUE 2: BENEFICIOS */}
       <section className="section alt">
         <div className="container">
           <div className="section-head">
@@ -112,7 +106,6 @@ export default function RAG() {
         </div>
       </section>
 
-      {/* BLOQUE 2.5: VIDEO */}
       <section className="section video-block">
         <div className="container">
           <div className="section-head">
@@ -137,7 +130,6 @@ export default function RAG() {
         </div>
       </section>
 
-      {/* BLOQUE 3: MARCO LEGAL */}
       <section className="section">
         <div className="container">
           <div className="section-head">
@@ -193,7 +185,6 @@ export default function RAG() {
         </div>
       </section>
 
-      {/* BLOQUE 4: DISEÑO Y OPERACIÓN */}
       <section className="section alt">
         <div className="container">
           <div className="section-head">

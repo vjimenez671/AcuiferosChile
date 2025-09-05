@@ -44,21 +44,18 @@
   padding: var(--space-6) 0; 
 }
 
-/* Intro más compacta */
 .about-intro.section { 
   padding-bottom: var(--space-3); 
 }
 
-/* Equipos con separación discreta */
 .about-team.section { 
   padding-top: var(--space-3);   
   padding-bottom: var(--space-4); 
 }
 
-/* Más aire bajo la última sección (Asociados) */
 .about-team.section:last-of-type {
-  padding-bottom: var(--space-8, 6rem); /* más grande que el resto */
-  background-color: #fafcfd;  /* fondo sutilmente diferente */
+  padding-bottom: var(--space-8, 6rem);
+  background-color: #fafcfd;
 }
 
 .section-head { 
@@ -98,7 +95,7 @@
   gap: 2.5rem;
   grid-template-columns: repeat(auto-fit, minmax(260px, 300px));
   justify-content: center;
-  margin-bottom: 6%;  /* más aire bajo los cards antes del footer */
+  margin-bottom: 6%;
 }
 
 .member-card {

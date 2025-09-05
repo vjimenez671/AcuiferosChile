@@ -83,13 +83,9 @@ export const Navbar = () => {
         <li className="elemento">
           <Link to="/clientes" onClick={close}>Clientes</Link>
         </li>
-
-        {/* Blog SIEMPRE visible (público) */}
         <li className="elemento">
           <Link to="/blog" onClick={close}>Blog</Link>
         </li>
-
-        {/* Contáctanos como link normal (sin botón) */}
         <li className="elemento">
           <Link to="/contacto" onClick={close}>Contáctanos</Link>
         </li>

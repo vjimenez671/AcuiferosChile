@@ -3,7 +3,7 @@
   display: grid;
   align-items: center;
   justify-items: center;
-  padding: 6rem 1rem 2rem; /* margen superior por navbar fija */
+  padding: 6rem 1rem 2rem;
   background: #f0f8fc;
 }
 

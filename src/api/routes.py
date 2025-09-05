@@ -7,7 +7,6 @@ from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 
-# --- stdlib para JWT "manual" sin instalar paquetes ---
 import base64
 import json
 import hmac
@@ -15,13 +14,11 @@ import hashlib
 import time
 from functools import wraps
 
-# --- stdlib para SMTP ---
 import smtplib
 import ssl
 from email.message import EmailMessage
 from typing import Optional, List
 
-# --- utilidades varias ---
 from sqlalchemy import func
 import math
 
@@ -38,14 +35,12 @@ def _b64url_encode(b: bytes) -> str:
     return base64.urlsafe_b64encode(b).rstrip(b'=').decode('utf-8')
 
 def _b64url_decode(s: str) -> bytes:
-    # agrega relleno si falta
+
     padding = '=' * (-len(s) % 4)
     return base64.urlsafe_b64decode(s + padding)
 
 def encode_jwt(payload: dict, secret: str, alg: str = "HS256", exp_seconds: int = 60 * 60 * 24):
-    """
-    Crea un JWT HS256 sin dependencias externas.
-    """
+
     header = {"alg": alg, "typ": "JWT"}
     payload = dict(payload) if payload else {}
     payload.setdefault("exp", int(time.time()) + exp_seconds)
@@ -61,9 +56,7 @@ def encode_jwt(payload: dict, secret: str, alg: str = "HS256", exp_seconds: int 
     return f"{header_b64}.{payload_b64}.{signature_b64}"
 
 def decode_jwt(token: str, secret: str):
-    """
-    Verifica firma y exp; retorna el payload (dict) o levanta APIException.
-    """
+
     try:
         header_b64, payload_b64, signature_b64 = token.split('.')
     except ValueError:
@@ -84,7 +77,6 @@ def decode_jwt(token: str, secret: str):
     except Exception:
         raise APIException("Token inválido (payload)", status_code=401)
 
-    # expira
     if 'exp' in payload and int(time.time()) > int(payload['exp']):
         raise APIException("Token expirado", status_code=401)
 
@@ -135,15 +127,12 @@ def register():
     last_name = (data.get('last_name') or '').strip()
     password = data.get('password')
 
-    # Validaciones básicas
     if not email or not name or not last_name or not password:
         raise APIException("Faltan campos: email, name, last_name, password", status_code=400)
 
-    # ¿Existe email?
     if User.query.filter_by(email=email).first():
         raise APIException("El correo ya está registrado", status_code=409)
 
-    # Hash de password (Werkzeug, ya viene con Flask)
     pwd_hash = generate_password_hash(password)
 
     # Crear y guardar usuario
@@ -151,7 +140,6 @@ def register():
     db.session.add(user)
     db.session.commit()
 
-    # Token de sesión (incluye sub=user_id)
     secret = current_app.config.get('SECRET_KEY')
     token = encode_jwt({"sub": user.id, "email": user.email}, secret, exp_seconds=60 * 60 * 24 * 7)  # 7 días
 
@@ -176,7 +164,7 @@ def login():
 
     user = User.query.filter_by(email=email).first()
     if not user or not check_password_hash(user.password, password):
-        # No revelar cuál falló
+
         raise APIException("Credenciales inválidas", status_code=401)
 
     if not user.is_active:
@@ -228,13 +216,8 @@ def _send_mail_smtp(
     cc: Optional[List[str]] = None,
     from_display_name: Optional[str] = None
 ):
-    """
-    Envía correo vía SMTP usando configuración de app.config.
-    Compatible con Gmail, Outlook/Hotmail, Yahoo, etc.
 
-    El envelope sender (MAIL FROM) es app.config['MAIL_FROM'] para cumplir SPF/DMARC.
-    El header "From" usa 'from_display_name' como nombre visible + <MAIL_FROM>.
-    """
+
     host      = current_app.config.get('MAIL_SMTP_HOST', '')
     port      = int(current_app.config.get('MAIL_SMTP_PORT', 587))
     user      = current_app.config.get('MAIL_SMTP_USER', '')
@@ -262,7 +245,6 @@ def _send_mail_smtp(
 
     recipients = [to_addr] + (cc or [])
 
-    # Conexión SMTP
     if use_ssl:
         context = ssl.create_default_context()
         with smtplib.SMTP_SSL(host=host, port=port, context=context) as server:
@@ -299,16 +281,13 @@ def send_contact_email():
     if not message:
         raise APIException("El mensaje es obligatorio.", status_code=400)
 
-    # Usuario autenticado
     user_id = request.jwt_payload.get('sub')
     user = User.query.get(user_id)
     if not user:
         raise APIException("Usuario no encontrado", status_code=404)
 
-    # Destino principal configurado
     to_addr = current_app.config.get('MAIL_TO', 'vicentejimenez.prog@gmail.com')
 
-    # Cuerpo del correo (texto plano)
     lines = [
         f"Tema: {topic_label(topic)}",
         f"Remitente: {user.name} {user.last_name} <{user.email}>",
@@ -319,10 +298,8 @@ def send_contact_email():
         lines += ["", f"Enlace adicional: {link}"]
     body_text = "\n".join(lines)
 
-    # CC opcional al usuario
     cc = [user.email] if (copy_me and user.email) else []
 
-    # From visible: "<Nombre Apellido> via Acuíferos Chile" <MAIL_FROM>
     base_from_name = current_app.config.get('MAIL_FROM_NAME', 'Acuíferos Chile')
     user_full_name = f"{user.name} {user.last_name}".strip()
     from_display_name = f"{user_full_name} via {base_from_name}" if user_full_name else base_from_name
@@ -332,7 +309,7 @@ def send_contact_email():
             to_addr=to_addr,
             subject=subject,
             body_text=body_text,
-            reply_to=user.email,          # al responder, irá al usuario
+            reply_to=user.email,
             cc=cc,
             from_display_name=from_display_name
         )
@@ -387,7 +364,6 @@ def get_posts():
              .offset((page - 1) * per_page)
              .all())
 
-    # público: no hay usuario autenticado
     data = [p.serialize(current_user_id=None) for p in items]
 
     return jsonify({
@@ -543,7 +519,6 @@ def react_post(post_id: int):
     if not emoji:
         raise APIException("Emoji requerido", status_code=400)
 
-    # toggle: si existe -> remove; si no existe -> add
     existing = Reaction.query.filter_by(user_id=user.id, post_id=post_id, emoji=emoji).first()
     if existing:
         db.session.delete(existing)

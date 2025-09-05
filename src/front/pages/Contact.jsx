@@ -19,7 +19,6 @@ export default function Contact() {
   const [okMsg, setOkMsg] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Proteger ruta: si no hay sesión, redirigir a /signin
   useEffect(() => {
     const token = localStorage.getItem("token");
     const userRaw = localStorage.getItem("user");

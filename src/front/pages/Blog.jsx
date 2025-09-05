@@ -5,11 +5,10 @@ import "../../styles/Blog.css";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3001";
 
-// Opcional: Cloudinary
+
 const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
 const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
-// Conjunto simple de emojis disponibles
 const EMOJI_SET = ["👍","❤️","🔥","👏","😂","😮","😢","🙏","🎉","💡"];
 
 export default function Blog() {
@@ -25,7 +24,6 @@ export default function Blog() {
   const [okMsg, setOkMsg] = useState("");
   const [form, setForm] = useState({ title: "", content: "", attachment_url: "" });
 
-  // usuario actual (si está logueado)
   const { isAuth, currentUserId } = useMemo(() => {
     try {
       const token = !!localStorage.getItem("token");
@@ -36,7 +34,6 @@ export default function Blog() {
     }
   }, []);
 
-  // ✅ YA NO redirige si no hay token; el feed es público
   useEffect(() => {
     fetchPosts(1);
   }, []);
@@ -45,7 +42,7 @@ export default function Blog() {
     setLoadingFeed(true);
     setErrorFeed("");
     try {
-      // petición pública SIN Authorization
+
       const res = await fetch(`${API_URL}/api/posts?page=${page}&per_page=10`);
       const data = await res.json();
       if (!res.ok) throw new Error(data?.message || "No se pudieron cargar las publicaciones.");
@@ -66,7 +63,7 @@ export default function Blog() {
   };
 
   const openComposer = () => {
-    // si no hay sesión, vamos a iniciar sesión
+
     if (!requireAuth()) return;
     setErrorSubmit("");
     setOkMsg("");
@@ -147,7 +144,7 @@ export default function Blog() {
 
   return (
     <main className="blog page-container">
-      {/* Composer (abre modal solo si hay sesión; si no, lleva a /signin) */}
+
       <section className="composer-card" aria-label="Crear una publicación">
         <div className="composer-avatar" aria-hidden="true">
           <div className="avatar-circle">U</div>
@@ -161,7 +158,7 @@ export default function Blog() {
         </div>
       </section>
 
-      {/* Modal crear */}
+
       {isComposerOpen && (
         <ACModal onClose={closeComposer} title="Crear publicación">
           <form className="composer-form" onSubmit={onSubmit}>
@@ -216,7 +213,7 @@ export default function Blog() {
         </ACModal>
       )}
 
-      {/* Feed público */}
+
       <section className="feed">
         <h2 className="sr-only">Publicaciones recientes</h2>
         {loadingFeed && <div className="feed-state">Cargando publicaciones…</div>}
@@ -245,7 +242,7 @@ export default function Blog() {
   );
 }
 
-/* Post Card */
+
 function PostCard({ post, currentUserId, onChanged, requireAuth }) {
   const [isOpen, setOpen] = useState(false);
   const [showComments, setShowComments] = useState(false);
@@ -283,7 +280,7 @@ function PostCard({ post, currentUserId, onChanged, requireAuth }) {
     }
   };
 
-  // ——— Interacciones requieren sesión ———
+
   const toggleReaction = async (emoji) => {
     if (!requireAuth()) return;
     try {
@@ -302,16 +299,16 @@ function PostCard({ post, currentUserId, onChanged, requireAuth }) {
   };
 
   const fetchComments = async () => {
-    // leer comentarios es útil/ok sin sesión
+
     try {
       const res = await fetch(`${API_URL}/api/posts/${post.id}/comments`, {
-        // este endpoint sigue protegido, así que si no hay sesión, no mostrará (o puedes exponer GET público también si quieres)
+
         headers: localStorage.getItem("token")
           ? { Authorization: `Bearer ${localStorage.getItem("token")}` }
           : {}
       });
       if (res.status === 401 || res.status === 403) {
-        // si no hay sesión, podemos ocultar el panel o invitar a iniciar sesión
+
         setComments([]);
         return;
       }
@@ -424,7 +421,7 @@ function PostCard({ post, currentUserId, onChanged, requireAuth }) {
 
   useEffect(() => {
     if (showComments) fetchComments();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [showComments]);
 
   return (
@@ -478,7 +475,6 @@ function PostCard({ post, currentUserId, onChanged, requireAuth }) {
         </figure>
       )}
 
-      {/* Actions */}
       <div className="post-actions">
         <div className="reactions">
           {EMOJI_SET.map((e) => {
@@ -507,7 +503,6 @@ function PostCard({ post, currentUserId, onChanged, requireAuth }) {
         }}>🔗 Compartir</button>
       </div>
 
-      {/* Comments */}
       {showComments && (
         <div className="comments">
           {comments.length === 0 && (
@@ -548,7 +543,6 @@ function PostCard({ post, currentUserId, onChanged, requireAuth }) {
         </div>
       )}
 
-      {/* Modal editar */}
       {isEditing && (
         <ACModal title="Editar publicación" onClose={closeEdit}>
           <form className="composer-form" onSubmit={submitEdit}>
@@ -575,7 +569,6 @@ function PostCard({ post, currentUserId, onChanged, requireAuth }) {
   );
 }
 
-/* Lightbox */
 function Lightbox({ imgSrc, onClose }) {
   useEffect(() => {
     const handler = (e) => e.key === "Escape" && onClose();
@@ -597,7 +590,6 @@ function Lightbox({ imgSrc, onClose }) {
   );
 }
 
-/* Utilidad: iniciales */
 function initials(name = "") {
   const parts = name.split(" ").filter(Boolean);
   const first = parts[0]?.[0] || "";
@@ -605,14 +597,12 @@ function initials(name = "") {
   return (first + last).toUpperCase();
 }
 
-/* Linkify + escape básico */
 function linkify(text = "") {
   const esc = (s) => s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
   const withLinks = esc(text).replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noreferrer">$1</a>');
   return withLinks.replace(/\n/g, "<br/>");
 }
 
-/* Modal básico */
 function ACModal({ title, onClose, children }) {
   useEffect(() => {
     const handler = (e) => e.key === "Escape" && onClose?.();

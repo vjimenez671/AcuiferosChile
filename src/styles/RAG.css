@@ -1,5 +1,4 @@
 :root {
-  /* Colores base (alineados con tu sistema) */
   --blue-900:#0E3A5B;
   --blue-800:#13486F;
   --blue-700:#1F5A82;
@@ -13,10 +12,10 @@
   --bg:#F0F8FC;
   --white:#FFFFFF;
 
-  --tint-50:#F4FBFF;        /* azul muy claro para no coincidir con section.alt */
-  --panel:#FFFFFF;          /* panel neutro */
-  --surface:#FFFFFF;        /* superficie blanca con borde */
-  --surface-alt:#F8FCFF;    /* leve variante para mosaicos grandes */
+  --tint-50:#F4FBFF;
+  --panel:#FFFFFF;
+  --surface:#FFFFFF;
+  --surface-alt:#F8FCFF;
 
   --shadow-sm:0 4px 12px rgba(14,58,91,0.10);
   --shadow:0 10px 25px rgba(14,58,91,0.12);
@@ -39,13 +38,11 @@
 
 .rag-page { background: var(--bg); }
 
-/* HERO */
 .rag-hero {
   position: relative;
   min-height: 520px;
   display: flex;
   align-items: center;
-  /* gradiente azul oscuro */
   background: linear-gradient(135deg, var(--blue-900) 0%, var(--blue-800) 50%, var(--blue-700) 100%);
   color: #fff;
 }
@@ -90,7 +87,6 @@
   background: rgba(255,255,255,0.25);
 }
 
-/* SECTIONS */
 .section { padding: var(--space-6) 0; background-color: var(--bg); }
 .section.alt { background: var(--white); }
 .section-head { margin-bottom: var(--space-4); }
@@ -100,7 +96,6 @@
 
 .container { max-width: 1200px; margin: 0 auto; padding: 0 var(--space-5); }
 
-/* --- superficies --- */
 .surface-grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -121,7 +116,6 @@
 .surface h3 { color: var(--blue-700); margin-bottom: .45rem; }
 .surface p { color: var(--ink-800); }
 
-/* listas compactas */
 .list-inline {
   display: flex; flex-wrap: wrap; gap: .5rem .75rem;
   margin: .65rem 0 .35rem;
@@ -137,14 +131,13 @@
   font-size: var(--fs-sm);
 }
 
-/* --- Beneficios --- */
 .benefits-wrap {
   display: grid;
   grid-template-columns: 1.2fr .8fr;
   gap: var(--space-3);
 }
 .panel {
-  background: var(--tint-50); /* ambos paneles mismo tono suave */
+  background: var(--tint-50);
   border: 1px solid #E4EEF4;
   border-radius: var(--radius);
   padding: 1.2rem 1.25rem;
@@ -155,7 +148,6 @@
 .list-check li { list-style: "✔  "; margin-left: .25rem; margin-bottom: .35rem; color: var(--ink-800); }
 .list-dot li { list-style: disc; margin-left: 1.1rem; margin-bottom: .35rem; color: var(--ink-800); }
 
-/* --- Marco legal --- */
 .timeline {
   position: relative;
   display: grid;
@@ -191,7 +183,6 @@
   padding: 1rem 1.25rem;
 }
 
-/* --- Diseño & operación --- */
 .modules {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -210,7 +201,6 @@
 
 .muted { color: var(--ink-700); font-size: var(--fs-sm); }
 
-/* BUTTONS */
 .btn {
   display: inline-flex; align-items: center; justify-content: center;
   gap: .5rem; height: 44px; padding: 0 1.1rem;
@@ -223,11 +213,11 @@
 .btn-ghost { background: rgba(255,255,255,0.7); color: var(--blue-800); border-color: #D7E7F2; }
 .btn-ghost:hover { background: #fff; box-shadow: var(--shadow-sm); }
 
-/* ==== Video embed ==== */
+
 .media-embed {
   position: relative;
   width: 100%;
-  padding-bottom: 56.25%; /* 16:9 */
+  padding-bottom: 56.25%;
   height: 0;
   border-radius: var(--radius);
   overflow: hidden;
@@ -248,7 +238,6 @@
   margin-top: .6rem;
 }
 
-/* Diferenciar sección de video */
 .section.video-block {
   background: linear-gradient(135deg, var(--blue-800) 0%, var(--blue-700) 100%);
   color: #fff;
@@ -259,7 +248,6 @@
   color: #fff;
 }
 
-/* RESPONSIVE */
 @media (max-width: 1100px) {
   .rag-hero__overlay { -webkit-mask-image: none; mask-image: none; }
   .surface-grid .surface { grid-column: span 12; }
@@ -268,38 +256,29 @@
   .modules .module { grid-column: span 12; }
 }
 
-/* =========================
-   OVERRIDES solicitados
-========================= */
-
-/* 1) Alinear el texto del hero con los mismos límites laterales */
 .rag-hero .container,
 .rag-hero__content.container {
-  max-width: 1200px;         /* igual que .container */
+  max-width: 1200px;
   margin: 0 auto;
   padding-left: var(--space-5);
   padding-right: var(--space-5);
 }
 
-/* 2) Contraste en "Diseño y operación": cards ≠ fondo de la sección */
 .section.alt .modules .module {
-  background: var(--surface-alt);   /* tono suave, no blanco */
+  background: var(--surface-alt);
   border-color: #E4EEF4;
 }
 
-/* =========================
-   NUEVO: Distribución hero
-========================= */
 .rag-hero__grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;      /* reparte el ancho */
+  grid-template-columns: 1fr 1fr;
   align-items: center;
   gap: var(--space-5);
   width: 100%;
 }
 .rag-hero h1,
 .rag-hero .lead { 
-  max-width: none;                      /* libera ancho de texto */
+  max-width: none;
 }
 .rag-hero__right {
   min-height: 320px;
@@ -315,15 +294,9 @@
   .rag-hero__right { display: none; }
 }
 
-
-/* ... todo lo que ya tenías arriba se mantiene igual ... */
-
-/* =========================
-   NUEVO: Distribución hero
-========================= */
 .rag-hero__grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;      /* reparte el ancho */
+  grid-template-columns: 1fr 1fr;
   align-items: center;
   gap: var(--space-5);
   width: 100%;
@@ -331,10 +304,9 @@
 
 .rag-hero h1,
 .rag-hero .lead { 
-  max-width: none;                      /* libera ancho de texto */
+  max-width: none;
 }
 
-/* 👉 ahora con imagen */
 .rag-hero__right {
   display: flex;
   align-items: center;
