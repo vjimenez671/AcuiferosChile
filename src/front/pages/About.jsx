@@ -10,50 +10,47 @@ import jordiImg from "../imagenes/jordi-escorcia.jpg";
 import diegoImg from "../imagenes/diego-anguita.jpg";
 import reynaldoImg from "../imagenes/reynaldo-payano.png";
 
-
-
 const TEAM_MAIN = [
   {
     name: "Orlando Jiménez",
     initials: "OJ",
     tag: "Chile",
     bio: "Ingeniero Agrónomo (U. de Chile), MSc y PhD (Oxford). Ex CEO de CSIRO para América Latina (12 años). Lideró programas de gestión integrada de cuencas, incluyendo recarga de acuíferos.",
-    photo: orlandoImg
+    photo: orlandoImg,
   },
   {
     name: "Claudio Arriagada",
     initials: "CA",
     tag: "Chile",
     bio: "Ingeniero Agrónomo (UACh) y Perito Agrícola (IPA Adolfo Matthei). Especialista en proyectos de riego desde 2004 y en producción de berries por más de 17 años.",
-    photo: claudioImg
+    photo: claudioImg,
   },
   {
     name: "Eva Saez",
     initials: "ES",
     tag: "España",
     bio: "Hidrogeóloga con un MSc. en Ingeniería del Terreno con especialidad en Hidrología Subterránea de la Universidad Politécnica de Catalunya (UPC).",
-    photo: evaImg
+    photo: evaImg,
   },
   {
     name: "Alejandra Espinoza",
     initials: "AE",
     tag: "?",
     bio: "Reseña profesional por agregar...",
-    // photo: alejandraImg
   },
   {
     name: "Benjamín Santana",
     initials: "BS",
     tag: "Chile",
     bio: "Geólogo (U. Andrés Bello) con experiencia en herramientas SIG.",
-    photo: benjaminImg
+    photo: benjaminImg,
   },
   {
     name: "Diego Anguita",
     initials: "DA",
     tag: "Chile",
     bio: "Ingeniero Civil en Informática, MBA y Máster en Redes. Experto en gestión estratégica de TI, innovación, optimización de procesos e inteligencia artificial, con trayectoria en dirección de proyectos y liderazgo organizacional.",
-    photo: diegoImg
+    photo: diegoImg,
   },
 ];
 
@@ -63,34 +60,38 @@ const TEAM_ASSOCIATES = [
     initials: "RM",
     tag: "Australia",
     bio: "Hidrogeólogo líder global en implementación de recarga de acuíferos. 30 años de experiencia y participación en más de 60 proyectos en todo el mundo.",
-    photo: russellImg
+    photo: russellImg,
   },
   {
     name: "Enrique Fernández",
     initials: "EF",
     tag: "España",
     bio: "Hidrogeólogo líder en recarga gestionada de acuíferos, con más de 90 proyectos a nivel global. Autor, coautor y editor de 22 libros en gestión hídrica.",
-    photo: enriqueImg
+    photo: enriqueImg,
   },
   {
     name: "Jordi Escorcia",
     initials: "JE",
     tag: "Chile",
     bio: "Geólogo (UAB), Máster en Hidrología Subterránea (UPC). Más de 20 años de experiencia en hidrogeología, minería y medio ambiente, con énfasis en modelación hidrogeológica y docencia universitaria.",
-    photo: jordiImg
+    photo: jordiImg,
   },
   {
     name: "Reynaldo Payano",
     initials: "RP",
     tag: "Chile",
     bio: "Ingeniero Civil Hidrólogo, PhD. 15 años de experiencia en recursos hídricos. Gerente General y socio fundador de INRHED, especialista en estudios hidrológicos y planificación hídrica internacional.",
-    photo: reynaldoImg
-  }
+    photo: reynaldoImg,
+  },
 ];
 
-function TeamSection({ title, subtitle, list, anchor }) {
+function TeamSection({ title, subtitle, list, anchor, tone = "tone-a" }) {
   return (
-    <section className="section about-team" id={anchor} aria-labelledby={`${anchor}-title`}>
+    <section
+      className={`section about-team ${tone}`}
+      id={anchor}
+      aria-labelledby={`${anchor}-title`}
+    >
       <div className="container">
         <div className="section-head">
           <div className="linea-divisora"></div>
@@ -126,6 +127,7 @@ function TeamSection({ title, subtitle, list, anchor }) {
 export default function About() {
   return (
     <main className="ac-about">
+      {/* Quiénes somos: fondo blanco */}
       <section className="section about-intro" aria-labelledby="about-title">
         <div className="container">
           <div className="linea-divisora"></div>
@@ -149,18 +151,22 @@ export default function About() {
         </div>
       </section>
 
+      {/* Equipo principal: fondo azul muy suave */}
       <TeamSection
         title="Equipo principal"
         anchor="equipo-principal"
         subtitle="Un equipo senior con experiencia comprobada en RAG, hidrología aplicada y gestión integrada de cuencas."
         list={TEAM_MAIN}
+        tone="tone-a"
       />
 
+      {/* Asociados: fondo azul suave alternativo */}
       <TeamSection
         title="Asociados"
         anchor="asociados"
         subtitle="Especialistas que complementan capacidades técnicas y territoriales."
         list={TEAM_ASSOCIATES}
+        tone="tone-b"
       />
     </main>
   );

@@ -5,79 +5,81 @@
   --blue-600:#256892;
   --blue-500:#2F80A6;
   --blue-300:#68B3CF;
+
   --ink-900:#0A2233;
   --ink-800:#1A2E3D;
   --ink-700:#274053;
+
   --bg:#F7FBFD;
   --white:#FFFFFF;
+
+  /* Tintes más notorios para diferenciar secciones */
+  --tint-a:#EAF4FB; /* equipo principal */
+  --tint-b:#D9ECF7; /* asociados */
+
   --shadow-sm:0 4px 12px rgba(14,58,91,0.10);
   --shadow:0 10px 25px rgba(14,58,91,0.12);
+
   --radius:16px;
   --radius-sm:12px;
+
   --space-1:.5rem;
   --space-2:.75rem;
   --space-3:1rem;
   --space-4:1.5rem;
   --space-5:2rem;
   --space-6:3rem;
+
   --fs-xs: clamp(.78rem, .74rem + .2vw, .85rem);
   --fs-sm: clamp(.9rem, .86rem + .2vw, 1rem);
   --fs-md: clamp(1rem, .98rem + .3vw, 1.125rem);
   --fs-lg: clamp(1.125rem, 1.05rem + .6vw, 1.35rem);
   --fs-xl: clamp(1.6rem, 1.2rem + 2.2vw, 2.2rem);
   --fs-2xl: clamp(2.1rem, 1.4rem + 3vw, 3rem);
+
   --transition: 180ms ease;
 }
 
-.ac-about { 
+.ac-about {
   color: var(--ink-900);
-  background-color: #f0f8fc; 
+  background-color: #f0f8fc;
 }
 
-.container { 
-  max-width: 1200px; 
-  margin: 0 auto; 
-  padding: 0 var(--space-5); 
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-5);
 }
 
-.section { 
-  padding: var(--space-6) 0; 
+.section { padding: var(--space-6) 0; }
+
+/* ——— COLORES POR SECCIÓN (sin bordes divisores) ——— */
+.about-intro { background: var(--white); }       /* Quiénes somos */
+.about-team.tone-a { background: var(--tint-a); }/* Equipo principal */
+.about-team.tone-b { background: var(--tint-b); }/* Asociados */
+
+/* espaciados */
+.about-intro.section { padding-bottom: var(--space-3); }
+.about-team.section { padding-top: var(--space-3); padding-bottom: var(--space-4); }
+
+.section-head { margin-bottom: var(--space-4); }
+
+.section h2 {
+  color: var(--blue-900);
+  font-size: var(--fs-xl);
+  line-height: 1.15;
 }
 
-.about-intro.section { 
-  padding-bottom: var(--space-3); 
-}
-
-.about-team.section { 
-  padding-top: var(--space-3);   
-  padding-bottom: var(--space-4); 
-}
-
-.about-team.section:last-of-type {
-  padding-bottom: var(--space-8, 6rem);
-  background-color: #fafcfd;
-}
-
-.section-head { 
-  margin-bottom: var(--space-4); 
-}
-
-.section h2 { 
-  color: var(--blue-900); 
-  font-size: var(--fs-xl); 
-  line-height: 1.15; 
-}
-
-.section-subtitle { 
-  color: var(--ink-800); 
-  font-size: var(--fs-md); 
-  margin-top: .5rem; 
+.section-subtitle {
+  color: var(--ink-800);
+  font-size: var(--fs-md);
+  margin-top: .5rem;
 }
 
 .linea-divisora {
   border-top: 1px solid #D8E6EF;
   margin-bottom: var(--space-3);
-  margin-top: 3%; 
+  margin-top: 3%;
 }
 
 .about-title {
@@ -86,9 +88,7 @@
   color: var(--blue-900);
 }
 
-.about-intro .section-head { 
-  margin-bottom: var(--space-2); 
-}
+.about-intro .section-head { margin-bottom: var(--space-2); }
 
 .team-grid {
   display: grid;
@@ -109,10 +109,10 @@
   width: 100%;
   max-width: 300px;
 }
-.member-card:hover { 
-  transform: translateY(-2px); 
-  box-shadow: var(--shadow); 
-  border-color: #D4E7F2; 
+.member-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+  border-color: #D4E7F2;
 }
 
 .member-header {
@@ -136,10 +136,7 @@
   border: 1px solid #E2EEF6;
   overflow: hidden;
 }
-.avatar-initials { 
-  font-size: 1.35rem; 
-  letter-spacing: .03em; 
-}
+.avatar-initials { font-size: 1.35rem; letter-spacing: .03em; }
 
 .avatar-photo {
   width: 100%;
@@ -148,16 +145,8 @@
   border-radius: 50%;
 }
 
-.member-heading { 
-  display: flex; 
-  flex-direction: column; 
-  gap: .25rem; 
-}
-.member-name { 
-  font-size: 1.05rem; 
-  color: var(--blue-700); 
-  line-height: 1.2; 
-}
+.member-heading { display: flex; flex-direction: column; gap: .25rem; }
+.member-name { font-size: 1.05rem; color: var(--blue-700); line-height: 1.2; }
 
 .member-tag {
   display: inline-block;
@@ -170,12 +159,7 @@
   font-size: .72rem;
 }
 
-.member-bio { 
-  color: var(--ink-800); 
-  font-size: var(--fs-sm); 
-  line-height: 1.45; 
-  margin-top: .25rem; 
-}
+.member-bio { color: var(--ink-800); font-size: var(--fs-sm); line-height: 1.45; margin-top: .25rem; }
 
 @media (max-width: 480px) {
   .member-avatar { width: 72px; height: 72px; }
@@ -183,6 +167,4 @@
   .member-name { font-size: 1rem; }
 }
 
-h1, h2 {
-  margin-bottom: 2%;
-}
+h1, h2 { margin-bottom: 2%; }

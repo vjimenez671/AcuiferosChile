@@ -122,9 +122,19 @@ export default function RAG() {
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
             />
-            <figcaption>
-              Fuente: demostración del flujo de una intervención RAG.{" "}
-              <a href="https://youtu.be/5mvm_wBydBg" target="_blank" rel="noreferrer">Ver en YouTube</a>.
+            <figcaption className="media-credit" aria-label="Crédito del video">
+              <span className="credit-owner">Video © <cite>CSIRO</cite></span>{" "}
+              — usado con atribución para fines informativos.{" "}
+              <span className="credit-source">Fuente: demostración del flujo de una intervención RAG.</span>{" "}
+              <a
+                href="https://youtu.be/5mvm_wBydBg"
+                target="_blank"
+                rel="noreferrer"
+                className="credit-link"
+                aria-label="Ver el video en YouTube"
+              >
+                Ver en YouTube
+              </a>.
             </figcaption>
           </figure>
         </div>
