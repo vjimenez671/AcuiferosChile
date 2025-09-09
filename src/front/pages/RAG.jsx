@@ -1,7 +1,7 @@
 import React from "react";
 import "../../styles/RAG.css";
 import { Link } from "react-router-dom";
-import ragImg from "../imagenes/rag-2.png"; // 👈 importa la imagen
+import ragImg from "../imagenes/foto-oficial-rag.png"; // 👈 importa la imagen
 
 export default function RAG() {
   return (
@@ -114,29 +114,31 @@ export default function RAG() {
             <p className="section-subtitle">Una visión práctica del funcionamiento de la recarga gestionada.</p>
           </div>
 
-          <figure className="media-embed">
+          {/* Contenedor del video */}
+          <figure className="media-embed" aria-label="Video explicativo sobre RAG">
             <iframe
-              src="https://www.youtube-nocookie.com/embed/5mvm_wBydBg?rel=0"
-              title="Recarga Gestionada de Acuíferos (RAG) - Video explicativo"
+              src="https://player.vimeo.com/video/1116961866?title=0&byline=0&portrait=0&dnt=1#t=4s"
+              title="Recarga Gestionada de Acuíferos (RAG) — Vimeo"
               loading="lazy"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
               allowFullScreen
             />
-            <figcaption className="media-credit" aria-label="Crédito del video">
-              <span className="credit-owner">Video © <cite>CSIRO</cite></span>{" "}
-              — usado con atribución para fines informativos.{" "}
-              <span className="credit-source">Fuente: demostración del flujo de una intervención RAG.</span>{" "}
-              <a
-                href="https://youtu.be/5mvm_wBydBg"
-                target="_blank"
-                rel="noreferrer"
-                className="credit-link"
-                aria-label="Ver el video en YouTube"
-              >
-                Ver en YouTube
-              </a>.
-            </figcaption>
           </figure>
+
+          {/* Crédito FUERA del contenedor del video */}
+          <div className="media-credit media-credit--outside" role="note" aria-label="Crédito del video">
+            <span className="credit-owner">Video © <cite>CSIRO</cite></span>
+            {/* {" "}— demostración del flujo de una intervención RAG.{" "}
+            <a
+              href="https://vimeo.com/1116961866#t=4s"
+              target="_blank"
+              rel="noreferrer"
+              className="credit-link"
+              aria-label="Ver el video en Vimeo"
+            >
+              Ver en Vimeo
+            </a>. */}
+          </div>
         </div>
       </section>
 

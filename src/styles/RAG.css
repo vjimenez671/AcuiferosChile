@@ -340,34 +340,26 @@
   box-shadow: var(--shadow-sm);
 }
 
-/* ====== Media Embed & Créditos ======
-   ✅ Ajustado para que el figcaption quede DEBAJO del video */
+/* ====== Media Embed ====== */
 .media-embed {
   position: relative;
   width: 100%;
-  /* Eliminamos el hack de padding/height y el posicionamiento absoluto del iframe */
   border-radius: var(--radius);
   box-shadow: var(--shadow-sm);
   background: #000;
   border: 1px solid #e4eef4;
-  padding: 0; /* nos aseguramos que no haya padding que rompa el ratio */
+  padding: 0;
 }
 .media-embed iframe {
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 9; /* ✅ mantiene proporción del video */
+  aspect-ratio: 16 / 9; /* mantiene proporción del video */
   height: auto;
   border: 0;
-  border-radius: var(--radius); /* redondeo limpio del video */
-}
-/* El pie aparece debajo, separado del video */
-.media-embed figcaption {
-  font-size: var(--fs-sm);
-  color: var(--ink-700);
-  margin-top: 0.6rem;
+  border-radius: var(--radius);
 }
 
-/* Estilo específico de atribución */
+/* ====== Créditos ====== */
 .media-credit {
   display: inline-block;
   font-size: var(--fs-xs);
@@ -392,16 +384,21 @@
   text-decoration: none;
 }
 
+/* 👉 Nuevo: crédito cuando va FUERA del contenedor del video */
+.media-credit--outside {
+  margin-top: 0.6rem; /* separación con el video */
+}
+
 /* Variante de color en bloque con fondo oscuro */
 .section.video-block {
   background: linear-gradient(135deg, var(--blue-800) 0%, var(--blue-700) 100%);
   color: #fff;
 }
 .section.video-block h2,
-.section.video-block .section-subtitle,
-.section.video-block figcaption {
+.section.video-block .section-subtitle {
   color: #fff;
 }
+/* Mantener contraste del crédito en bloque oscuro */
 .section.video-block .media-credit {
   background: rgba(255, 255, 255, 0.12);
   border-color: rgba(255, 255, 255, 0.22);
@@ -490,11 +487,8 @@
 }
 
 /* ================================
-   🔵 AÑADIDO: Hover estilo "About"
-   Elevación + sombra + borde claro
-   (no se borró ninguna línea)
+   🔵 Hover estilo "About" + elevación
    ================================ */
-
 .surface,
 .panel,
 .timeline-card,
