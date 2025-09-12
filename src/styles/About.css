@@ -83,12 +83,39 @@
 }
 
 .about-title {
-  font-size: var(--fs-2xl);
+  font-size: 2.5;
   line-height: 1.1;
   color: var(--blue-900);
 }
 
 .about-intro .section-head { margin-bottom: var(--space-2); }
+
+/* ===== NUEVO: Card de misión (fondo blanco + hover como las cards) ===== */
+.mission-callout{
+  margin-top: var(--space-3);
+  background: var(--white);
+  border: 1px solid #E4EEF4;
+  border-left: 4px solid var(--blue-600);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.25rem;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+.mission-callout:hover{
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+  border-color: #D4E7F2;
+}
+.mission-title{
+  color: var(--blue-700);
+  font-size: 2rem;
+  margin-bottom: .35rem;
+}
+.mission-text{
+  color: var(--ink-800);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+}
 
 .team-grid {
   display: grid;
@@ -168,3 +195,7 @@
 }
 
 h1, h2 { margin-bottom: 2%; }
+
+.mission-callout{
+  margin-bottom: 3rem;
+}

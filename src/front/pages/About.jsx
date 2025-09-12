@@ -9,6 +9,7 @@ import enriqueImg from "../imagenes/enrique-fernandez.jpg";
 import jordiImg from "../imagenes/jordi-escorcia.jpg";
 import diegoImg from "../imagenes/diego-anguita.jpg";
 import reynaldoImg from "../imagenes/reynaldo-payano.png";
+import alejandraImg from "../imagenes/alejandra-espinoza.png";
 
 const TEAM_MAIN = [
   {
@@ -35,8 +36,9 @@ const TEAM_MAIN = [
   {
     name: "Alejandra Espinoza",
     initials: "AE",
-    tag: "?",
-    bio: "Reseña profesional por agregar...",
+    tag: "Chile",
+    bio: "Geóloga (U. Católica del Norte). Especialista en caracterización hidrogeológica de terreno, con vasta experiencia en monitoreo glaciológico y liderazgo de proyectos en condiciones extremas.",
+    photo: alejandraImg,
   },
   {
     name: "Benjamín Santana",
@@ -143,11 +145,19 @@ export default function About() {
               <strong>soluciones llave en mano</strong>, que fortalecen la seguridad hídrica, aseguran el cumplimiento normativo y
               promueven la sostenibilidad de los recursos subterráneos.
             </p>
-            <p className="section-subtitle">
-              Nuestro propósito es transformar la manera en que Chile y la región gestionan sus acuíferos, aportando conocimiento,
-              experiencia y resultados medibles en beneficio de las comunidades, la agricultura y el medio ambiente.
-            </p>
+
           </header>
+
+          {/* NUEVO: Misión (card con fondo blanco y hover) */}
+          <div className="mission-callout" role="note" aria-label="Nuestra misión">
+            <h2 className="mission-title">Nuestra misión</h2>
+            <p className="mission-text">
+              Nuestra misión es transformar la gestión de los acuíferos para construir resiliencia hídrica ante el cambio climático.
+              En un contexto de sequías recurrentes y lluvias torrenciales ineficaces para la recarga (que se pierden como escorrentía),
+              aportamos conocimiento, experiencia y resultados medibles para asegurar el agua en beneficio de las comunidades,
+              la agricultura y el medio ambiente.
+            </p>
+          </div>
         </div>
       </section>
 

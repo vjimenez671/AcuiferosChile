@@ -3,20 +3,66 @@ import { Link } from "react-router-dom";
 import "../../styles/Home.css";
 import bgUrl from "../imagenes/fondo-home.jpg"; // ✅ banner intacto
 
-// Imágenes propias (mapas cenitales)
-import foto1 from "../imagenes/recorte-1.png";
-import foto2 from "../imagenes/recorte-2.png";
-import foto3 from "../imagenes/recorte-3.png";
-import foto4 from "../imagenes/recorte-4.png";
+// Imágenes propias (nueva galería en 2 columnas)
+import estratigrafia from "../imagenes/estratigrafia.png";
+import mapaGeologico from "../imagenes/mapa-geologico.png";
+import mapaGeologicoZona from "../imagenes/mapa-geologico-zona.png";
+import mapaHidrogeologico from "../imagenes/mapa-hidrogeologico.png";
+import perfilZona from "../imagenes/perfil-zona.png";
+import pozos from "../imagenes/pozos.png";
 
 export const Home = () => {
-  // ----- Lightbox (JS puro) -----
-  const images = [
-    { src: foto1, alt: "Mapa de ubicación del sector San Joaquín con polígono de estudio, ríos y vialidad; puntos P1–P3 y columnas litológicas de tres pozos con profundidad, nivel estático y caudal." },
-    { src: foto2, alt: "Mapa regional de la cuenca Río Bueno Medio con derechos de aguas subterráneas (puntos) y detalle local con radios de protección de 200 m." },
-    { src: foto3, alt: "Mapa geológico del sector San Joaquín con unidades cuaternarias (Hf, PlHf, Plgf1–2, Plgfa, Plm3) y rocas metamórficas CTrbm; hidrografía y vialidad." },
-    { src: foto4, alt: "Mapa geológico de área con zona de estudio rayada, esteros Ma ule/La Arena/La Piedra, Río Camal; unidades PlHf, Plgf2, Plm4 y Msd; pozos con derecho concedido." },
+  // ----- Imágenes por columna -----
+  const imagesLeft = [
+    {
+      src: estratigrafia,
+      alt:
+        "Talud expuesto con capa de tierra vegetal sobre paquete grueso de grava de arenas con lentes de arenas finas; superficies de estratificación y contactos marcados; textura heterométrica; barra de escala 0–5 m.",
+      caption:
+        "Estratigrafía: capa vegetal sobre gravas arenosas con lentes finos; contactos marcados. Escala 0–5 m."
+    },
+    {
+      src: mapaGeologico,
+      alt:
+        "Mapa geológico regional 1:50.000 con unidades Plm4, Plgf2 y PlHf; hidrografía principal (Estero Maule, La Arena y Río Camal), rutas viales, zona de estudio hachurada y pozos con derecho concedido.",
+      caption:
+        "Mapa regional: Plm4, Plgf2 y PlHf; hidrografía, vialidad, zona de estudio y pozos (1:50.000)."
+    },
+    {
+      src: mapaGeologicoZona,
+      alt:
+        "Mapa geológico local 1:70.000 con depósitos fluviales y glaciofluviales (Hf, PlHf, Plgf1–2, Plgfa, Plm3) y afloramientos metamórficos CTrbm; drenaje y caminos; polígono de estudio resaltado.",
+      caption:
+        "Detalle local: Hf, PlHf, Plgf1–2, Plgfa, Plm3 y CTrbm; drenaje y polígono de estudio (1:70.000)."
+    },
+    {
+      src: mapaHidrogeologico,
+      alt:
+        "Mapa hidrogeológico con unidades A1–A2–B2 en depósitos no consolidados y C2 en roca fisurada; red de ríos, vías, zona rural y polígono de estudio; clasificación por importancia de acuíferos.",
+      caption:
+        "Mapa hidrogeológico: A1–A2–B2 (no consolidados) y C2 (roca fisurada); base para priorizar recarga."
+    }
   ];
+
+  const imagesRight = [
+    {
+      src: perfilZona,
+      alt:
+        "Perfil geológico–piezométrico SW–NE con PlHf, Plgf2, Plm4 y Formación Santo Domingo (Msd); trazas de esteros, línea piezométrica y ubicación de P1 y P4; escalas horizontal (km) y vertical (m s.n.m.).",
+      caption:
+        "Sección SW–NE: PlHf, Plgf2, Plm4 y Msd; esteros, nivel piezométrico y P1–P4."
+    },
+    {
+      src: pozos,
+      alt:
+        "Columnas litológicas de cuatro pozos con profundidades, niveles estáticos y caudales; materiales (arcilla, arena, gravas con arenas y roca sólida) y tramos de cañería; pozo 4 surgente 44,1 l/s.",
+      caption:
+        "Pozos: litología, cañerías y parámetros; destaca pozo surgente (44,1 l/s)."
+    }
+  ];
+
+  // Orden global para el lightbox (columna izquierda arriba→abajo, luego derecha)
+  const images = [...imagesLeft, ...imagesRight];
 
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const isOpen = lightboxIndex !== null;
@@ -40,7 +86,7 @@ export const Home = () => {
 
   return (
     <main className="ac-home">
-      {/* HERO */}
+      {/* HERO (no tocar) */}
       <header
         className="hero hero--banner"
         role="banner"
@@ -52,13 +98,16 @@ export const Home = () => {
           <div className="hero-inner">
             <div className="hero-text">
               <p className="eyebrow">Gestión hídrica basada en evidencia</p>
-              <h1>Recarga gestionada, monitoreo y trazabilidad para acuíferos en Chile</h1>
+
+              <h1>¿Problemas de disponibilidad de agua en verano?</h1>
+              <h2>Almacénala en invierno con recarga gestionada.</h2>
+
               <p className="lead">
-                Somos una <strong>empresa emergente</strong> enfocada en{" "}
-                <strong>Recarga Gestionada de Acuíferos (RAG)</strong>. Diseñamos pilotos,
-                redes de monitoreo piezométrico y gobernanza de datos para preparar
-                implementaciones seguras, medibles y escalables.
+                Diseñamos <strong>Recarga Gestionada de Acuíferos (RAG)</strong> para aprovechar el agua de invierno,
+                almacenarla de manera segura en el subsuelo y disponer de ella cuando más se necesita.
+                Monitoreo, trazabilidad y reportes verificables desde el día uno.
               </p>
+
               <div className="hero-cta">
                 <Link className="btn btn-primary" to="/rag">Explorar RAG</Link>
                 <Link className="btn btn-ghost" to="/contacto" aria-label="Hablar con el equipo">
@@ -71,153 +120,210 @@ export const Home = () => {
         </section>
       </header>
 
-      {/* ESTADO ACTUAL (early-stage) */}
-      <section className="kpis">
-        <div className="container kpis-inner">
-          <div className="kpi">
-            <span className="kpi-label">Estado de clientes</span>
-            <span className="kpi-value">Onboarding</span>
-            <span className="kpi-note">Acuerdos marco y cartas de intención</span>
-          </div>
-          <div className="kpi">
-            <span className="kpi-label">Pilotos RAG 2025</span>
-            <span className="kpi-value">En diseño</span>
-            <span className="kpi-note">Prefactibilidad & trazabilidad</span>
-          </div>
-          <div className="kpi">
-            <span className="kpi-label">Telemetría</span>
-            <span className="kpi-value">Listo para instalar</span>
-            <span className="kpi-note">Pozos & estaciones con QA/QC</span>
-          </div>
-          <div className="kpi">
-            <span className="kpi-label">Marco de cumplimiento</span>
-            <span className="kpi-value">DGA & ODS 6</span>
-            <span className="kpi-note">Reportes verificables</span>
-          </div>
-        </div>
-      </section>
-
-      {/* SERVICIOS */}
+      {/* ETAPAS DETALLADAS (absorbe el texto clave y usa mismo fondo que “Imágenes de avance”) */}
       <section className="section" id="servicios" aria-labelledby="servicios-title">
         <div className="container">
           <div className="section-head">
             <div className="linea-divisora"></div>
-            <h2 id="servicios-title">Servicios para iniciar con seguridad</h2>
+            <h2 id="servicios-title">De la prefactibilidad a la operación</h2>
             <p className="section-subtitle">
-              Paquetes pensados para comenzar sin fricción: desde la prefactibilidad
-              hasta el piloto instrumentado y su reporte.
+              Alineamos técnica, regulación y QA/QC para decisiones trazables y proyectos ejecutables. <br />
+              <strong>
+                Ofrecemos el ciclo completo: realizamos los estudios de viabilidad, nos encargamos del diseño y la
+                construcción de las obras, y aseguramos su éxito con un monitoreo posterior para verificar y cuantificar los resultados.
+              </strong>
             </p>
           </div>
 
-          <div className="grid cards">
-            <article className="card">
-              <h3>Prefactibilidad & Sitio</h3>
-              <p>
-                Selección de áreas candidatas, revisión de fuentes (pluviales/superficiales),
-                condiciones de suelo/acuífero y definición de <em>ventanas operativas</em>.
-                Entregables claros para decidir avanzar a piloto.
-              </p>
+          {/* Filas (rows) en lugar de columnas */}
+          <div className="stages-rows">
+            {/* 1. Conceptual / Prefactibilidad */}
+            <article className="stage-row">
+              <div className="stage-row__aside">
+                <span className="stage-badge">1</span>
+              </div>
+              <div className="stage-row__main">
+                <h3>Ingeniería Conceptual — Prefactibilidad del Sitio</h3>
+                <p>
+                  Tras una <strong>evaluación preliminar online</strong>{" "}
+                  (<Link to="/prefactibilidad">link de la prefactibilidad</Link>),
+                  entregamos un informe que integra el análisis técnico (hidrología, hidrogeología, etc.)
+                  con el regulatorio, incluyendo la <strong>verificación de derechos de agua</strong> para asegurar la viabilidad legal.
+                </p>
+              </div>
             </article>
 
-            <article className="card">
-              <h3>Piloto RAG instrumentado</h3>
-              <p>
-                Diseño de obra de recarga (trincheras/lechos/pozos), pretratamiento y plan de
-                operación. Instrumentación con telemetría, QA/QC y tableros para medir respuesta.
-              </p>
+            {/* 2. Detalle */}
+            <article className="stage-row">
+              <div className="stage-row__aside">
+                <span className="stage-badge">2</span>
+              </div>
+              <div className="stage-row__main">
+                <h3>Ingeniería de Detalle — Estudios de Campo y Diseño de Obra</h3>
+                <p>
+                  Realizamos los estudios de campo necesarios (<em>geología, ensayos de infiltración, topografía y geofísica</em>)
+                  para obtener datos precisos del sitio. Con esta información desarrollamos la <strong>ingeniería final</strong>:
+                  bases técnicas, planos de construcción y presupuesto del proyecto.
+                </p>
+                <p className="muted">
+                  Además, construimos un <strong>modelo numérico de flujo</strong> como herramienta para la gestión futura del recurso.
+                </p>
+              </div>
             </article>
 
-            <article className="card">
-              <h3>Datos, QA/QC & Reportes</h3>
-              <p>
-                Trazabilidad de caudales y niveles piezométricos, control de calidad, análisis de
-                desempeño y reportes verificables para auditorías y toma de decisiones.
-              </p>
+            {/* 3. Construcción */}
+            <article className="stage-row">
+              <div className="stage-row__aside">
+                <span className="stage-badge">3</span>
+              </div>
+              <div className="stage-row__main">
+                <h3>Construcción de Obra</h3>
+                <p>
+                  Materializamos el proyecto construyendo obras de recarga (<em>piscinas, zanjas</em> u otras soluciones)
+                  conforme a la Ingeniería de Detalle. Gestionamos la construcción asegurando <strong>calidad (QA/QC)</strong> y seguridad en cada etapa.
+                </p>
+              </div>
             </article>
 
-            <article className="card">
-              <h3>Permisos & Relación con terceros</h3>
-              <p>
-                Alineamiento con criterios DGA, resguardo de derechos, comunicación con vecinos y
-                protocolos de operación segura y sustentable.
-              </p>
+            {/* 4. Operación y Monitoreo */}
+            <article className="stage-row">
+              <div className="stage-row__aside">
+                <span className="stage-badge">4</span>
+              </div>
+              <div className="stage-row__main">
+                <h3>Operación y Monitoreo</h3>
+                <p>
+                  Aseguramos el rendimiento a largo plazo mediante el <strong>monitoreo continuo</strong> de caudales y niveles piezométricos.
+                  Estos datos permiten <strong>calibrar y validar</strong> el modelo numérico desarrollado en la etapa de Detalle,
+                  convirtiéndolo en una <strong>herramienta predictiva</strong> para la gestión futura.
+                </p>
+              </div>
             </article>
           </div>
         </div>
       </section>
 
-      {/* CLIENTES & SECTORES */}
-      <section className="section alt" id="clientes" aria-labelledby="clientes-title">
+      {/* SECTORES (se mantiene) */}
+      <section className="section alt" id="sectores" aria-labelledby="sectores-title">
         <div className="container">
           <div className="linea-divisora"></div>
           <div className="section-head">
-            <h2 id="clientes-title">Clientes y sectores que confían</h2>
+            <h2 id="sectores-title">Sectores prioritarios & casos de uso</h2>
             <p className="section-subtitle">
-              Acompañamos a organizaciones que buscan avanzar a pilotos RAG con medición y
-              trazabilidad desde el día uno.
+              Dónde una RAG bien diseñada genera mayor impacto medible. Sin declarar clientes:
+              enfoque en problemas reales y resultados verificables.
             </p>
           </div>
 
           <div className="grid projects">
-            <article className="project">
-              <div className="tag">Sector Forestal</div>
-              <h3>Clientes confidenciales</h3>
+            <article className="project" aria-labelledby="usecase-forestal">
+              <div className="tag">Caso de uso</div>
+              <h3 id="usecase-forestal">Forestal: recarga estacional y control de escorrentía</h3>
               <p>
-                Programas de prefactibilidad y diseño de pilotos para disminuir escorrentía,
-                favorecer recarga estacional y resguardar terceros.
+                Prefactibilidad para ubicar obras de recarga que reduzcan pérdida de agua por
+                escorrentía superficial, mejoren disponibilidad estacional y resguarden terceros.
               </p>
             </article>
 
-            <article className="project">
-              <div className="tag">Lechero & Agro</div>
-              <h3>Clientes en onboarding</h3>
+            <article className="project" aria-labelledby="usecase-agro">
+              <div className="tag">Caso de uso</div>
+              <h3 id="usecase-agro">Lechero & agro: balance hídrico verificable</h3>
               <p>
-                Propuestas para balance hídrico verificable y redes de monitoreo, preparando
-                permisos y ventanas operativas por temporada.
+                Redes piezométricas y trazabilidad de caudales para soportar decisiones
+                de riego y manejo invernal. QA/QC de datos y reportes compatibles con DGA.
               </p>
             </article>
 
-            <article className="project">
-              <div className="tag">Infraestructura hídrica</div>
-              <h3>Alianzas técnicas</h3>
+            <article className="project" aria-labelledby="usecase-infra">
+              <div className="tag">Caso de uso</div>
+              <h3 id="usecase-infra">Infraestructura hídrica: telemetría interoperable</h3>
               <p>
-                Integración con proveedores de sensores/telemetría y laboratorios para asegurar
-                calidad de datos, continuidad y reportabilidad.
+                Integración con proveedores de sensores y laboratorios para asegurar continuidad,
+                calidad y auditoría de datos. APIs y modelos de datos para escalar pilotos.
+              </p>
+            </article>
+          </div>
+
+          <div className="grid cards" style={{ marginTop: "1rem" }}>
+            <article className="card">
+              <h3>Compromisos del equipo</h3>
+              <p>
+                <strong>Profesionalismo y ética</strong>; diseños conservadores y trazables; apertura
+                técnica y comunicación transparente con comunidades y autoridades.
+              </p>
+            </article>
+            <article className="card">
+              <h3>Estándares de trabajo</h3>
+              <p>
+                QA/QC de datos, bitácoras de campo, fotogrametría y protocolos de muestreo;
+                reportabilidad compatible con auditorías y ODS 6.
+              </p>
+            </article>
+            <article className="card">
+              <h3>Cómo colaboramos</h3>
+              <p>
+                Inicio con <em>prefactibilidad</em>, diseño del piloto, instalación de telemetría y
+                tableros; evaluación de desempeño y hoja de ruta para escalar si los resultados lo justifican.
               </p>
             </article>
           </div>
         </div>
       </section>
 
-      {/* GALERÍA 2x2 con Lightbox */}
+      {/* GALERÍA en 2 columnas con Lightbox (no tocar imágenes) */}
       <section className="section" id="evidencias" aria-labelledby="evidencias-title">
         <div className="container container--wide">
           <div className="section-head">
             <div className="linea-divisora"></div>
             <h2 id="evidencias-title">Imágenes de avance</h2>
             <p className="section-subtitle">
-              Mapas cenitales y cartografía técnica utilizados en prefactibilidades y diseño de
-              pilotos. Material propio de Acuíferos Chile.
+              Estratigrafía, cartografía y parámetros hidrogeológicos usados en prefactibilidades y diseño de
+              pilotos RAG. Material propio de Acuíferos Chile.
             </p>
           </div>
 
-          {/* Cada figure se ajusta a la altura natural de su imagen */}
-          <div className="grid gallery-grid gallery-2x2">
-            {images.map((img, idx) => (
-              <figure className="gallery-item" key={idx}>
-                <div className="gallery-media">
-                  <button
-                    type="button"
-                    className="gallery-btn"
-                    onClick={() => openLightbox(idx)}
-                    aria-label={`Abrir imagen: ${img.alt}`}
-                  >
-                    <img src={img.src} alt={img.alt} loading="lazy" />
-                  </button>
-                </div>
-                <figcaption>{img.alt}</figcaption>
-              </figure>
-            ))}
+          {/* 2 columnas: izquierda (4) y derecha (2) */}
+          <div className="grid gallery-grid gallery-columns">
+            {/* Columna izquierda */}
+            <div className="gallery-col">
+              {imagesLeft.map((img, idx) => (
+                <figure className="gallery-item" key={`L-${idx}`}>
+                  <div className="gallery-media">
+                    <button
+                      type="button"
+                      className="gallery-btn"
+                      onClick={() => openLightbox(idx)} // 0..3
+                      aria-label={`Abrir imagen: ${img.alt}`}
+                    >
+                      <img src={img.src} alt={img.alt} loading="lazy" />
+                    </button>
+                  </div>
+                  <figcaption>{img.caption}</figcaption>
+                </figure>
+              ))}
+            </div>
+
+            {/* Columna derecha */}
+            <div className="gallery-col">
+              {imagesRight.map((img, idx) => {
+                const globalIndex = imagesLeft.length + idx; // 4..5
+                return (
+                  <figure className="gallery-item" key={`R-${idx}`}>
+                    <div className="gallery-media">
+                      <button
+                        type="button"
+                        className="gallery-btn"
+                        onClick={() => openLightbox(globalIndex)}
+                        aria-label={`Abrir imagen: ${img.alt}`}
+                      >
+                        <img src={img.src} alt={img.alt} loading="lazy" />
+                      </button>
+                    </div>
+                    <figcaption>{img.caption}</figcaption>
+                  </figure>
+                );
+              })}
+            </div>
           </div>
 
           <p className="gallery-note">

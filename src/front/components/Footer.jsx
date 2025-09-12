@@ -20,7 +20,6 @@ export const Footer = () => {
             <li><Link to="/">Inicio</Link></li>
             <li><Link to="/quienes-somos">¿Quiénes somos?</Link></li>
             <li><Link to="/rag">RAG</Link></li>
-            <li><Link to="/clientes">Clientes</Link></li>
             <li><Link to="/blog">Blog</Link></li>
             <li><Link to="/contacto">Contacto</Link></li>
           </ul>
