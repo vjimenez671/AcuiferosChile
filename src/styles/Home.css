@@ -79,6 +79,10 @@ a:hover{color:var(--blue-500)}
 .section-subtitle{color:var(--ink-800);font-size:var(--fs-md);margin-top:.5rem}
 .linea-divisora{border-top:1px solid #D8E6EF;margin-bottom:var(--space-3);margin-top:6%}
 
+.linea-divisora-como{
+  margin-top: 7%;
+}
+
 .grid{display:grid;gap:var(--space-3)}
 
 /* -------- CARDS -------- */
@@ -228,4 +232,8 @@ a:hover{color:var(--blue-500)}
 @media (max-width: 720px){
   .stage-row{ grid-template-columns: 44px 1fr; }
   .stage-badge{ width: 32px; height: 32px; }
+}
+
+.como {
+  margin-top: 3rem;
 }

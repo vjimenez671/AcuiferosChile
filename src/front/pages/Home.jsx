@@ -120,7 +120,7 @@ export const Home = () => {
         </section>
       </header>
 
-      {/* ETAPAS DETALLADAS (absorbe el texto clave y usa mismo fondo que “Imágenes de avance”) */}
+      {/* ETAPAS DETALLADAS */}
       <section className="section" id="servicios" aria-labelledby="servicios-title">
         <div className="container">
           <div className="section-head">
@@ -135,7 +135,7 @@ export const Home = () => {
             </p>
           </div>
 
-          {/* Filas (rows) en lugar de columnas */}
+          {/* Filas (rows) */}
           <div className="stages-rows">
             {/* 1. Conceptual / Prefactibilidad */}
             <article className="stage-row">
@@ -145,8 +145,7 @@ export const Home = () => {
               <div className="stage-row__main">
                 <h3>Ingeniería Conceptual — Prefactibilidad del Sitio</h3>
                 <p>
-                  Tras una <strong>evaluación preliminar online</strong>{" "}
-                  (<Link to="/prefactibilidad">link de la prefactibilidad</Link>),
+                  Tras una <strong>evaluación preliminar online</strong>,
                   entregamos un informe que integra el análisis técnico (hidrología, hidrogeología, etc.)
                   con el regulatorio, incluyendo la <strong>verificación de derechos de agua</strong> para asegurar la viabilidad legal.
                 </p>
@@ -201,47 +200,15 @@ export const Home = () => {
             </article>
           </div>
         </div>
-      </section>
 
-      {/* SECTORES (se mantiene) */}
-      <section className="section alt" id="sectores" aria-labelledby="sectores-title">
         <div className="container">
+          <div className="linea-divisora-como"></div>
           <div className="linea-divisora"></div>
           <div className="section-head">
-            <h2 id="sectores-title">Sectores prioritarios & casos de uso</h2>
+            <div className="como-trabajamos"><h2 id="principios-title">Cómo trabajamos</h2></div>
             <p className="section-subtitle">
-              Dónde una RAG bien diseñada genera mayor impacto medible. Sin declarar clientes:
-              enfoque en problemas reales y resultados verificables.
+              Nuestros compromisos, estándares y forma de colaboración para proyectos RAG trazables y auditables.
             </p>
-          </div>
-
-          <div className="grid projects">
-            <article className="project" aria-labelledby="usecase-forestal">
-              <div className="tag">Caso de uso</div>
-              <h3 id="usecase-forestal">Forestal: recarga estacional y control de escorrentía</h3>
-              <p>
-                Prefactibilidad para ubicar obras de recarga que reduzcan pérdida de agua por
-                escorrentía superficial, mejoren disponibilidad estacional y resguarden terceros.
-              </p>
-            </article>
-
-            <article className="project" aria-labelledby="usecase-agro">
-              <div className="tag">Caso de uso</div>
-              <h3 id="usecase-agro">Lechero & agro: balance hídrico verificable</h3>
-              <p>
-                Redes piezométricas y trazabilidad de caudales para soportar decisiones
-                de riego y manejo invernal. QA/QC de datos y reportes compatibles con DGA.
-              </p>
-            </article>
-
-            <article className="project" aria-labelledby="usecase-infra">
-              <div className="tag">Caso de uso</div>
-              <h3 id="usecase-infra">Infraestructura hídrica: telemetría interoperable</h3>
-              <p>
-                Integración con proveedores de sensores y laboratorios para asegurar continuidad,
-                calidad y auditoría de datos. APIs y modelos de datos para escalar pilotos.
-              </p>
-            </article>
           </div>
 
           <div className="grid cards" style={{ marginTop: "1rem" }}>
@@ -270,7 +237,50 @@ export const Home = () => {
         </div>
       </section>
 
-      {/* GALERÍA en 2 columnas con Lightbox (no tocar imágenes) */}
+      {/* SECTORES (ahora solo casos de uso) */}
+      <section className="section alt" id="sectores" aria-labelledby="sectores-title">
+        <div className="container">
+          <div className="linea-divisora"></div>
+          <div className="section-head">
+            <h2 id="sectores-title">Sectores prioritarios & casos de uso</h2>
+            <p className="section-subtitle">
+              Dónde una RAG bien diseñada genera mayor impacto medible. Sin declarar clientes:
+              enfoque en problemas reales y resultados verificables.
+            </p>
+          </div>
+
+          <div className="grid projects">
+            <article className="project" aria-labelledby="usecase-forestal">
+
+              <h3 id="usecase-forestal">Forestal: recarga estacional y control de escorrentía</h3>
+              <p>
+                Prefactibilidad para ubicar obras de recarga que reduzcan pérdida de agua por
+                escorrentía superficial, mejoren disponibilidad estacional y resguarden terceros.
+              </p>
+            </article>
+
+            <article className="project" aria-labelledby="usecase-agro">
+
+              <h3 id="usecase-agro">Lechero & agro: balance hídrico verificable</h3>
+              <p>
+                Redes piezométricas y trazabilidad de caudales para soportar decisiones
+                de riego y manejo invernal. QA/QC de datos y reportes compatibles con DGA.
+              </p>
+            </article>
+
+            <article className="project" aria-labelledby="usecase-infra">
+
+              <h3 id="usecase-infra">Infraestructura hídrica: telemetría interoperable</h3>
+              <p>
+                Integración con proveedores de sensores y laboratorios para asegurar continuidad,
+                calidad y auditoría de datos. APIs y modelos de datos para escalar pilotos.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      {/* GALERÍA en 2 columnas con Lightbox */}
       <section className="section" id="evidencias" aria-labelledby="evidencias-title">
         <div className="container container--wide">
           <div className="section-head">
