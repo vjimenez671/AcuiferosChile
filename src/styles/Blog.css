@@ -183,6 +183,7 @@ html, body { background: #f0f8fc }
 .upload-block .hint { font-size: var(--fs-xs); color: var(--ink-700); opacity: .85; }
 .subhint { font-size: var(--fs-xs); color: var(--ink-700); opacity: .8; }
 
+/* Vista previa compartida (crear/editar) */
 .image-preview {
   margin-top: .25rem;
   border: 1px dashed #D7E7F2;
@@ -207,6 +208,29 @@ html, body { background: #f0f8fc }
 .btn-secondary:hover { background: #fff; box-shadow: var(--shadow-sm); }
 .btn-ghost { background: rgba(255,255,255,0.85); color: var(--blue-800); border-color: #D7E7F2; }
 .btn-ghost:hover { background: #fff; box-shadow: var(--shadow-sm); }
+
+/* NUEVO: alinear y dar gap a botones de acciones en los formularios (crear/editar) */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: .5rem;
+  margin-top: .25rem;
+}
+
+/* Botón de comentarios con borde más notorio */
+.btn-comment {
+  background: #FFFFFF;
+  color: var(--blue-800);
+  border: 2px solid #BFE3FA;
+  box-shadow: var(--shadow-sm);
+  height: 40px;
+  padding: 0 .9rem;
+}
+.btn-comment:hover {
+  background: #F7FBFD;
+  border-color: #90D0F6;
+  box-shadow: var(--shadow);
+}
 
 .btn.mini { height: 30px; padding: 0 .6rem; font-weight: 700; font-size: 12px; }
 .btn-quiet.mini { height: 28px; padding: 0 .5rem; font-size: 12px; }
@@ -505,6 +529,7 @@ html, body, #root { height: 100%; }
 .blog.page-container { flex: 1 0 auto; }
 footer { margin-top: auto; }
 
+/* Vista previa usada también en crear (mantengo los límites responsivos) */
 .image-preview {
   margin-top: .25rem;
   border: 1px dashed #D7E7F2;

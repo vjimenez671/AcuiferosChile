@@ -153,8 +153,6 @@ export default function Blog() {
           ¿Qué quieres compartir hoy?
         </button>
         <div className="composer-actions">
-          <button className="btn btn-quiet" onClick={openComposer} title="Escribir">✍️</button>
-          <button className="btn btn-quiet" onClick={openComposer} title="Imagen">🖼️</button>
         </div>
       </section>
 
@@ -381,6 +379,33 @@ function PostCard({ post, currentUserId, onChanged, requireAuth }) {
   const closeEdit = () => setEditing(false);
   const onEditChange = (e) => setEditForm((f) => ({ ...f, [e.target.name]: e.target.value }));
 
+  // === NUEVO: subir imagen con Cloudinary en modal de edición ===
+  const attachFromCloudinaryEdit = () => {
+    if (!requireAuth()) return;
+    if (!window.cloudinary || !CLOUD_NAME || !UPLOAD_PRESET) {
+      alert("Cloudinary no está configurado. Usa el campo URL de imagen.");
+      return;
+    }
+    const widget = window.cloudinary.createUploadWidget(
+      {
+        cloudName: CLOUD_NAME,
+        uploadPreset: UPLOAD_PRESET,
+        sources: ["local", "camera", "url"],
+        multiple: false,
+        folder: "blog",
+        language: "es",
+      },
+      (error, result) => {
+        if (!error && result && result.event === "success") {
+          setEditForm((f) => ({ ...f, attachment_url: result.info.secure_url }));
+        } else if (error) {
+          alert(error.message || "Error subiendo imagen.");
+        }
+      }
+    );
+    widget.open();
+  };
+
   const submitEdit = async (e) => {
     e.preventDefault();
     if (!requireAuth()) return;
@@ -466,11 +491,7 @@ function PostCard({ post, currentUserId, onChanged, requireAuth }) {
               className="media-image"
             />
           </div>
-          <figcaption>
-            <button className="btn btn-ghost" onClick={downloadAttachment}>Descargar</button>
-            <span className="sep">•</span>
-            <a href={post.attachment_url} target="_blank" rel="noreferrer">Abrir en pestaña</a>
-          </figcaption>
+          {/* Eliminado: botones Descargar / Abrir en pestaña */}
           {isOpen && <Lightbox imgSrc={post.attachment_url} onClose={() => setOpen(false)} />}
         </figure>
       )}
@@ -494,13 +515,13 @@ function PostCard({ post, currentUserId, onChanged, requireAuth }) {
           })}
         </div>
         <div className="spacer" />
-        <button className="btn btn-quiet" onClick={() => setShowComments((s) => !s)}>
+        <button
+          className="btn btn-comment"
+          onClick={() => setShowComments((s) => !s)}
+        >
           💬 {post.comment_count || 0}
         </button>
-        <button className="btn btn-quiet" onClick={() => {
-          const url = window.location.origin + window.location.pathname + `#post-${post.id}`;
-          navigator.clipboard.writeText(url).then(() => alert("Enlace copiado"));
-        }}>🔗 Compartir</button>
+        {/* Eliminado: botón Compartir */}
       </div>
 
       {showComments && (
@@ -554,10 +575,32 @@ function PostCard({ post, currentUserId, onChanged, requireAuth }) {
               <span>Contenido</span>
               <textarea name="content" rows={6} value={editForm.content} onChange={onEditChange} />
             </label>
-            <label className="field">
-              <span>URL de imagen (opcional)</span>
-              <input name="attachment_url" value={editForm.attachment_url} onChange={onEditChange} placeholder="https://…" />
-            </label>
+
+            {/* === NUEVO: bloque de URL + botón Subir imagen (Cloudinary) === */}
+            <div className="grid-attach">
+              <label className="field">
+                <span>URL de imagen (opcional)</span>
+                <input
+                  name="attachment_url"
+                  value={editForm.attachment_url}
+                  onChange={onEditChange}
+                  placeholder="https://…"
+                />
+              </label>
+              <div className="upload-block">
+                <span className="hint">o</span>
+                <button type="button" className="btn btn-secondary" onClick={attachFromCloudinaryEdit}>
+                  Subir imagen
+                </button>
+              </div>
+            </div>
+
+            {editForm.attachment_url && (
+              <div className="image-preview">
+                <img src={editForm.attachment_url} alt="Vista previa" />
+              </div>
+            )}
+
             <div className="form-actions">
               <button type="button" className="btn btn-ghost" onClick={closeEdit}>Cancelar</button>
               <button className="btn btn-primary">Guardar cambios</button>

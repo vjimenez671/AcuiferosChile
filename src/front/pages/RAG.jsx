@@ -228,6 +228,13 @@ export default function RAG() {
             </div>
           </div>
 
+          {/* >>> Cierre de sección Diseño y operación para separar Técnicas <<< */}
+        </div>
+      </section>
+
+      {/* ===== Técnicas de recarga (SECCIÓN INDEPENDIENTE) ===== */}
+      <section className="section techniques" id="tecnicas-recarga">
+        <div className="container">
           {/* Sub-sección destacada: Técnicas de recarga */}
           <div className="subsection-head">
             <div className="linea-divisora" />
@@ -237,7 +244,7 @@ export default function RAG() {
 
           <div className="tech-grid" aria-label="Técnicas de recarga">
             {/* Piscinas */}
-            <article className="tech-card tech-card--accent" aria-label="Piscinas de infiltración">
+            <article className="tech-card tech-card--accent tech-card--horizontal" aria-label="Piscinas de infiltración">
               <button
                 className="tech-image"
                 onClick={() => openLightbox(piscinasImg, "Piscinas de infiltración")}
@@ -245,17 +252,19 @@ export default function RAG() {
               >
                 <img src={piscinasImg} alt="Esquema de piscinas de infiltración para recarga" />
               </button>
-              <h4>Piscinas de infiltración</h4>
-              <p>Estanques someros que distribuyen láminas sobre superficies permeables para maximizar contacto y tiempo de residencia.</p>
-              <ul className="list-dot tight">
-                <li><strong>Fortalezas:</strong> alta capacidad estacional, bajo costo por m<sup>3</sup>, operación simple.</li>
-                <li><strong>Cuándo usar:</strong> superficies planas permeables y caudales variables.</li>
-                <li><strong>Atención:</strong> manejo de finos y <em>colmatación</em> (ciclos mojado/descanso).</li>
-              </ul>
+              <div className="tech-body">
+                <h4>Piscinas de infiltración</h4>
+                <p>Estanques someros que distribuyen láminas sobre superficies permeables para maximizar contacto y tiempo de residencia.</p>
+                <ul className="list-dot tight">
+                  <li><strong>Fortalezas:</strong> alta capacidad estacional, bajo costo por m<sup>3</sup>, operación simple.</li>
+                  <li><strong>Cuándo usar:</strong> superficies planas permeables y caudales variables.</li>
+                  <li><strong>Atención:</strong> manejo de finos y <em>colmatación</em> (ciclos mojado/descanso).</li>
+                </ul>
+              </div>
             </article>
 
             {/* Zanjas */}
-            <article className="tech-card tech-card--accent" aria-label="Zanjas de infiltración">
+            <article className="tech-card tech-card--accent tech-card--horizontal" aria-label="Zanjas de infiltración">
               <button
                 className="tech-image"
                 onClick={() => openLightbox(zanjasImg, "Zanjas de infiltración")}
@@ -263,17 +272,19 @@ export default function RAG() {
               >
                 <img src={zanjasImg} alt="Esquema de zanjas de infiltración en ladera" />
               </button>
-              <h4>Zanjas de infiltración</h4>
-              <p>Trincheras lineales con material granular que conducen y disipan el flujo, aumentando la interfase y el almacenamiento temporal.</p>
-              <ul className="list-dot tight">
-                <li><strong>Fortalezas:</strong> modulares, compatibles con caminos y restricciones de espacio.</li>
-                <li><strong>Cuándo usar:</strong> predios con pendiente suave y corredores existentes.</li>
-                <li><strong>Atención:</strong> by-pass para extremos y limpieza del medio granular.</li>
-              </ul>
+              <div className="tech-body">
+                <h4>Zanjas de infiltración</h4>
+                <p>Trincheras lineales con material granular que conducen y disipan el flujo, aumentando la interfase y el almacenamiento temporal.</p>
+                <ul className="list-dot tight">
+                  <li><strong>Fortalezas:</strong> modulares, compatibles con caminos y restricciones de espacio.</li>
+                  <li><strong>Cuándo usar:</strong> predios con pendiente suave y corredores existentes.</li>
+                  <li><strong>Atención:</strong> by-pass para extremos y limpieza del medio granular.</li>
+                </ul>
+              </div>
             </article>
 
             {/* Galerías */}
-            <article className="tech-card tech-card--accent" aria-label="Galerías de infiltración">
+            <article className="tech-card tech-card--accent tech-card--horizontal" aria-label="Galerías de infiltración">
               <button
                 className="tech-image"
                 onClick={() => openLightbox(galeriasImg, "Galerías de infiltración")}
@@ -281,17 +292,19 @@ export default function RAG() {
               >
                 <img src={galeriasImg} alt="Esquema de galerías de infiltración subterráneas" />
               </button>
-              <h4>Galerías de infiltración</h4>
-              <p>Drenes/galerías subterráneas con geotextil y grava que reparten flujo bajo la superficie, reduciendo evaporación y escorrentía.</p>
-              <ul className="list-dot tight">
-                <li><strong>Fortalezas:</strong> menor huella superficial; estable en climas cálidos/ventosos.</li>
-                <li><strong>Cuándo usar:</strong> costras superficiales o limitación de superficie.</li>
-                <li><strong>Atención:</strong> accesos de inspección; control de biofouling/fino.</li>
-              </ul>
+              <div className="tech-body">
+                <h4>Galerías de infiltración</h4>
+                <p>Drenes/galerías subterráneas con geotextil y grava que reparten flujo bajo la superficie, reduciendo evaporación y escorrentía.</p>
+                <ul className="list-dot tight">
+                  <li><strong>Fortalezas:</strong> menor huella superficial; estable en climas cálidos/ventosos.</li>
+                  <li><strong>Cuándo usar:</strong> costras superficiales o limitación de superficie.</li>
+                  <li><strong>Atención:</strong> accesos de inspección; control de biofouling/fino.</li>
+                </ul>
+              </div>
             </article>
 
             {/* Estanques */}
-            <article className="tech-card tech-card--accent" aria-label="Estanques de percolación">
+            <article className="tech-card tech-card--accent tech-card--horizontal" aria-label="Estanques de percolación">
               <button
                 className="tech-image"
                 onClick={() => openLightbox(estanquesImg, "Estanques de percolación")}
@@ -299,17 +312,19 @@ export default function RAG() {
               >
                 <img src={estanquesImg} alt="Esquema de estanques de percolación y regulación" />
               </button>
-              <h4>Estanques de percolación</h4>
-              <p>Cuerpos de agua más profundos que promueven percolación vertical hacia estratos permeables; otorgan almacenamiento y regulación.</p>
-              <ul className="list-dot tight">
-                <li><strong>Fortalezas:</strong> buen buffer a caudales irregulares; usos múltiples.</li>
-                <li><strong>Cuándo usar:</strong> estratos permeables someros y disponibilidad de espacio.</li>
-                <li><strong>Atención:</strong> seguridad de taludes, batimetría y control de algas/sedimentos.</li>
-              </ul>
+              <div className="tech-body">
+                <h4>Estanques de percolación</h4>
+                <p>Cuerpos de agua más profundos que promueven percolación vertical hacia estratos permeables; otorgan almacenamiento y regulación.</p>
+                <ul className="list-dot tight">
+                  <li><strong>Fortalezas:</strong> buen buffer a caudales irregulares; usos múltiples.</li>
+                  <li><strong>Cuándo usar:</strong> estratos permeables someros y disponibilidad de espacio.</li>
+                  <li><strong>Atención:</strong> seguridad de taludes, batimetría y control de algas/sedimentos.</li>
+                </ul>
+              </div>
             </article>
 
             {/* Pozos secos */}
-            <article className="tech-card tech-card--accent" aria-label="Pozos secos">
+            <article className="tech-card tech-card--accent tech-card--horizontal" aria-label="Pozos secos">
               <button
                 className="tech-image"
                 onClick={() => openLightbox(pozosImg, "Pozos secos")}
@@ -317,16 +332,23 @@ export default function RAG() {
               >
                 <img src={pozosImg} alt="Esquema de pozo seco para atravesar capas poco permeables" />
               </button>
-              <h4>Pozos secos</h4>
-              <p>Estructuras verticales (sin lámina permanente) que conducen agua a horizontes permeables más profundos, superando capas poco permeables.</p>
-              <ul className="list-dot tight">
-                <li><strong>Fortalezas:</strong> alta eficiencia puntual; útil con superficie poco infiltrante.</li>
-                <li><strong>Cuándo usar:</strong> horizontes permeables a mayor profundidad.</li>
-                <li><strong>Atención:</strong> pretratamiento, válvulas de control y disipación de energía.</li>
-              </ul>
+              <div className="tech-body">
+                <h4>Pozos secos</h4>
+                <p>Estructuras verticales (sin lámina permanente) que conducen agua a horizontes permeables más profundos, superando capas poco permeables.</p>
+                <ul className="list-dot tight">
+                  <li><strong>Fortalezas:</strong> alta eficiencia puntual; útil con superficie poco infiltrante.</li>
+                  <li><strong>Cuándo usar:</strong> horizontes permeables a mayor profundidad.</li>
+                  <li><strong>Atención:</strong> pretratamiento, válvulas de control y disipación de energía.</li>
+                </ul>
+              </div>
             </article>
           </div>
+        </div>
+      </section>
 
+      {/* ===== Reapertura de sección para contenidos posteriores a Técnicas ===== */}
+      <section className="section alt" id="diseno-operacion-cont">
+        <div className="container">
           {/* NUEVO: Soluciones Hídricas Integrales */}
           <div className="subsection-head">
             <div className="linea-divisora" />
@@ -357,8 +379,6 @@ export default function RAG() {
               verificar la viabilidad real, validar el modelo hidrogeológico y garantizar un diseño seguro y eficiente.
             </p>
           </div>
-
-          
         </div>
       </section>
 

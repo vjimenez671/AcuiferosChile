@@ -36,6 +36,10 @@
   --fs-lg: clamp(1.125rem, 1.05rem + 0.6vw, 1.35rem);
   --fs-xl: clamp(1.6rem, 1.2rem + 2.2vw, 2.2rem);
   --fs-2xl: clamp(2rem, 1.4rem + 3vw, 3rem);
+
+  /* Ajustes para cards de técnicas (contraste sobre fondo azul claro) */
+  --tech-card-bg: #ffffff;
+  --tech-card-border: #d8e6ef;
 }
 
 .rag-page {
@@ -122,6 +126,11 @@
 .section.legal { /* fondo diferenciado para Marco legal */
   background: linear-gradient(180deg, var(--tint-70) 0%, var(--bg) 100%);
 }
+/* Fondo azul claro dentro de la paleta para “Técnicas de recarga” */
+.section.techniques {
+  background: var(--tint-70);
+}
+
 .section-head {
   margin-bottom: var(--space-4);
 }
@@ -315,14 +324,24 @@
   /* NUEVO: margen inferior para separar de la nota final */
   margin-bottom: var(--space-4);
 }
+
+/* Por requerimiento: "rows" -> cada card ocupa toda la fila */
 .tech-card {
-  grid-column: span 4;
+  grid-column: span 12;
   background: var(--surface);
   border: 1px solid #e4eef4;
   border-radius: var(--radius);
   padding: 1rem 1.15rem;
   box-shadow: var(--shadow-sm);
   transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+/* ===== NUEVO: estilo horizontal de cards ===== */
+.tech-card--horizontal {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  align-items: start;
 }
 .tech-card--accent {
   background: var(--tint-50);
@@ -480,10 +499,9 @@
   .rag-hero__right { display: none; }
 }
 
-
 .subsection-head{
-margin-top: 5rem;
-margin-bottom: 3rem;
+  margin-top: 5rem;
+  margin-bottom: 3rem;
 }
 
 .subsection-subtitle {
@@ -575,4 +593,52 @@ margin-bottom: 3rem;
 
 .legal{
   margin-bottom: 3rem;
+}
+
+/* === Ajustes específicos dentro de la sección de Técnicas === */
+.section.techniques .tech-card {
+  background: var(--tech-card-bg);
+  border-color: var(--tech-card-border);
+}
+.section.techniques .tech-card--accent {
+  background: var(--tech-card-bg);
+  border-left-color: var(--blue-600);
+}
+
+/* Layout horizontal refinado */
+.tech-card--horizontal .tech-image {
+  width: 240px;
+  min-width: 200px;
+  margin: 0;
+}
+.tech-card--horizontal .tech-body {
+  display: block;
+}
+.tech-card--horizontal h4 {
+  margin-top: 0.1rem;
+}
+.tech-card--horizontal p {
+  margin: 0.35rem 0 0.5rem 0;
+}
+
+/* ===== Responsivo para cards horizontales ===== */
+@media (max-width: 900px) {
+  .tech-card--horizontal {
+    grid-template-columns: 1fr;
+  }
+  .tech-card--horizontal .tech-image {
+    width: 100%;
+    min-width: 0;
+    margin-bottom: 0.6rem;
+  }
+}
+
+/* ===== Margen superior alineado para títulos solicitados ===== */
+/* Técnicas de recarga */
+.section.techniques .subsection-head {
+  margin-top: var(--space-4);
+}
+/* Soluciones hídricas integrales (la sección posterior con id=diseno-operacion-cont) */
+#diseno-operacion-cont .subsection-head {
+  margin-top: var(--space-4);
 }
