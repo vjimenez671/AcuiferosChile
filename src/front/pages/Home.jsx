@@ -5,9 +5,9 @@ import bgUrl from "../imagenes/fondo-home.jpg"; // ✅ banner intacto
 
 // Imágenes propias (nueva galería en 2 columnas)
 import estratigrafia from "../imagenes/estratigrafia.png";
-import mapaGeologico from "../imagenes/mapa-geologico.png";
-import mapaGeologicoZona from "../imagenes/mapa-geologico-zona.png";
-import mapaHidrogeologico from "../imagenes/mapa-hidrogeologico.png";
+import mapaGeologico from "../imagenes/mapa-geologico-1.png";
+import mapaGeologicoZona from "../imagenes/mapa-geologico-2.png";
+import mapaHidrogeologico from "../imagenes/mapa-hidrogeológico-1.png";
 import perfilZona from "../imagenes/perfil-zona.png";
 import pozos from "../imagenes/pozos.png";
 
