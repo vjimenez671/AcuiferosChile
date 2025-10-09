@@ -34,13 +34,6 @@ const TEAM_MAIN = [
     photo: evaImg,
   },
   {
-    name: "Alejandra Espinoza",
-    initials: "AE",
-    tag: "Chile",
-    bio: "Geóloga (U. Católica del Norte). Especialista en caracterización hidrogeológica de terreno, con vasta experiencia en monitoreo glaciológico y liderazgo de proyectos en condiciones extremas.",
-    photo: alejandraImg,
-  },
-  {
     name: "Benjamín Santana",
     initials: "BS",
     tag: "Chile",
