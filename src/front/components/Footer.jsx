@@ -33,7 +33,7 @@ export const Footer = () => {
       </div>
       <div className="legal">
         <span>© {new Date().getFullYear()} Acuíferos Chile</span>
-        <Link to="/privacidad">Privacidad</Link>
+
       </div>
     </footer>
   );
