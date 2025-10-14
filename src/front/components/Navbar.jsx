@@ -80,9 +80,27 @@ export const Navbar = () => {
         <li className="elemento">
           <Link to="/rag" onClick={close}>¿Qué es la RAG?</Link>
         </li>
+
+        <li className="elemento">
+          <a
+            href="https://ia.acuiferoschile.cl"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={close}
+            aria-label="Abrir IA de prefactibilidad de Acuíferos Chile en una nueva pestaña"
+            title="Analiza tu terreno con IA y estima la viabilidad de recargar acuíferos"
+          >
+            Evaluar mi terreno
+          </a>
+        </li>
+
         <li className="elemento">
           <Link to="/blog" onClick={close}>Blog</Link>
         </li>
+
+        {/* Enlace externo con mismo estilo que los demás */}
+
+
         <li className="elemento">
           <Link to="/contacto" onClick={close}>Contáctanos</Link>
         </li>

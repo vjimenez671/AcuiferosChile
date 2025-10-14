@@ -11,6 +11,9 @@ import mapaHidrogeologico from "../imagenes/mapa-hidrogeológico-1.png";
 import perfilZona from "../imagenes/perfil-zona.png";
 import pozos from "../imagenes/pozos.png";
 
+// ✅ QR para CTA en el hero (lado izquierdo)
+import qrAcuiferos from "../imagenes/qr-acuiferos-transparent.png";
+
 export const Home = () => {
   // ----- Imágenes por columna -----
   const imagesLeft = [
@@ -86,7 +89,7 @@ export const Home = () => {
 
   return (
     <main className="ac-home">
-      {/* HERO (no tocar) */}
+      {/* HERO (no tocar estructura general) */}
       <header
         className="hero hero--banner"
         role="banner"
@@ -113,6 +116,35 @@ export const Home = () => {
                 <Link className="btn btn-ghost" to="/contacto" aria-label="Hablar con el equipo">
                   Conversemos
                 </Link>
+
+                {/* Bloque con mensaje + botón + QR */}
+                <div className="cta-block">
+                  <p className="cta-sub">
+                    <strong>Descubre el Potencial Hídrico Oculto de tu Campo</strong>
+                  </p>
+
+                  {/* Botón externo hacia la IA con QR a su derecha */}
+                  <div className="cta-inline">
+                    <a
+                      className="btn btn-accent"
+                      href="https://ia.acuiferoschile.cl"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Abrir IA de prefactibilidad de Acuíferos Chile en una nueva pestaña"
+                    >
+                      Calcular viabilidad en segundos
+                    </a>
+
+                    <div className="hero-qr hero-qr--inline" aria-label="Código QR para acceder a ia.acuiferoschile.cl">
+                      <img
+                        src={qrAcuiferos}
+                        alt="QR que abre ia.acuiferoschile.cl"
+                        loading="eager"
+                      />
+                      <small className="hero-qr__caption">o escanea el código QR</small>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="hero-visual" aria-hidden="true"></div>
@@ -251,7 +283,6 @@ export const Home = () => {
 
           <div className="grid projects">
             <article className="project" aria-labelledby="usecase-forestal">
-
               <h3 id="usecase-forestal">Forestal: recarga estacional y control de escorrentía</h3>
               <p>
                 Prefactibilidad para ubicar obras de recarga que reduzcan pérdida de agua por
@@ -260,7 +291,6 @@ export const Home = () => {
             </article>
 
             <article className="project" aria-labelledby="usecase-agro">
-
               <h3 id="usecase-agro">Lechero & agro: balance hídrico verificable</h3>
               <p>
                 Redes piezométricas y trazabilidad de caudales para soportar decisiones
@@ -269,7 +299,6 @@ export const Home = () => {
             </article>
 
             <article className="project" aria-labelledby="usecase-infra">
-
               <h3 id="usecase-infra">Infraestructura hídrica: telemetría interoperable</h3>
               <p>
                 Integración con proveedores de sensores y laboratorios para asegurar continuidad,

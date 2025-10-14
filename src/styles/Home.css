@@ -55,10 +55,34 @@ a:hover{color:var(--blue-500)}
 .hero-text .eyebrow{font-size:var(--fs-xs);letter-spacing:.06em;text-transform:uppercase;color:var(--blue-700);font-weight:700;margin-bottom:var(--space-2)}
 .hero-text h1{color:var(--blue-900);line-height:1.12;letter-spacing:-0.01em;margin-bottom:var(--space-3);font-size:2.39rem;}
 .hero-text .lead{font-size:var(--fs-lg);color:var(--ink-800);margin-bottom:var(--space-4)}
-.hero-cta{display:flex;gap:var(--space-3)}
+.hero-cta{display:flex;flex-wrap:wrap;gap:var(--space-3);align-items:center}
 
+/* === Bloque CTA con borde sutil === */
+.cta-block{
+  margin-top: .85rem;
+  padding: .9rem 1rem;
+  border: 3px solid #acc7db;      /* sutil y delgado */
+  border-radius: 30px;
+}
 
+/* Contenedor para botón IA + QR a la derecha (alineados arriba) */
+.cta-inline{
+  display:flex;
+  align-items:flex-start; /* ⬅️ alinea botón y QR por el borde superior */
+  gap:var(--space-3);
+  flex-wrap:wrap;
+}
 
+/* micro-headline para el nuevo CTA */
+.cta-sub{
+  margin-top:0;
+  margin-bottom:.65rem;
+  color:var(--blue-800);
+  font-size:1.22rem;
+  font-weight:400;
+}
+
+/* Botones */
 @media (max-width:900px){
   .hero-text h1{font-size:clamp(1.4rem,1.1rem + 2.4vw,1.9rem);}
 }
@@ -70,6 +94,37 @@ a:hover{color:var(--blue-500)}
 .btn-primary:hover{box-shadow:var(--shadow)}
 .btn-ghost{background:rgba(255,255,255,0.7);color:var(--blue-800);border-color:#D7E7F2}
 .btn-ghost:hover{background:#fff;box-shadow:var(--shadow-sm)}
+
+/* ✅ Botón hacia la IA (diferente pero en paleta) */
+.btn-accent{
+  background:var(--blue-500);
+  color:#fff;
+  box-shadow:var(--shadow-sm);
+}
+.btn-accent:hover{
+  background:var(--blue-600);
+  box-shadow:var(--shadow);
+}
+
+/* QR a la derecha del botón IA */
+.hero-qr{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+.hero-qr--inline{ margin-top:0; }
+.hero-qr img{
+  width:100px;   /* ligeramente más pequeño */
+  height:auto;
+  display:block;
+  filter: drop-shadow(0 6px 18px rgba(14,58,91,.15));
+}
+.hero-qr__caption{
+  margin-top:.35rem;
+  font-size:var(--fs-xs);
+  color:var(--ink-700);
+  line-height:1.1;
+}
 
 /* -------- SECTIONS -------- */
 .section{padding:var(--space-6) 0;background-color:#f0f8fc}
@@ -146,7 +201,7 @@ a:hover{color:var(--blue-500)}
 
 /* H2 del HERO: mismo color que el H1 y jerarquía visual menor */
 .hero--banner .hero-text h2{
-  color: var(--blue-900);            /* = mismo color del h1 del hero */
+  color: var(--blue-900);
   font-weight: 600;
   font-size: 1.75rem;
   line-height: 1.2;
@@ -236,4 +291,10 @@ a:hover{color:var(--blue-500)}
 
 .como {
   margin-top: 3rem;
+}
+
+
+/* margen superior del botón "Probar IA de Prefactibilidad" cuando está junto al QR */
+.cta-inline .btn-accent{
+  margin-top: 1.7rem;   /* <-- edita este valor a tu gusto (p.ej. 4px, .25rem, etc.) */
 }
