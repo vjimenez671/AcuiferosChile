@@ -18,6 +18,7 @@
   gap: .75rem;
   font-weight: 800;
   color: var(--blue-900);
+  font-family: inherit;
 }
 
 .brand-link {
@@ -26,6 +27,7 @@
   gap: .75rem;
   text-decoration: none;
   color: inherit;
+  font-family: inherit;
 }
 
 .navbar-brand img {
@@ -74,6 +76,7 @@
   font-size: 25px;
   font-weight: 800;
   color: var(--blue-900);
+  font-family: inherit;
 }
 
 .btn-primary {
@@ -109,38 +112,64 @@
   color: var(--blue-900);
 }
 
-.hamburger {
+/* ===== HAMBURGER (a prueba de clipping) ===== */
+.hamburger{
   display: none;
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   padding: 0;
   background: transparent;
   border: 0;
-  gap: 6px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  position: relative;           /* contenedor de referencia */
+  overflow: visible;            /* evita cortes */
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
 }
-.hamburger span {
-  width: 24px;
+
+/* barras centradas y absolutas */
+.hamburger span{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 22px;
   height: 2px;
   background: var(--blue-900);
   display: block;
+  border-radius: 2px;
+  transform-origin: center center;
   transition: transform 180ms ease, opacity 180ms ease;
-}
-.hamburger.is-open span:nth-child(1) {
-  transform: translateY(6px) rotate(45deg);
-}
-.hamburger.is-open span:nth-child(2) {
-  opacity: 0;
-}
-.hamburger.is-open span:nth-child(3) {
-  transform: translateY(-6px) rotate(-45deg);
+  transform: translate(-50%, -50%);
 }
 
+/* posiciones en cerrado */
+.hamburger span:nth-child(1){
+  transform: translate(-50%, calc(-50% - 6px));
+}
+.hamburger span:nth-child(2){
+  transform: translate(-50%, -50%);
+}
+.hamburger span:nth-child(3){
+  transform: translate(-50%, calc(-50% + 6px));
+}
+
+/* animación a "X" */
+.hamburger.is-open span:nth-child(1){
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.hamburger.is-open span:nth-child(2){
+  opacity: 0;
+}
+.hamburger.is-open span:nth-child(3){
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* ===== MOBILE ===== */
 @media (max-width: 900px) {
   .hamburger {
     display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .navbar-menu {
@@ -176,6 +205,7 @@
   }
 }
 
+/* === Regla final original: mantiene el peso 630 === */
 .nombre {
   font-weight: 630;
 }

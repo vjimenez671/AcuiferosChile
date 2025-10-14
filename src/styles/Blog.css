@@ -503,12 +503,18 @@ html, body { background: #f0f8fc }
 
 @media (max-width: 900px) {
   .grid-attach { grid-template-columns: 1fr; }
+
+  /* NUEVO: mini margen lateral para publicaciones en pantallas ≤ 900px */
+  .post-card { margin-left: 8px; margin-right: 8px; }
 }
 @media (max-width: 640px) {
   .composer-card { grid-template-columns: auto 1fr; }
   .composer-actions { display: none; }
   .post-content { font-size: var(--fs-sm); }
   .emoji-picker { grid-template-columns: repeat(8, 28px); }
+
+  /* NUEVO: un pelín más de margen en móviles pequeños */
+  .post-card { margin-left: 10px; margin-right: 10px; }
 }
 
 .sr-only {
