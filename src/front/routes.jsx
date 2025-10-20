@@ -15,6 +15,7 @@ import SignIn from "./pages/SignIn.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import Blog from "./pages/Blog.jsx";
 import RAG from "./pages/RAG.jsx";
+import PrivacyPolicy from "./pages/PrivacyPolicy.jsx";
 
 
 export const router = createBrowserRouter(
@@ -38,6 +39,7 @@ export const router = createBrowserRouter(
       <Route path="/signup" element={<SignUp />} />
       <Route path="/blog" element={<Blog />} />
       <Route path="/rag" element={<RAG />} />
+      <Route path="/politica-privacidad" element={<PrivacyPolicy />} />
 
     </Route>
   )
