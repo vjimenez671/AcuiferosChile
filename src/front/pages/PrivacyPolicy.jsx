@@ -1,6 +1,8 @@
+import "../../styles/PrivacyPolicy.css";
+
 export default function PrivacyPolicy() {
   return (
-    <main className="container prose mx-auto px-4 py-8" style={{marginTop:"40px"}}>
+    <main className="container prose privacy mx-auto px-4 py-8" style={{marginTop:"40px"}}>
       <h1>Política de Privacidad</h1>
       <p><strong>Última actualización:</strong> 20/10/2025</p>
 
