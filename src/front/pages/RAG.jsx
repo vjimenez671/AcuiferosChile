@@ -403,6 +403,18 @@ export default function RAG() {
                     mientras corran dentro de su predio o no caigan a cauces naturales de uso público.
                   </li>
                 </ul>
+                {/* Botón PDF Ley 21.435 */}
+                <div className="card-actions">
+                  <a
+                    className="btn btn-doc"
+                    href="https://dga.mop.gob.cl/uploads/sites/13/2023/07/ley_21435.pdf"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Abrir PDF de la Ley N° 21.435 (2022)"
+                  >
+                    📄 Ver PDF — Ley N° 21.435 (2022)
+                  </a>
+                </div>
               </div>
             </div>
 
@@ -414,6 +426,18 @@ export default function RAG() {
                   Define <em>recarga natural</em> como caudal que alimenta un acuífero sin intervención humana.
                   Las obras de RAG con aguas pluviales <strong>no requieren informe previo</strong> ante la DGA.
                 </p>
+                {/* Botón PDF Circular N° 3/2024 */}
+                <div className="card-actions">
+                  <a
+                    className="btn btn-doc"
+                    href="https://dga.mop.gob.cl/uploads/sites/13/2024/06/circular_3_2024.pdf"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Abrir PDF de la Circular DGA N° 3 (junio 2024)"
+                  >
+                    📄 Ver PDF — Circular DGA N° 3 (2024)
+                  </a>
+                </div>
               </div>
             </div>
 
@@ -425,8 +449,33 @@ export default function RAG() {
                   El titular que ejecute RAG puede solicitar autorización para <strong>reutilizar</strong> la mayor parte
                   de las aguas recargadas, considerando pérdidas, sustentabilidad del acuífero y derechos de terceros.
                 </p>
+                {/* Botón PDF Circular N° 2/2025 */}
+                <div className="card-actions">
+                  <a
+                    className="btn btn-doc"
+                    href="https://dga.mop.gob.cl/uploads/sites/13/2024/06/CIRCULAR-DGA-N%C2%B0-2-2025.pdf"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Abrir PDF de la Circular DGA N° 2 (julio 2025)"
+                  >
+                    📄 Ver PDF — Circular DGA N° 2 (2025)
+                  </a>
+                </div>
               </div>
             </div>
+          </div>
+
+          {/* Botón general a sitio de Legislación DGA */}
+          <div className="legal-actions">
+            <a
+              className="btn btn-accent"
+              href="https://dga.mop.gob.cl/legislacion/"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Abrir sitio oficial de Legislación y Circulares DGA"
+            >
+              🔎 Leyes y Circulares DGA — sitio oficial
+            </a>
           </div>
         </div>
       </section>
