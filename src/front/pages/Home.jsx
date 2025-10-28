@@ -1,95 +1,114 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
 import "../../styles/Home.css";
-import bgUrl from "../imagenes/fondo-home.jpg"; // ✅ banner intacto
 
-// Imágenes propias (nueva galería en 2 columnas)
-import estratigrafia from "../imagenes/estratigrafia.png";
-import mapaGeologico from "../imagenes/mapa-geologico-1.png";
-import mapaGeologicoZona from "../imagenes/mapa-geologico-2.png";
-import mapaHidrogeologico from "../imagenes/mapa-hidrogeológico-1.png";
-import perfilZona from "../imagenes/perfil-zona.png";
-import pozos from "../imagenes/pozos.png";
-
-// ✅ QR para CTA en el hero (lado izquierdo)
+// Mantén estos imports locales
+import bgUrl from "../imagenes/fondo-home.jpg";
 import qrAcuiferos from "../imagenes/qr-acuiferos-transparent.png";
 
+// Helper JS Cloudinary
+import { cld } from "../lib/cloudinary";
+
 export const Home = () => {
-  // ----- Imágenes por columna -----
-  const imagesLeft = [
-    {
-      src: estratigrafia,
-      alt:
-        "Talud expuesto con capa de tierra vegetal sobre paquete grueso de grava de arenas con lentes de arenas finas; superficies de estratificación y contactos marcados; textura heterométrica; barra de escala 0–5 m.",
-      caption:
-        "Estratigrafía: capa vegetal sobre gravas arenosas con lentes finos; contactos marcados. Escala 0–5 m."
-    },
-    {
-      src: mapaGeologico,
-      alt:
-        "Mapa geológico regional 1:50.000 con unidades Plm4, Plgf2 y PlHf; hidrografía principal (Estero Maule, La Arena y Río Camal), rutas viales, zona de estudio hachurada y pozos con derecho concedido.",
-      caption:
-        "Mapa regional: Plm4, Plgf2 y PlHf; hidrografía, vialidad, zona de estudio y pozos (1:50.000)."
-    },
-    {
-      src: mapaGeologicoZona,
-      alt:
-        "Mapa geológico local 1:70.000 con depósitos fluviales y glaciofluviales (Hf, PlHf, Plgf1–2, Plgfa, Plm3) y afloramientos metamórficos CTrbm; drenaje y caminos; polígono de estudio resaltado.",
-      caption:
-        "Detalle local: Hf, PlHf, Plgf1–2, Plgfa, Plm3 y CTrbm; drenaje y polígono de estudio (1:70.000)."
-    },
-    {
-      src: mapaHidrogeologico,
-      alt:
-        "Mapa hidrogeológico con unidades A1–A2–B2 en depósitos no consolidados y C2 en roca fisurada; red de ríos, vías, zona rural y polígono de estudio; clasificación por importancia de acuíferos.",
-      caption:
-        "Mapa hidrogeológico: A1–A2–B2 (no consolidados) y C2 (roca fisurada); base para priorizar recarga."
-    }
-  ];
+  /* =======================
+   *  UTILIDADES CLOUDINARY
+   * ======================= */
+  // LQIP (blur) como background de contenedor
+  const lqip = (pid) => cld(pid, "w_24,q_1,e_blur:2000");
 
-  const imagesRight = [
-    {
-      src: perfilZona,
-      alt:
-        "Perfil geológico–piezométrico SW–NE con PlHf, Plgf2, Plm4 y Formación Santo Domingo (Msd); trazas de esteros, línea piezométrica y ubicación de P1 y P4; escalas horizontal (km) y vertical (m s.n.m.).",
-      caption:
-        "Sección SW–NE: PlHf, Plgf2, Plm4 y Msd; esteros, nivel piezométrico y P1–P4."
-    },
-    {
-      src: pozos,
-      alt:
-        "Columnas litológicas de cuatro pozos con profundidades, niveles estáticos y caudales; materiales (arcilla, arena, gravas con arenas y roca sólida) y tramos de cañería; pozo 4 surgente 44,1 l/s.",
-      caption:
-        "Pozos: litología, cañerías y parámetros; destaca pozo surgente (44,1 l/s)."
-    }
-  ];
+  // Evitamos recortes: usamos c_limit (o c_fit) para respetar proporción
+  const srcBase = (pid, w = 800) => cld(pid, `f_auto,q_auto,dpr_auto,w_${w},c_limit`);
+  const srcset = (pid) =>
+    [
+      cld(pid, "f_auto,q_auto,dpr_auto,w_480,c_limit") + " 480w",
+      cld(pid, "f_auto,q_auto,dpr_auto,w_800,c_limit") + " 800w",
+      cld(pid, "f_auto,q_auto,dpr_auto,w_1280,c_limit") + " 1280w",
+      cld(pid, "f_auto,q_auto,dpr_auto,w_1920,c_limit") + " 1920w",
+    ].join(", ");
 
-  // Orden global para el lightbox (columna izquierda arriba→abajo, luego derecha)
-  const images = [...imagesLeft, ...imagesRight];
+  /* =======================
+   *  DATASET: 19 IMÁGENES (URLs que pasaste)
+   * ======================= */
+  const DATA = useMemo(
+    () => ({
+      ic: [
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761607992/ic1_nsjbe2.png", alt: "Mapa geológico regional", cap: "Mapa geológico (1:50.000)" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761607992/ic2_snazvs.png", alt: "Mapa geológico local",    cap: "Mapa geológico local (1:70.000)" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761607992/ic3_y490uc.png", alt: "Mapa hidrogeológico",     cap: "Mapa hidrogeológico A1–A2–B2–C2" },
+      ],
+      idd: [
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608115/idd1_twyk2d.jpg", alt: "Ensayo de infiltración", cap: "Ensayo de infiltración en calicata" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608113/idd2_ya8gup.jpg", alt: "Calicata con agua",      cap: "Calicata y nivel freático" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608104/idd3_wp5tqu.jpg", alt: "Detalle constructivo",   cap: "Esquema de zanja de recarga" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608104/idd4_mpsfkn.png", alt: "Distribución de obras",  cap: "Disposición típica de obras" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608104/idd5_n65bnv.png", alt: "Tabla de costos",        cap: "Costos de obra y monitoreo" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608104/idd6_wkww1r.png", alt: "Dron y control",         cap: "Fotogrametría con dron" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608105/idd7_acqh7v.jpg", alt: "Muestreo en campo",      cap: "Muestreo y QA/QC" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608105/idd8_vy8mpw.jpg", alt: "Topografía GNSS",        cap: "Levantamiento GNSS" },
+      ],
+      cdo: [
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608136/cdo1_dgkfng.jpg", alt: "Excavación 1",        cap: "Apertura de zanja" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608132/cdo2_n20icy.jpg", alt: "Excavación 2",        cap: "Progreso de excavación" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608136/cdo3_mgy8jq.png", alt: "Excavación 3",        cap: "Detalle de material granular" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608136/cdo4_joj2sh.png", alt: "Excavación 4",        cap: "Zanja con material limo-arenoso" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608129/cdo5_xtv6zz.png", alt: "Vista longitudinal",  cap: "Tramo de obra" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608129/cdo6_im18ew.jpg", alt: "Excavadora en obra",  cap: "Movimiento de suelos" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608131/cdo7_dpajer.jpg", alt: "Obra en ejecución",   cap: "Línea de zanja terminada" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608132/cdo8_sijalt.jpg", alt: "Excavación y equipo", cap: "Equipo en terreno" },
+      ],
+    }),
+    []
+  );
 
+  const LABEL = { all: "Todas", ic: "Ingeniería Conceptual", idd: "Ingeniería de Detalle", cdo: "Construcción de Obra" };
+
+  /* ==============
+   *  GALERÍA / UI
+   * ============== */
+  const [filter, setFilter] = useState("all"); // "all" | "ic" | "idd" | "cdo"
+  const galleryRef = useRef(null);
+
+  const imagesFiltered = useMemo(() => {
+    if (filter === "all") return [...DATA.ic, ...DATA.idd, ...DATA.cdo];
+    return [...DATA[filter]];
+  }, [filter, DATA]);
+
+  // Lightbox
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const isOpen = lightboxIndex !== null;
-
   const openLightbox = (idx) => setLightboxIndex(idx);
   const closeLightbox = useCallback(() => setLightboxIndex(null), []);
 
-  // Cerrar con ESC y navegar con ← →
   useEffect(() => {
     if (!isOpen) return;
     const onKey = (e) => {
       if (e.key === "Escape") closeLightbox();
-      if (e.key === "ArrowRight")
-        setLightboxIndex((i) => (i === null ? 0 : (i + 1) % images.length));
-      if (e.key === "ArrowLeft")
-        setLightboxIndex((i) => (i === null ? 0 : (i - 1 + images.length) % images.length));
+      if (e.key === "ArrowRight") setLightboxIndex((i) => (i === null ? 0 : (i + 1) % imagesFiltered.length));
+      if (e.key === "ArrowLeft")  setLightboxIndex((i) => (i === null ? 0 : (i - 1 + imagesFiltered.length) % imagesFiltered.length));
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [isOpen, closeLightbox, images.length]);
+  }, [isOpen, closeLightbox, imagesFiltered.length]);
+
+  // Scroll helper desde las etapas
+  const goToGallery = (targetFilter) => {
+    setFilter(targetFilter);
+    requestAnimationFrame(() => {
+      galleryRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  };
+
+  // Volver a "De la prefactibilidad a la operación"
+  const backToStages = () => {
+    const el = document.getElementById("servicios");
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   return (
     <main className="ac-home">
-      {/* HERO (no tocar estructura general) */}
+      <link rel="preconnect" href="https://res.cloudinary.com" />
+
+      {/* ================== HERO ================== */}
       <header
         className="hero hero--banner"
         role="banner"
@@ -117,13 +136,8 @@ export const Home = () => {
                   Conversemos
                 </Link>
 
-                {/* Bloque con mensaje + botón + QR */}
                 <div className="cta-block">
-                  <p className="cta-sub">
-                    <strong>Descubre el Potencial Hídrico Oculto de tu Campo</strong>
-                  </p>
-
-                  {/* Botón externo hacia la IA con QR a su derecha */}
+                  <p className="cta-sub"><strong>Descubre el Potencial Hídrico Oculto de tu Campo</strong></p>
                   <div className="cta-inline">
                     <a
                       className="btn btn-accent"
@@ -134,13 +148,8 @@ export const Home = () => {
                     >
                       Calcular viabilidad en segundos
                     </a>
-
                     <div className="hero-qr hero-qr--inline" aria-label="Código QR para acceder a ia.acuiferoschile.cl">
-                      <img
-                        src={qrAcuiferos}
-                        alt="QR que abre ia.acuiferoschile.cl"
-                        loading="eager"
-                      />
+                      <img src={qrAcuiferos} alt="QR que abre ia.acuiferoschile.cl" loading="eager" />
                       <small className="hero-qr__caption">o escanea el código QR</small>
                     </div>
                   </div>
@@ -152,7 +161,7 @@ export const Home = () => {
         </section>
       </header>
 
-      {/* ETAPAS DETALLADAS */}
+      {/* ====== ETAPAS ====== */}
       <section className="section" id="servicios" aria-labelledby="servicios-title">
         <div className="container">
           <div className="section-head">
@@ -160,79 +169,75 @@ export const Home = () => {
             <h2 id="servicios-title">De la prefactibilidad a la operación</h2>
             <p className="section-subtitle">
               Alineamos técnica, regulación y QA/QC para decisiones trazables y proyectos ejecutables. <br />
-              <strong>
-                Ofrecemos el ciclo completo: realizamos los estudios de viabilidad, nos encargamos del diseño y la
-                construcción de las obras, y aseguramos su éxito con un monitoreo posterior para verificar y cuantificar los resultados.
-              </strong>
+              <strong>Ofrecemos el ciclo completo: estudios de viabilidad, diseño y construcción de obras, y monitoreo posterior.</strong>
             </p>
           </div>
 
-          {/* Filas (rows) */}
           <div className="stages-rows">
-            {/* 1. Conceptual / Prefactibilidad */}
+            {/* 1. Conceptual */}
             <article className="stage-row">
-              <div className="stage-row__aside">
-                <span className="stage-badge">1</span>
-              </div>
+              <div className="stage-row__aside"><span className="stage-badge">1</span></div>
               <div className="stage-row__main">
                 <h3>Ingeniería Conceptual — Prefactibilidad del Sitio</h3>
                 <p>
                   Tras una <strong>evaluación preliminar online</strong>,
-                  entregamos un informe que integra el análisis técnico (hidrología, hidrogeología, etc.)
-                  con el regulatorio, incluyendo la <strong>verificación de derechos de agua</strong> para asegurar la viabilidad legal.
+                  integramos análisis técnico (hidrología, hidrogeología) y regulatorio, incluyendo
+                  <strong> verificación de derechos de agua</strong>.
                 </p>
+                <div className="stage-actions">
+                  <button className="btn btn-ghost btn-sm" onClick={() => goToGallery("ic")}>Ver imágenes IC</button>
+                </div>
               </div>
             </article>
 
             {/* 2. Detalle */}
             <article className="stage-row">
-              <div className="stage-row__aside">
-                <span className="stage-badge">2</span>
-              </div>
+              <div className="stage-row__aside"><span className="stage-badge">2</span></div>
               <div className="stage-row__main">
                 <h3>Ingeniería de Detalle — Estudios de Campo y Diseño de Obra</h3>
                 <p>
-                  Realizamos los estudios de campo necesarios (<em>geología, ensayos de infiltración, topografía y geofísica</em>)
-                  para obtener datos precisos del sitio. Con esta información desarrollamos la <strong>ingeniería final</strong>:
-                  bases técnicas, planos de construcción y presupuesto del proyecto.
+                  Ejecutamos <em>geología, ensayos de infiltración, topografía y geofísica</em> para la
+                  <strong> ingeniería final</strong>: bases técnicas, planos y presupuestos.
                 </p>
                 <p className="muted">
-                  Además, construimos un <strong>modelo numérico de flujo</strong> como herramienta para la gestión futura del recurso.
+                  Además, desarrollamos un <strong>modelo numérico de flujo</strong> para la gestión futura del recurso.
                 </p>
+                <div className="stage-actions">
+                  <button className="btn btn-ghost btn-sm" onClick={() => goToGallery("idd")}>Ver imágenes IDD</button>
+                </div>
               </div>
             </article>
 
             {/* 3. Construcción */}
             <article className="stage-row">
-              <div className="stage-row__aside">
-                <span className="stage-badge">3</span>
-              </div>
+              <div className="stage-row__aside"><span className="stage-badge">3</span></div>
               <div className="stage-row__main">
                 <h3>Construcción de Obra</h3>
                 <p>
-                  Materializamos el proyecto construyendo obras de recarga (<em>piscinas, zanjas</em> u otras soluciones)
-                  conforme a la Ingeniería de Detalle. Gestionamos la construcción asegurando <strong>calidad (QA/QC)</strong> y seguridad en cada etapa.
+                  Construimos obras de recarga (<em>piscinas, zanjas</em> u otras),
+                  asegurando <strong>QA/QC</strong> y seguridad en cada etapa.
                 </p>
+                <div className="stage-actions">
+                  <button className="btn btn-ghost btn-sm" onClick={() => goToGallery("cdo")}>Ver imágenes CDO</button>
+                </div>
               </div>
             </article>
 
-            {/* 4. Operación y Monitoreo */}
+            {/* 4. Operación */}
             <article className="stage-row">
-              <div className="stage-row__aside">
-                <span className="stage-badge">4</span>
-              </div>
+              <div className="stage-row__aside"><span className="stage-badge">4</span></div>
               <div className="stage-row__main">
                 <h3>Operación y Monitoreo</h3>
                 <p>
-                  Aseguramos el rendimiento a largo plazo mediante el <strong>monitoreo continuo</strong> de caudales y niveles piezométricos.
-                  Estos datos permiten <strong>calibrar y validar</strong> el modelo numérico desarrollado en la etapa de Detalle,
-                  convirtiéndolo en una <strong>herramienta predictiva</strong> para la gestión futura.
+                  Monitoreamos caudales y niveles piezométricos para <strong>calibrar/validar</strong> el modelo numérico y
+                  gestionar el recurso en el tiempo.
                 </p>
               </div>
             </article>
           </div>
         </div>
 
+        {/* ===== Cómo trabajamos ===== */}
         <div className="container">
           <div className="linea-divisora-como"></div>
           <div className="linea-divisora"></div>
@@ -246,30 +251,21 @@ export const Home = () => {
           <div className="grid cards" style={{ marginTop: "1rem" }}>
             <article className="card">
               <h3>Compromisos del equipo</h3>
-              <p>
-                <strong>Profesionalismo y ética</strong>; diseños conservadores y trazables; apertura
-                técnica y comunicación transparente con comunidades y autoridades.
-              </p>
+              <p><strong>Profesionalismo y ética</strong>; diseños conservadores y trazables; comunicación transparente.</p>
             </article>
             <article className="card">
               <h3>Estándares de trabajo</h3>
-              <p>
-                QA/QC de datos, bitácoras de campo, fotogrametría y protocolos de muestreo;
-                reportabilidad compatible con auditorías y ODS 6.
-              </p>
+              <p>QA/QC de datos, bitácoras de campo, fotogrametría y protocolos de muestreo; reportabilidad compatible con ODS 6.</p>
             </article>
             <article className="card">
               <h3>Cómo colaboramos</h3>
-              <p>
-                Inicio con <em>prefactibilidad</em>, diseño del piloto, instalación de telemetría y
-                tableros; evaluación de desempeño y hoja de ruta para escalar si los resultados lo justifican.
-              </p>
+              <p>Prefactibilidad, piloto, telemetría y tableros; evaluación de desempeño y hoja de ruta para escalar.</p>
             </article>
           </div>
         </div>
       </section>
 
-      {/* SECTORES (ahora solo casos de uso) */}
+      {/* ===== SECTORES ===== */}
       <section className="section alt" id="sectores" aria-labelledby="sectores-title">
         <div className="container">
           <div className="linea-divisora"></div>
@@ -309,113 +305,96 @@ export const Home = () => {
         </div>
       </section>
 
-      {/* GALERÍA en 2 columnas con Lightbox */}
-      <section className="section" id="evidencias" aria-labelledby="evidencias-title">
+      {/* ============ GALERÍA (SOLO COLLAGE/MASONRY) ============ */}
+      <section ref={galleryRef} className="section" id="evidencias" aria-labelledby="evidencias-title">
         <div className="container container--wide">
           <div className="section-head">
             <div className="linea-divisora"></div>
             <h2 id="evidencias-title">Imágenes de avance</h2>
             <p className="section-subtitle">
-              Estratigrafía, cartografía y parámetros hidrogeológicos usados en prefactibilidades y diseño de
-              pilotos RAG. Material propio de Acuíferos Chile.
+              Filtra por etapa y navega en formato <em>collage</em>. Miniaturas sin recorte y visor ampliado.
             </p>
           </div>
 
-          {/* 2 columnas: izquierda (4) y derecha (2) */}
-          <div className="grid gallery-grid gallery-columns">
-            {/* Columna izquierda */}
-            <div className="gallery-col">
-              {imagesLeft.map((img, idx) => (
-                <figure className="gallery-item" key={`L-${idx}`}>
-                  <div className="gallery-media">
-                    <button
-                      type="button"
-                      className="gallery-btn"
-                      onClick={() => openLightbox(idx)} // 0..3
-                      aria-label={`Abrir imagen: ${img.alt}`}
-                    >
-                      <img src={img.src} alt={img.alt} loading="lazy" />
-                    </button>
-                  </div>
-                  <figcaption>{img.caption}</figcaption>
-                </figure>
+          {/* Filtros (tabs) + botón “↑ Arriba” */}
+          <div className="gallery-toolbar">
+            <div className="gallery-filters" role="tablist" aria-label="Filtrar imágenes">
+              {["all", "ic", "idd", "cdo"].map((key) => (
+                <button
+                  key={key}
+                  role="tab"
+                  aria-selected={filter === key}
+                  className={`filter-btn ${filter === key ? "is-active" : ""}`}
+                  onClick={() => setFilter(key)}
+                >
+                  {LABEL[key]}
+                </button>
               ))}
             </div>
 
-            {/* Columna derecha */}
-            <div className="gallery-col">
-              {imagesRight.map((img, idx) => {
-                const globalIndex = imagesLeft.length + idx; // 4..5
-                return (
-                  <figure className="gallery-item" key={`R-${idx}`}>
-                    <div className="gallery-media">
-                      <button
-                        type="button"
-                        className="gallery-btn"
-                        onClick={() => openLightbox(globalIndex)}
-                        aria-label={`Abrir imagen: ${img.alt}`}
-                      >
-                        <img src={img.src} alt={img.alt} loading="lazy" />
-                      </button>
-                    </div>
-                    <figcaption>{img.caption}</figcaption>
-                  </figure>
-                );
-              })}
-            </div>
+            <button
+              type="button"
+              className="btn btn-accent btn-sm back-to-stages"
+              onClick={backToStages}
+              title="Volver a De la prefactibilidad a la operación"
+              aria-label="Volver arriba a De la prefactibilidad a la operación"
+            >
+              ↑ Arriba
+            </button>
           </div>
 
-          <p className="gallery-note">
-            *Imágenes con fines ilustrativos y de comunicación técnica.
-          </p>
+          {/* Lista masonry */}
+          <div className="gallery-list masonry">
+            {imagesFiltered.map((img, idx) => (
+              <figure className="gallery-item" key={`${img.pid}-${idx}`}>
+                <div className="gallery-media thumb-wrap" style={{ backgroundImage: `url(${lqip(img.pid)})` }}>
+                  <button
+                    type="button"
+                    className="gallery-btn"
+                    onClick={() => openLightbox(idx)}
+                    aria-label={`Abrir imagen: ${img.alt}`}
+                  >
+                    <img
+                      className="thumb"
+                      src={srcBase(img.pid, 1000)}
+                      srcSet={srcset(img.pid)}
+                      sizes="(max-width: 640px) 92vw, (max-width: 1024px) 45vw, 30vw"
+                      alt={img.alt}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </button>
+                </div>
+                <figcaption>{img.cap}</figcaption>
+              </figure>
+            ))}
+          </div>
+
+          <p className="gallery-note">*Imágenes con fines ilustrativos y de comunicación técnica.</p>
         </div>
       </section>
 
-      {/* Lightbox */}
+      {/* ============ LIGHTBOX ============ */}
       {isOpen && (
-        <div
-          className="lightbox"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Visor de imagen"
-          onClick={closeLightbox}
-        >
+        <div className="lightbox" role="dialog" aria-modal="true" aria-label="Visor de imagen" onClick={closeLightbox}>
           <div className="lightbox-inner" onClick={(e) => e.stopPropagation()}>
             <img
-              src={images[lightboxIndex || 0].src}
-              alt={images[lightboxIndex || 0].alt}
+              src={cld(imagesFiltered[lightboxIndex || 0].pid, "f_auto,q_auto,w_1920")}
+              alt={imagesFiltered[lightboxIndex || 0].alt}
             />
-            <button
-              type="button"
-              className="lightbox-close"
-              onClick={closeLightbox}
-              aria-label="Cerrar imagen"
-              title="Cerrar (Esc)"
-            >
-              ×
-            </button>
+            <button type="button" className="lightbox-close" onClick={closeLightbox} aria-label="Cerrar imagen" title="Cerrar (Esc)">×</button>
             <button
               type="button"
               className="lightbox-nav lightbox-prev"
-              onClick={() =>
-                setLightboxIndex((i) => ((i ?? 0) - 1 + images.length) % images.length)
-              }
-              aria-label="Imagen anterior"
-              title="Anterior (←)"
-            >
-              ‹
-            </button>
+              onClick={() => setLightboxIndex((i) => ((i ?? 0) - 1 + imagesFiltered.length) % imagesFiltered.length)}
+              aria-label="Imagen anterior" title="Anterior (←)"
+            >‹</button>
             <button
               type="button"
               className="lightbox-nav lightbox-next"
-              onClick={() =>
-                setLightboxIndex((i) => ((i ?? 0) + 1) % images.length)
-              }
-              aria-label="Imagen siguiente"
-              title="Siguiente (→)"
-            >
-              ›
-            </button>
+              onClick={() => setLightboxIndex((i) => ((i ?? 0) + 1) % imagesFiltered.length)}
+              aria-label="Imagen siguiente" title="Siguiente (→)"
+            >›</button>
           </div>
         </div>
       )}

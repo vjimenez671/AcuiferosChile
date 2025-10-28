@@ -61,14 +61,14 @@ a:hover{color:var(--blue-500)}
 .cta-block{
   margin-top: .85rem;
   padding: .9rem 1rem;
-  border: 3px solid #acc7db;      /* sutil y delgado */
+  border: 3px solid #acc7db;
   border-radius: 30px;
 }
 
 /* Contenedor para botón IA + QR a la derecha (alineados arriba) */
 .cta-inline{
   display:flex;
-  align-items:flex-start; /* ⬅️ alinea botón y QR por el borde superior */
+  align-items:flex-start;
   gap:var(--space-3);
   flex-wrap:wrap;
 }
@@ -87,7 +87,13 @@ a:hover{color:var(--blue-500)}
   .hero-text h1{font-size:clamp(1.4rem,1.1rem + 2.4vw,1.9rem);}
 }
 
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;height:44px;padding:0 1.1rem;border-radius:999px;border:1px solid transparent;font-weight:700;font-size:var(--fs-sm);transition:transform var(--transition),box-shadow var(--transition),background var(--transition),color var(--transition),border-color var(--transition);will-change:transform}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+  height:44px;padding:0 1.1rem;border-radius:999px;border:1px solid transparent;
+  font-weight:700;font-size:var(--fs-sm);
+  transition:transform var(--transition),box-shadow var(--transition),background var(--transition),color var(--transition),border-color var(--transition);
+  will-change:transform;
+}
 .btn:active{transform:translateY(1px)}
 .btn:focus-visible{outline:3px solid #9ad1ff;outline-offset:2px}
 .btn-primary{background:#4564A1;color:#fff;box-shadow:var(--shadow-sm)}
@@ -95,7 +101,7 @@ a:hover{color:var(--blue-500)}
 .btn-ghost{background:rgba(255,255,255,0.7);color:var(--blue-800);border-color:#D7E7F2}
 .btn-ghost:hover{background:#fff;box-shadow:var(--shadow-sm)}
 
-/* ✅ Botón hacia la IA (diferente pero en paleta) */
+/* Botón hacia la IA */
 .btn-accent{
   background:var(--blue-500);
   color:#fff;
@@ -106,6 +112,9 @@ a:hover{color:var(--blue-500)}
   box-shadow:var(--shadow);
 }
 
+/* Tamaño pequeño reutilizable */
+.btn-sm{height:36px;padding:0 .85rem;font-size:.85rem}
+
 /* QR a la derecha del botón IA */
 .hero-qr{
   display:flex;
@@ -114,7 +123,7 @@ a:hover{color:var(--blue-500)}
 }
 .hero-qr--inline{ margin-top:0; }
 .hero-qr img{
-  width:100px;   /* ligeramente más pequeño */
+  width:100px;
   height:auto;
   display:block;
   filter: drop-shadow(0 6px 18px rgba(14,58,91,.15));
@@ -142,34 +151,59 @@ a:hover{color:var(--blue-500)}
 
 /* -------- CARDS -------- */
 .cards{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-.card{background:var(--white);border:1px solid #E4EEF4;border-radius:var(--radius);padding:1.25rem;box-shadow:var(--shadow-sm);transition:transform var(--transition),box-shadow var(--transition),border-color var(--transition)}
+.card{
+  background:var(--white);border:1px solid #E4EEF4;border-radius:var(--radius);
+  padding:1.25rem;box-shadow:var(--shadow-sm);
+  transition:transform var(--transition),box-shadow var(--transition),border-color var(--transition)
+}
 .card h3{color:var(--blue-700);margin-bottom:.5rem}
 .card p{color:var(--ink-800)}
 .card:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:#D4E7F2}
 
 /* -------- PROJECTS -------- */
 .projects{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
-.project{background:#f4fbff;border:1px solid #E4EEF4;border-radius:var(--radius);padding:1.25rem;box-shadow:var(--shadow-sm);transition:box-shadow var(--transition),transform var(--transition),border-color var(--transition)}
-.project .tag{display:inline-block;background:var(--blue-300);color:var(--blue-900);font-weight:700;border-radius:999px;padding:.25rem .6rem;font-size:.75rem;margin-bottom:.4rem}
+.project{
+  background:#f4fbff;border:1px solid #E4EEF4;border-radius:var(--radius);
+  padding:1.25rem;box-shadow:var(--shadow-sm);
+  transition:box-shadow var(--transition),transform var(--transition),border-color var(--transition)
+}
+.project .tag{
+  display:inline-block;background:var(--blue-300);color:var(--blue-900);
+  font-weight:700;border-radius:999px;padding:.25rem .6rem;font-size:.75rem;margin-bottom:.4rem
+}
 .project:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:#D4E7F2}
 
-/* -------- GALERÍA -------- */
+/* -------- GALERÍA BASE -------- */
 .gallery-grid{gap:var(--space-4);align-items:start}
 .gallery-2x2{grid-template-columns:1fr}
 @media (min-width:900px){.gallery-2x2{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.gallery-item{background:var(--white);border:1px solid #E4EEF4;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm)}
+.gallery-item{
+  background:var(--white);border:1px solid #E4EEF4;border-radius:var(--radius);
+  overflow:hidden;box-shadow:var(--shadow-sm)
+}
 .gallery-media{display:block;width:100%}
 .gallery-btn{display:block;width:100%;padding:0;margin:0;border:0;background:transparent;cursor:zoom-in}
 .gallery-item img{display:block;width:100%;height:auto}
-.gallery-item figcaption{padding:.75rem 1rem;font-size:var(--fs-sm);color:var(--ink-800);background:var(--sand-50);border-top:1px solid #E4EEF4}
+.gallery-item figcaption{
+  padding:.75rem 1rem;font-size:var(--fs-sm);
+  color:var(--ink-800);background:var(--sand-50);border-top:1px solid #E4EEF4
+}
 .gallery-note{margin-top:1rem;font-size:var(--fs-xs);color:var(--ink-700);text-align:center}
 
 /* Lightbox */
 .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;padding:2rem;z-index:9999;cursor:zoom-out}
 .lightbox-inner{position:relative;max-width:min(1200px,95vw);max-height:90vh}
 .lightbox img{display:block;max-width:100%;max-height:90vh;border-radius:12px;box-shadow:var(--shadow-lg)}
-.lightbox-close{position:absolute;top:.5rem;right:.5rem;background:rgba(255,255,255,.9);border:1px solid #e4eef4;border-radius:999px;font-size:1.4rem;line-height:1;width:2rem;height:2rem;display:flex;align-items:center;justify-content:center;cursor:pointer}
-.lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.9);border:1px solid #e4eef4;border-radius:999px;font-size:1.6rem;line-height:1;width:2.4rem;height:2.4rem;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.lightbox-close{
+  position:absolute;top:.5rem;right:.5rem;background:rgba(255,255,255,.9);
+  border:1px solid #e4eef4;border-radius:999px;font-size:1.4rem;line-height:1;width:2rem;height:2rem;
+  display:flex;align-items:center;justify-content:center;cursor:pointer
+}
+.lightbox-nav{
+  position:absolute;top:50%;transform:translateY(-50%);
+  background:rgba(255,255,255,.9);border:1px solid #e4eef4;border-radius:999px;
+  font-size:1.6rem;line-height:1;width:2.4rem;height:2.4rem;display:flex;align-items:center;justify-content:center;cursor:pointer
+}
 .lightbox-prev{left:-3.25rem}
 .lightbox-next{right:-3.25rem}
 @media (max-width:900px){
@@ -199,7 +233,7 @@ a:hover{color:var(--blue-500)}
 /* Ajustes tipográficos / márgenes */
 .projects,.cards{margin-bottom:60px}
 
-/* H2 del HERO: mismo color que el H1 y jerarquía visual menor */
+/* H2 del HERO */
 .hero--banner .hero-text h2{
   color: var(--blue-900);
   font-weight: 600;
@@ -209,37 +243,10 @@ a:hover{color:var(--blue-500)}
   margin-top: .25rem;
   margin-bottom: var(--space-3);
 }
-
 @media (max-width: 900px){
   .hero--banner .hero-text h2{
     font-size: clamp(1rem, 0.95rem + 1.6vw, 1.25rem);
   }
-}
-
-/* ===== Galería en dos columnas (contenedores ajustados) ===== */
-.gallery-columns{
-  grid-template-columns: 1fr;         /* móvil: 1 columna */
-}
-.gallery-col{
-  display: grid;
-  gap: var(--space-4);
-}
-
-@media (min-width: 900px){
-  .gallery-columns{
-    grid-template-columns: 1fr 1fr;   /* desktop: 2 columnas */
-    align-items: start;               /* evita estirar filas */
-  }
-}
-
-/* Hover como las cards */
-.gallery-item{
-  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
-}
-.gallery-item:hover{
-  transform: translateY(-2px);
-  box-shadow: var(--shadow);
-  border-color: #D4E7F2;
 }
 
 /* ===== Filas para “De la prefactibilidad a la operación” ===== */
@@ -266,9 +273,7 @@ a:hover{color:var(--blue-500)}
   box-shadow: var(--shadow);
   border-color: #D4E7F2;
 }
-.stage-row__aside{
-  display: flex; align-items: flex-start; justify-content: center;
-}
+.stage-row__aside{ display: flex; align-items: flex-start; justify-content: center; }
 .stage-badge{
   display: inline-flex; align-items: center; justify-content: center;
   width: 36px; height: 36px; border-radius: 999px;
@@ -289,12 +294,77 @@ a:hover{color:var(--blue-500)}
   .stage-badge{ width: 32px; height: 32px; }
 }
 
-.como {
-  margin-top: 3rem;
-}
-
+.como { margin-top: 3rem; }
 
 /* margen superior del botón "Probar IA de Prefactibilidad" cuando está junto al QR */
 .cta-inline .btn-accent{
-  margin-top: 1.7rem;   /* <-- edita este valor a tu gusto (p.ej. 4px, .25rem, etc.) */
+  margin-top: 1.7rem;
 }
+
+/* ======== GALERÍA: toolbar (filtros + back) ======== */
+.gallery-toolbar{
+  display:flex; align-items:center; justify-content:space-between;
+  gap: var(--space-3); flex-wrap: wrap; margin-bottom: var(--space-3);
+}
+
+/* Filtros: mismo look de los botones principales (pill) */
+.gallery-filters{display:flex;gap:.5rem;flex-wrap:wrap}
+.filter-btn{
+  appearance:none;border:1px solid #E4EEF4;background:#fff;color:var(--blue-800);
+  font-weight:700;font-size:var(--fs-sm);padding:.45rem .8rem;border-radius:999px; /* pill */
+  cursor:pointer;box-shadow:var(--shadow-sm);
+  transition:background var(--transition),box-shadow var(--transition),color var(--transition),border-color var(--transition);
+}
+.filter-btn:hover{box-shadow:var(--shadow);border-color:#D4E7F2}
+.filter-btn.is-active{background:#4564A1;color:#fff;border-color:#4564A1}
+
+/* Botón “↑ Arriba” (usa .btn .btn-accent .btn-sm, solo ajuste de z) */
+.back-to-stages{ z-index:1; }
+
+/* ===== Lista masonry (collage) ===== */
+.gallery-list.masonry{
+  column-count: 1;
+  column-gap: var(--space-4);
+}
+@media (min-width: 700px){
+  .gallery-list.masonry{ column-count: 2; }
+}
+@media (min-width: 1200px){
+  .gallery-list.masonry{ column-count: 3; }
+}
+
+/* Items no deben romperse entre columnas en masonry */
+.gallery-list.masonry .gallery-item{
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  margin: 0 0 var(--space-4);
+}
+
+/* Miniaturas SIN recorte, respetando proporción */
+.thumb-wrap{
+  position:relative;
+  width:100%;
+  overflow:hidden;
+  background-size:cover;
+  background-position:center;
+  border-radius: var(--radius);
+}
+.gallery-item img.thumb{
+  display:block;
+  width:100%;
+  height:auto;            /* mantiene proporción */
+  object-fit: contain;    /* no recorta */
+}
+
+/* Hover de las cards aplicado a los ítems de galería */
+.gallery-item{
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+.gallery-item:hover{
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+  border-color: #D4E7F2;
+}
+
+/* Ocultar las descripciones de cada foto, temporalmente */
+.gallery-item figcaption { display: none !important; }
