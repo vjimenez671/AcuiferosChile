@@ -42,7 +42,7 @@ export const Home = () => {
         { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608104/idd3_wp5tqu.jpg", alt: "Detalle constructivo",   cap: "Esquema de zanja de recarga" },
         { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608104/idd4_mpsfkn.png", alt: "Distribución de obras",  cap: "Disposición típica de obras" },
         { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608104/idd5_n65bnv.png", alt: "Tabla de costos",        cap: "Costos de obra y monitoreo" },
-        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608104/idd6_wkww1r.png", alt: "Dron y control",         cap: "Fotogrametría con dron" },
+        // { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608104/idd6_wkww1r.png", alt: "Dron y control",         cap: "Fotogrametría con dron" },
         { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608105/idd7_acqh7v.jpg", alt: "Muestreo en campo",      cap: "Muestreo y QA/QC" },
         { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608105/idd8_vy8mpw.jpg", alt: "Topografía GNSS",        cap: "Levantamiento GNSS" },
       ],
@@ -185,7 +185,7 @@ export const Home = () => {
                   <strong> verificación de derechos de agua</strong>.
                 </p>
                 <div className="stage-actions">
-                  <button className="btn btn-ghost btn-sm" onClick={() => goToGallery("ic")}>Ver imágenes IC</button>
+                  <button className="btn btn-ghost btn-sm" onClick={() => goToGallery("ic")}>Ver imágenes</button>
                 </div>
               </div>
             </article>
@@ -203,7 +203,7 @@ export const Home = () => {
                   Además, desarrollamos un <strong>modelo numérico de flujo</strong> para la gestión futura del recurso.
                 </p>
                 <div className="stage-actions">
-                  <button className="btn btn-ghost btn-sm" onClick={() => goToGallery("idd")}>Ver imágenes IDD</button>
+                  <button className="btn btn-ghost btn-sm" onClick={() => goToGallery("idd")}>Ver imágenes</button>
                 </div>
               </div>
             </article>
@@ -218,7 +218,7 @@ export const Home = () => {
                   asegurando <strong>QA/QC</strong> y seguridad en cada etapa.
                 </p>
                 <div className="stage-actions">
-                  <button className="btn btn-ghost btn-sm" onClick={() => goToGallery("cdo")}>Ver imágenes CDO</button>
+                  <button className="btn btn-ghost btn-sm" onClick={() => goToGallery("cdo")}>Ver imágenes</button>
                 </div>
               </div>
             </article>
