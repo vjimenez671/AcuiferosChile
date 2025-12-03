@@ -9,7 +9,7 @@ import qrAcuiferos from "../imagenes/qr-acuiferos-transparent.png";
 // Helper JS Cloudinary
 import { cld } from "../lib/cloudinary";
 
-export const Home = () => {
+export default function Home() {
   /* =======================
    *  UTILIDADES CLOUDINARY
    * ======================= */

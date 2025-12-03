@@ -9,8 +9,8 @@ import {
 import { Layout } from "./pages/Layout";
 // Lazy load the page components
 const Home = lazy(() => import("./pages/Home"));
-const Single = lazy(() => import("./pages/Single"));
-const Demo = lazy(() => import("./pages/Demo"));
+const Single = lazy(() => import("./pages/Single").then(module => ({ default: module.Single })));
+const Demo = lazy(() => import("./pages/Demo").then(module => ({ default: module.Demo })));
 const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
 const SignIn = lazy(() => import("./pages/SignIn.jsx"));
@@ -26,7 +26,7 @@ export const router = createBrowserRouter(
     // Create your routes here, if you want to keep the Navbar and Footer in all views, add your new routes inside the containing Route.
     // Root, on the contrary, create a sister Route, if you have doubts, try it!
     // Note: keep in mind that errorElement will be the default page when you don't get a route, customize that page to make your project more attractive.
-    // Note: The child paths of the Layout element replace the Outlet component with the elements contained in the "element" attribute of these child paths.
+    // Note: The child paths of the Layout element replace the Outlet component with the aelements contained in the "element" attribute of these child paths.
 
     // Root Route: All navigation will start from here.
     <Route path="/" element={<Layout />} errorElement={<h1>Not found!</h1>}>
