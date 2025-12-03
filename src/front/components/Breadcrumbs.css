@@ -1,0 +1,97 @@
+/* Breadcrumbs Container */
+.breadcrumbs-container {
+  background-color: #f8f9fa;
+  padding: 12px 0;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+/* Breadcrumbs List */
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0 15px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Breadcrumb Item */
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #6c757d;
+}
+
+/* Breadcrumb Link */
+.breadcrumb-link {
+  color: #0E3A5B;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.breadcrumb-link:hover {
+  color: #0a2d47;
+  background-color: #e9ecef;
+  text-decoration: none;
+}
+
+/* Breadcrumb Separator */
+.breadcrumb-separator {
+  margin: 0 8px;
+  color: #adb5bd;
+  font-size: 10px;
+}
+
+/* Current/Active Breadcrumb */
+.breadcrumb-current {
+  color: #495057;
+  font-weight: 500;
+  padding: 4px 8px;
+}
+
+.breadcrumb-item.active {
+  color: #495057;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .breadcrumbs {
+    padding: 0 10px;
+    font-size: 13px;
+  }
+
+  .breadcrumb-separator {
+    margin: 0 6px;
+  }
+}
+
+/* Dark Mode Support (opcional) */
+@media (prefers-color-scheme: dark) {
+  .breadcrumbs-container {
+    background-color: #1a1a1a;
+    border-bottom-color: #333;
+  }
+
+  .breadcrumb-link {
+    color: #4a9eff;
+  }
+
+  .breadcrumb-link:hover {
+    color: #6bb3ff;
+    background-color: #2a2a2a;
+  }
+
+  .breadcrumb-current {
+    color: #e0e0e0;
+  }
+
+  .breadcrumb-separator {
+    color: #666;
+  }
+}

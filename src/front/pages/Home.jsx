@@ -9,6 +9,11 @@ import qrAcuiferos from "../imagenes/qr-acuiferos-transparent.png";
 // Helper JS Cloudinary
 import { cld } from "../lib/cloudinary";
 
+// SEO Components
+import { SEOHelmet } from "../components/SEOHelmet";
+import { Breadcrumbs } from "../components/Breadcrumbs";
+
+
 export default function Home() {
   /* =======================
    *  UTILIDADES CLOUDINARY
@@ -33,27 +38,27 @@ export default function Home() {
     () => ({
       ic: [
         { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761607992/ic1_nsjbe2.png", alt: "Mapa geológico regional", cap: "Mapa geológico (1:50.000)" },
-        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761607992/ic2_snazvs.png", alt: "Mapa geológico local",    cap: "Mapa geológico local (1:70.000)" },
-        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761607992/ic3_y490uc.png", alt: "Mapa hidrogeológico",     cap: "Mapa hidrogeológico A1–A2–B2–C2" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761607992/ic2_snazvs.png", alt: "Mapa geológico local", cap: "Mapa geológico local (1:70.000)" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761607992/ic3_y490uc.png", alt: "Mapa hidrogeológico", cap: "Mapa hidrogeológico A1–A2–B2–C2" },
       ],
       idd: [
         { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608115/idd1_twyk2d.jpg", alt: "Ensayo de infiltración", cap: "Ensayo de infiltración en calicata" },
-        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608113/idd2_ya8gup.jpg", alt: "Calicata con agua",      cap: "Calicata y nivel freático" },
-        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608104/idd3_wp5tqu.jpg", alt: "Detalle constructivo",   cap: "Esquema de zanja de recarga" },
-        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608104/idd4_mpsfkn.png", alt: "Distribución de obras",  cap: "Disposición típica de obras" },
-        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608104/idd5_n65bnv.png", alt: "Tabla de costos",        cap: "Costos de obra y monitoreo" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608113/idd2_ya8gup.jpg", alt: "Calicata con agua", cap: "Calicata y nivel freático" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608104/idd3_wp5tqu.jpg", alt: "Detalle constructivo", cap: "Esquema de zanja de recarga" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608104/idd4_mpsfkn.png", alt: "Distribución de obras", cap: "Disposición típica de obras" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608104/idd5_n65bnv.png", alt: "Tabla de costos", cap: "Costos de obra y monitoreo" },
         // { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608104/idd6_wkww1r.png", alt: "Dron y control",         cap: "Fotogrametría con dron" },
-        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608105/idd7_acqh7v.jpg", alt: "Muestreo en campo",      cap: "Muestreo y QA/QC" },
-        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608105/idd8_vy8mpw.jpg", alt: "Topografía GNSS",        cap: "Levantamiento GNSS" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608105/idd7_acqh7v.jpg", alt: "Muestreo en campo", cap: "Muestreo y QA/QC" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608105/idd8_vy8mpw.jpg", alt: "Topografía GNSS", cap: "Levantamiento GNSS" },
       ],
       cdo: [
-        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608136/cdo1_dgkfng.jpg", alt: "Excavación 1",        cap: "Apertura de zanja" },
-        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608132/cdo2_n20icy.jpg", alt: "Excavación 2",        cap: "Progreso de excavación" },
-        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608136/cdo3_mgy8jq.png", alt: "Excavación 3",        cap: "Detalle de material granular" },
-        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608136/cdo4_joj2sh.png", alt: "Excavación 4",        cap: "Zanja con material limo-arenoso" },
-        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608129/cdo5_xtv6zz.png", alt: "Vista longitudinal",  cap: "Tramo de obra" },
-        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608129/cdo6_im18ew.jpg", alt: "Excavadora en obra",  cap: "Movimiento de suelos" },
-        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608131/cdo7_dpajer.jpg", alt: "Obra en ejecución",   cap: "Línea de zanja terminada" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608136/cdo1_dgkfng.jpg", alt: "Excavación 1", cap: "Apertura de zanja" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608132/cdo2_n20icy.jpg", alt: "Excavación 2", cap: "Progreso de excavación" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608136/cdo3_mgy8jq.png", alt: "Excavación 3", cap: "Detalle de material granular" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608136/cdo4_joj2sh.png", alt: "Excavación 4", cap: "Zanja con material limo-arenoso" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608129/cdo5_xtv6zz.png", alt: "Vista longitudinal", cap: "Tramo de obra" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608129/cdo6_im18ew.jpg", alt: "Excavadora en obra", cap: "Movimiento de suelos" },
+        { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608131/cdo7_dpajer.jpg", alt: "Obra en ejecución", cap: "Línea de zanja terminada" },
         { pid: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1761608132/cdo8_sijalt.jpg", alt: "Excavación y equipo", cap: "Equipo en terreno" },
       ],
     }),
@@ -84,7 +89,7 @@ export default function Home() {
     const onKey = (e) => {
       if (e.key === "Escape") closeLightbox();
       if (e.key === "ArrowRight") setLightboxIndex((i) => (i === null ? 0 : (i + 1) % imagesFiltered.length));
-      if (e.key === "ArrowLeft")  setLightboxIndex((i) => (i === null ? 0 : (i - 1 + imagesFiltered.length) % imagesFiltered.length));
+      if (e.key === "ArrowLeft") setLightboxIndex((i) => (i === null ? 0 : (i - 1 + imagesFiltered.length) % imagesFiltered.length));
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -106,7 +111,20 @@ export default function Home() {
 
   return (
     <main className="ac-home">
+      <SEOHelmet
+        title="Acuíferos Chile | Recarga Gestionada de Acuíferos (RAG) - Soluciones Expertas"
+        description="Soluciones expertas en Recarga Gestionada de Acuíferos (RAG) en Chile. Diseñamos y construimos proyectos para almacenar agua de invierno y asegurar su disponibilidad en verano."
+        breadcrumbs={[
+          { name: 'Inicio', url: '/' }
+        ]}
+      />
+
+      <Breadcrumbs items={[
+        { name: 'Inicio' }
+      ]} />
+
       <link rel="preconnect" href="https://res.cloudinary.com" />
+
 
       {/* ================== HERO ================== */}
       <header
