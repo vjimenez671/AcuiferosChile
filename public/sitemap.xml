@@ -29,5 +29,8 @@
   <loc>https://acuiferoschile.cl/politica-privacidad</loc>
   <priority>0.80</priority>
 </url>
-
+<url>
+  <loc>https://ia.acuiferoschile.cl</loc>
+  <priority>0.80</priority>
+</url>
 </urlset>
