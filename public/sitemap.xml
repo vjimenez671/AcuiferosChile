@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+<url>
+  <loc>https://acuiferoschile.cl/</loc>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://acuiferoschile.cl/quienes-somos</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://acuiferoschile.cl/contacto</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://acuiferoschile.cl/blog</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://acuiferoschile.cl/rag</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://acuiferoschile.cl/politica-privacidad</loc>
+  <priority>0.80</priority>
+</url>
+
+</urlset>

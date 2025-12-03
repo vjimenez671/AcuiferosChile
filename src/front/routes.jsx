@@ -1,3 +1,4 @@
+import React, { lazy } from "react";
 // Import necessary components and functions from react-router-dom.
 import {
   createBrowserRouter,
@@ -6,16 +7,17 @@ import {
 } from "react-router-dom";
 
 import { Layout } from "./pages/Layout";
-import { Home } from "./pages/Home";
-import { Single } from "./pages/Single";
-import { Demo } from "./pages/Demo";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import SignIn from "./pages/SignIn.jsx";
-import SignUp from "./pages/SignUp.jsx";
-import Blog from "./pages/Blog.jsx";
-import RAG from "./pages/RAG.jsx";
-import PrivacyPolicy from "./pages/PrivacyPolicy.jsx";
+// Lazy load the page components
+const Home = lazy(() => import("./pages/Home"));
+const Single = lazy(() => import("./pages/Single"));
+const Demo = lazy(() => import("./pages/Demo"));
+const About = lazy(() => import("./pages/About"));
+const Contact = lazy(() => import("./pages/Contact"));
+const SignIn = lazy(() => import("./pages/SignIn.jsx"));
+const SignUp = lazy(() => import("./pages/SignUp.jsx"));
+const Blog = lazy(() => import("./pages/Blog.jsx"));
+const RAG = lazy(() => import("./pages/RAG.jsx"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy.jsx"));
 
 
 export const router = createBrowserRouter(

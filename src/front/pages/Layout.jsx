@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 import ScrollToTop from "../components/ScrollToTop";
 import { Navbar } from "../components/Navbar";
@@ -10,7 +10,9 @@ export const Layout = () => {
       <Navbar />
       <ScrollToTop />
       <div style={{ paddingTop: "90px" }}></div>
-      <Outlet />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Outlet />
+      </Suspense>
       <Footer />
     </>
   );
