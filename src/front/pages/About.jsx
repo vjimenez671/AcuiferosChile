@@ -14,6 +14,7 @@ import alejandraImg from "../imagenes/alejandra-espinoza.png";
 const TEAM_MAIN = [
   {
     name: "Claudio Arriagada",
+    role: "Gerente General",
     initials: "CA",
     tag: "Chile",
     bio: "Ingeniero Agrónomo (UACh) y Perito Agrícola (IPA Adolfo Matthei). Especialista en proyectos de riego desde 2004 y en producción de berries por más de 17 años.",
@@ -21,6 +22,7 @@ const TEAM_MAIN = [
   },
   {
     name: "Orlando Jiménez",
+    role: "Socio Director",
     initials: "OJ",
     tag: "Chile",
     bio: "Ingeniero Agrónomo (U. de Chile), MSc y PhD (Oxford). Ex CEO de CSIRO para América Latina (12 años). Lideró programas de gestión integrada de cuencas, incluyendo recarga de acuíferos.",
@@ -107,6 +109,7 @@ function TeamSection({ title, subtitle, list, anchor, tone = "tone-a" }) {
                 </div>
                 <div className="member-heading">
                   <h3 className="member-name">{m.name}</h3>
+                  {m.role && <span className="member-role">{m.role}</span>}
                   <span className="member-tag">{m.tag}</span>
                 </div>
               </div>
