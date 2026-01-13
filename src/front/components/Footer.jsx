@@ -13,6 +13,11 @@ export const Footer = () => {
           <p className="foot-text">
             Ingeniería y operación para la seguridad hídrica del país.
           </p>
+          <div className="social-links">
+            <a href="https://www.instagram.com/acuiferoschile/" target="_blank" rel="noopener noreferrer" className="social-icon"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.facebook.com/profile.php?id=61584798719331" target="_blank" rel="noopener noreferrer" className="social-icon"><i class="fa-brands fa-facebook"></i></a>
+            <a href="https://www.linkedin.com/company/acu%C3%ADferos-chile/" target="_blank" rel="noopener noreferrer" className="social-icon"><i class="fa-brands fa-linkedin"></i></a>
+          </div>
         </div>
 
         <div>

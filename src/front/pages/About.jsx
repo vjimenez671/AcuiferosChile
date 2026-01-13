@@ -39,7 +39,7 @@ const TEAM_MAIN = [
     name: "Benjamín Santana",
     initials: "BS",
     tag: "Chile",
-    bio: "Geólogo (U. Andrés Bello) con experiencia en herramientas SIG.",
+    bio: "Geólogo (U.Andrés Bello) con licencia de piloto de dron y dominio de SIG, enfocado en el mapeo y análisis técnico de terreno.",
     photo: benjaminImg,
   },
   {
