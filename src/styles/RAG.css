@@ -1,685 +1,264 @@
-:root {
-  --blue-900: #0e3a5b;
-  --blue-800: #13486f;
-  --blue-700: #1f5a82;
-  --blue-600: #256892;
-  --blue-300: #68b3cf;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Oswald:wght@700&display=swap');
 
-  --ink-900: #0a2233;
-  --ink-800: #1a2e3d;
-  --ink-700: #274053;
-
-  --bg: #f0f8fc;
-  --white: #ffffff;
-
-  --tint-50: #f4fbff;
-  --tint-70: #eaf6ff;
-
-  --panel: #ffffff;
-  --surface: #ffffff;
-  --surface-alt: #f8fcff;
-
-  --shadow-sm: 0 4px 12px rgba(14, 58, 91, 0.1);
-  --shadow: 0 10px 25px rgba(14, 58, 91, 0.12);
-
-  --radius: 16px;
-  --radius-sm: 12px;
-
-  --space-3: 1rem;
-  --space-4: 1.5rem;
-  --space-5: 2rem;
-  --space-6: 3rem;
-
-  --fs-xs: clamp(0.78rem, 0.74rem + 0.2vw, 0.85rem);
-  --fs-sm: clamp(0.9rem, 0.86rem + 0.2vw, 1rem);
-  --fs-md: clamp(1rem, 0.98rem + 0.3vw, 1.125rem);
-  --fs-lg: clamp(1.125rem, 1.05rem + 0.6vw, 1.35rem);
-  --fs-xl: clamp(1.6rem, 1.2rem + 2.2vw, 2.2rem);
-  --fs-2xl: clamp(2rem, 1.4rem + 3vw, 3rem);
-
-  /* Ajustes para cards de técnicas (contraste sobre fondo azul claro) */
-  --tech-card-bg: #ffffff;
-  --tech-card-border: #d8e6ef;
-}
-
-.rag-page {
-  background: var(--bg);
-}
-
-/* ===== Hero ===== */
-.rag-hero {
+/* --- CONTEXTO ÚNICO PARA RAG --- */
+#rag-page-unique-context {
+  --rag-navy: #0E3A5B;
+  --rag-sky: #2F80A6;
+  --rag-white: #ffffff;
+  --rag-bg-ice-gray: #f5f5f7;  
+  --rag-bg-ice-blue: #e8f2fd;  
+  --rag-bg-pale-blue: #dcebfa; 
+  
+  --rag-text-main: #1d1d1f;
+  --rag-text-alt: #86868b;
+  
+  background-color: var(--rag-white);
+  color: var(--rag-text-main);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
   position: relative;
-  min-height: 520px;
-  display: flex;
-  align-items: center;
-  background: linear-gradient(
-    135deg,
-    var(--blue-900) 0%,
-    var(--blue-800) 50%,
-    var(--blue-700) 100%
-  );
-  color: #fff;
-}
-.rag-hero__overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(255, 255, 255, 0.92);
-  -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 82%, rgba(0, 0, 0, 0) 100%);
-  mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 82%, rgba(0, 0, 0, 0) 100%);
-  display: none;
-}
-.rag-hero__content {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  padding: var(--space-6) 0;
-}
-.rag-hero .eyebrow {
-  font-size: var(--fs-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--blue-300);
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-}
-.rag-hero h1 {
-  font-size: 2.4rem;
-  color: #fff;
-  line-height: 1.1;
-  margin-bottom: var(--space-3);
-  max-width: 24ch;
-}
-.rag-hero .lead {
-  font-size: var(--fs-lg);
-  color: #ecf6fb;
-  margin-bottom: var(--space-4);
-  max-width: 60ch;
-}
-.hero-cta {
-  display: flex;
-  gap: var(--space-3);
-}
-.rag-hero .hero-cta .btn-primary {
-  background: #fff;
-  color: var(--blue-900);
-}
-.rag-hero .hero-cta .btn-primary:hover {
-  background: #ecf6fb;
-}
-.rag-hero .hero-cta .btn-ghost {
-  background: rgba(255, 255, 255, 0.15);
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.35);
-}
-.rag-hero .hero-cta .btn-ghost:hover {
-  background: rgba(255, 255, 255, 0.25);
 }
 
-/* ===== Secciones ===== */
-.section {
-  padding: var(--space-6) 0;
-  background-color: var(--bg);
-}
-.section.alt { /* fondo blanco para diferenciar */
-  background: var(--white);
-}
-.section.legal { /* fondo diferenciado para Marco legal */
-  background: linear-gradient(180deg, var(--tint-70) 0%, var(--bg) 100%);
-}
-/* Fondo azul claro dentro de la paleta para “Técnicas de recarga” */
-.section.techniques {
-  background: var(--tint-70);
-}
-
-.section-head {
-  margin-bottom: var(--space-4);
-}
-.section h2 {
-  color: var(--blue-900);
-  font-size: var(--fs-xl);
-}
-.section-subtitle {
-  color: var(--ink-800);
-  font-size: var(--fs-md);
-  margin-top: 0.5rem;
-}
-.linea-divisora {
-  border-top: 1px solid #d8e6ef;
-  margin: var(--space-3) 0;
-}
-
-/* ===== Layout base ===== */
-.container {
-  max-width: 1200px;
+#rag-page-unique-context .rag-container {
+  max-width: 1240px;
   margin: 0 auto;
-  padding: 0 var(--space-5);
+  padding: 0 30px;
 }
 
-/* ===== Superficies ===== */
-.surface-grid {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: var(--space-3);
-}
-.surface {
-  grid-column: span 6;
-  background: var(--surface);
-  border: 1px solid #e4eef4;
-  border-radius: var(--radius);
-  padding: 1.1rem 1.25rem;
-  box-shadow: var(--shadow-sm);
-}
-.surface.span-2 {
-  grid-column: span 12;
-  background: var(--surface-alt);
-}
-.surface h3 { color: var(--blue-700); margin-bottom: 0.45rem; }
-.surface p { color: var(--ink-800); }
+/* --- CLASES DE FONDO --- */
+.rag-bg-white { background-color: var(--rag-white); }
+.rag-bg-ice-gray { background-color: var(--rag-bg-ice-gray); }
+.rag-bg-ice-blue { background-color: var(--rag-bg-ice-blue); }
+.rag-bg-pale-blue-sec { background-color: var(--rag-bg-pale-blue); }
 
-/* ===== Etiquetas inline ===== */
-.list-inline {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 0.75rem;
-  margin: 0.65rem 0 0.35rem;
-  padding: 0;
-}
-.list-inline li {
-  list-style: none;
-  background: #ecf6fb;
-  border: 1px solid #d7e7f2;
-  color: var(--blue-800);
-  padding: 0.25rem 0.6rem;
-  border-radius: 999px;
-  font-size: var(--fs-sm);
-}
-
-/* ===== Beneficios ===== */
-.benefits-wrap {
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: var(--space-3);
-}
-.panel {
-  background: var(--tint-50);
-  border: 1px solid #e4eef4;
-  border-radius: var(--radius);
-  padding: 1.2rem 1.25rem;
-  box-shadow: var(--shadow-sm);
-}
-.panel h3 { color: var(--blue-700); margin-bottom: 0.45rem; }
-.list-check, .list-dot { margin: 0.5rem 0 0 0; padding-left: 1.1rem; }
-.list-check li {
-  list-style: "✔  ";
-  margin-left: 0.25rem;
-  margin-bottom: 0.35rem;
-  color: var(--ink-800);
-}
-.list-dot li {
-  list-style: disc;
-  margin-left: 1.1rem;
-  margin-bottom: 0.35rem;
-  color: var(--ink-800);
-}
-
-/* ===== Timeline (Marco legal) ===== */
-.timeline {
-  position: relative;
-  display: grid;
-  gap: var(--space-3);
-  padding-left: 1.2rem;
-}
-.timeline::before {
-  content: "";
-  position: absolute;
-  left: 0.4rem;
-  top: 0; bottom: 0;
-  width: 2px;
-  background: #d8e6ef;
-}
-.timeline-item { position: relative; display: grid; }
-.timeline-dot {
-  position: absolute;
-  left: -0.05rem; top: 0.6rem;
-  width: 0.6rem; height: 0.6rem;
-  background: var(--blue-600);
-  border-radius: 50%;
-  box-shadow: 0 0 0 3px rgba(37, 104, 146, 0.15);
-}
-.timeline-card {
-  background: var(--surface);
-  border: 1px solid #e4eef4;
-  border-radius: var(--radius);
-  padding: 1rem 1.15rem;
-  box-shadow: var(--shadow-sm);
-}
-.timeline-card h3 { color: var(--blue-700); margin-bottom: 0.35rem; }
-.bullets { margin: 0.35rem 0 0 1.1rem; color: var(--ink-800); }
-.bullets li { margin-bottom: 0.35rem; }
-
-/* ===== Botones dentro de timeline-card ===== */
-.card-actions {
-  margin-top: 0.75rem;
-}
-
-/* Botón base */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  height: 44px;
-  padding: 0 1.1rem;
-  border-radius: 999px;
-  border: 1px solid transparent;
-  font-weight: 700;
-  font-size: var(--fs-sm);
-  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease,
-    color 0.18s ease, border-color 0.18s ease;
-}
-.btn:active { transform: translateY(1px); }
-.btn-primary { background: #4564a1; color: #fff; box-shadow: var(--shadow-sm); }
-.btn-primary:hover { box-shadow: var(--shadow); }
-.btn-ghost { background: rgba(255, 255, 255, 0.7); color: var(--blue-800); border-color: #d7e7f2; }
-.btn-ghost:hover { background: #fff; box-shadow: var(--shadow-sm); }
-
-/* Botón documental (PDF) — MÁS OSCURO + MENOS BORDER RADIUS */
-.btn-doc {
-  background: var(--blue-700);
-  color: #ffffff;
-  border: 1px solid var(--blue-700);
-  box-shadow: var(--shadow-sm);
-  height: auto;                /* permite dos líneas si fuese necesario */
-  padding: 0.55rem 0.9rem;
-  border-radius: 12px;         /* ⬅️ menos que el pill base */
-}
-.btn-doc:hover {
-  background: var(--blue-800);
-  border-color: var(--blue-800);
-  box-shadow: var(--shadow);
-}
-
-/* Botón destacado a Legislación DGA — MISMO COLOR, MENOS BORDER RADIUS */
-.btn-accent {
-  background: var(--blue-600);
-  color: #fff;
-  box-shadow: var(--shadow-sm);
-  border-radius: 12px;         /* ⬅️ menos que el pill base */
-}
-.btn-accent:hover {
-  background: var(--blue-700);
-  box-shadow: var(--shadow);
-}
-
-/* Contenedor para botón general bajo los tres cards */
-.legal-actions {
-  margin-top: 3.5rem;
+/* --- HERO RAG --- */
+.rag-hero-v3 {
+  min-height: 65vh; /* Compactado verticalmente */
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  perspective: 1500px;
+  padding-top: 20px; 
+  padding-bottom: 40px;
 }
 
-/* ===== Callout ===== */
-.callout {
-  margin-top: var(--space-4);
-  background: #ecf6fb;
-  border: 1px solid #d7e7f2;
-  color: var(--ink-900);
-  border-radius: var(--radius);
-  padding: 1rem 1.25rem;
-}
-
-/* ===== Módulos (no técnicas) ===== */
-.modules {
+.rag-hero-grid {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: var(--space-3);
-  /* NUEVO: gap razonable después del callout de objetivo/mecanismo */
-  margin-top: var(--space-4);
-}
-.module {
-  grid-column: span 4;
-  background: var(--surface);
-  border: 1px solid #e4eef4;
-  border-radius: var(--radius);
-  padding: 1rem 1.15rem;
-  box-shadow: var(--shadow-sm);
-}
-.module h3 { color: var(--blue-700); margin-bottom: 0.35rem; }
-.list-dot.tight li { margin-bottom: 0.2rem; }
-
-/* ===== Sub-sección de técnicas ===== */
-.subsection-head { margin-top: var(--space-5); margin-bottom: var(--space-3); }
-.subsection-title {
-  /* AUMENTADO: más grande/llamativo */
-  font-size: clamp(1.5rem, 1.1rem + 2vw, 2rem);
-  color: var(--blue-900);
-  margin: 0.4rem 0 0.2rem;
-}
-.subsection-subtitle {
-  color: var(--ink-700);
-  font-size: var(--fs-sm);
-}
-.pill {
-  display: inline-block;
-  padding: 0.1rem 0.6rem;
-  border-radius: 999px;
-  border: 1px solid #d7e7f2;
-  background: #f3faff;
-  margin-left: 0.35rem;
-}
-.dot {
-  display: inline-block;
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: #c5deed;
-  margin: 0 0.35rem;
-  vertical-align: middle;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 60px;
+  align-items: center;
 }
 
-/* ===== Tarjetas de técnicas (diferentes a módulos) ===== */
-.tech-grid {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: var(--space-3);
-  margin-top: var(--space-3);
-  /* NUEVO: margen inferior para separar de la nota final */
-  margin-bottom: var(--space-4);
-}
-
-/* Por requerimiento: "rows" -> cada card ocupa toda la fila */
-.tech-card {
-  grid-column: span 12;
-  background: var(--surface);
-  border: 1px solid #e4eef4;
-  border-radius: var(--radius);
-  padding: 1rem 1.15rem;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
-}
-
-/* ===== NUEVO: estilo horizontal de cards ===== */
-.tech-card--horizontal {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 1rem;
-  align-items: start;
-}
-.tech-card--accent {
-  background: var(--tint-50);
-  border-left: 4px solid var(--blue-600); /* << diferencia visual clara */
-}
-.tech-card h4 { color: var(--blue-700); margin: 0 0 0.35rem; }
-.tech-card p { color: var(--ink-800); }
-.tech-card:hover, .tech-card:focus-within {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow);
-  border-color: #D4E7F2;
-}
-.tech-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.4rem; }
-.badge {
-  display: inline-block;
-  font-size: var(--fs-xs);
+.rag-tag-premium {
+  background: var(--rag-navy);
+  color: white;
+  padding: 6px 15px;
+  border-radius: 50px;
+  font-size: 0.75rem;
   font-weight: 700;
-  padding: 0.18rem 0.55rem;
-  border-radius: 999px;
-  background: #e7f2fb;
-  border: 1px solid #cfe3f2;
-  color: var(--blue-800);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-/* ===== Texto secundario ===== */
-.muted { color: var(--ink-700); font-size: var(--fs-sm); }
-/* NUEVO: gap extra antes de la nota final bajo las técnicas */
-.tech-note { margin-top: var(--space-6); }
-
-/* ===== Media Embed ===== */
-.media-embed {
-  position: relative;
-  width: 100%;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
-  background: #000;
-  border: 1px solid #e4eef4;
-  padding: 0;
-}
-.media-embed iframe {
-  display: block;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  height: auto;
-  border: 0;
-  border-radius: var(--radius);
+.rag-hero-h1 {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(3.5rem, 8vw, 5.5rem);
+  line-height: 0.9;
+  margin: 15px 0;
+  color: var(--rag-navy);
+  text-transform: uppercase;
+  letter-spacing: -3px;
 }
 
-/* ===== Créditos ===== */
-.media-credit {
-  display: inline-block;
-  font-size: var(--fs-xs);
+.rag-hero-h1 span {
+  background: linear-gradient(90deg, var(--rag-navy), var(--rag-sky));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.rag-hero-p {
+  font-size: 1.4rem;
+  color: var(--rag-text-alt);
+  margin-bottom: 40px;
+  max-width: 550px;
+  font-weight: 300;
   line-height: 1.5;
-  color: var(--ink-700);
-  background: rgba(255, 255, 255, 0.6);
-  padding: 0.35rem 0.6rem;
-  border-radius: 999px;
-  border: 1px solid #e4eef4;
-  backdrop-filter: blur(2px);
-}
-.media-credit .credit-owner { font-weight: 700; }
-.media-credit cite { font-style: normal; }
-.media-credit .credit-link { text-decoration: underline; }
-.media-credit .credit-link:hover { text-decoration: none; }
-.media-credit--outside { margin-top: 0.6rem; }
-
-/* ===== Bloque video con fondo oscuro ===== */
-.section.video-block {
-  background: linear-gradient(135deg, var(--blue-800) 0%, var(--blue-700) 100%);
-  color: #fff;
-}
-.section.video-block h2, .section.video-block .section-subtitle { color: #fff; }
-.section.video-block .media-credit {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.22);
-  color: #fff;
 }
 
-/* ===== Hover/elevación consistente ===== */
-.surface, .panel, .timeline-card, .module {
-  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
-  will-change: transform;
-}
-.surface:hover, .panel:hover, .timeline-card:hover, .module:hover,
-.surface:focus-within, .panel:focus-within, .timeline-card:focus-within, .module:focus-within {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow);
-  border-color: #D4E7F2;
-}
-
-/* ===== Responsive ===== */
-@media (max-width: 1100px) {
-  .rag-hero__overlay { -webkit-mask-image: none; mask-image: none; }
-  .surface-grid .surface { grid-column: span 12; }
-  .surface-grid .surface.span-2 { grid-column: span 12; }
-  .benefits-wrap { grid-template-columns: 1fr; }
-  .modules .module, .tech-card { grid-column: span 12; }
-}
-
-.rag-hero .container, .rag-hero__content.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding-left: var(--space-5);
-  padding-right: var(--space-5);
-}
-
-/* Hero right img */
-.rag-hero__grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  gap: var(--space-5);
-  width: 100%;
-}
-.rag-hero h1, .rag-hero .lead { max-width: none; }
-.rag-hero__right {
-  min-height: 320px;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
-  background:
-    radial-gradient(1200px 600px at 80% 40%, rgba(255, 255, 255, 0.16), transparent 60%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.06));
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  display: flex; align-items: center; justify-content: center;
-}
-.rag-hero__right img {
-  max-width: 100%; height: auto;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
-}
-
-@media (max-width: 1100px) {
-  .rag-hero__grid { grid-template-columns: 1fr; }
-  .rag-hero__right { display: none; }
-}
-
-.subsection-head{
-  margin-top: 5rem;
-  margin-bottom: 3rem;
-}
-
-.subsection-subtitle {
-  margin-top: 1.25rem;
-  font-size: 1.15rem;
-}
-
-/* ===== Imagen en tarjetas de técnicas ===== */
-.tech-image {
-  display: block;
-  width: 100%;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  cursor: zoom-in;
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-  margin: 0 0 0.6rem 0;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
-}
-.tech-image img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-.tech-image:hover,
-.tech-image:focus-visible {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow);
-  outline: none;
-}
-
-/* ===== Lightbox (modal de imagen) ===== */
-.lightbox {
-  position: fixed;
-  inset: 0;
-  background: rgba(10, 34, 51, 0.82);
-  backdrop-filter: blur(2px);
+.rag-hero-btns {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  z-index: 1000;
+  gap: 30px;
 }
-.lightbox__img {
-  max-width: min(1100px, 92vw);
-  max-height: 86vh;
-  border-radius: var(--radius);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.35);
-}
-.lightbox__close {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  border: 0;
-  background: rgba(255,255,255,0.9);
-  color: var(--ink-900);
-  font-weight: 800;
-  border-radius: 999px;
-  width: 40px; height: 40px;
-  cursor: pointer;
-  box-shadow: var(--shadow-sm);
-}
-.lightbox__close:hover { background: #fff; }
 
-/* Grid para los "Casos objetivo" */
-.info-grid {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: var(--space-3);
-  margin-top: var(--space-3);
-  margin-bottom: var(--space-4);
+.rag-btn-apple-fill {
+  background: linear-gradient(180deg, #0077ed 0%, #0071e3 100%);
+  color: white;
+  padding: 18px 40px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-block;
+  transition: 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  box-shadow: 0 10px 25px rgba(0, 113, 227, 0.3);
+  position: relative;
+  overflow: hidden;
 }
-.info-grid .panel { grid-column: span 6; }
 
+.rag-btn-apple-fill:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 15px 35px rgba(0, 113, 227, 0.4); }
+
+.rag-btn-apple-ghost {
+  color: #0071e3;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  position: relative;
+  padding: 5px 0;
+}
+
+.rag-btn-apple-ghost::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: #0071e3; transition: 0.3s; }
+.rag-btn-apple-ghost:hover::after { width: 100%; }
+
+/* --- VISUAL 3D EFECTO HERO --- */
+.rag-hero-visual { perspective: 2000px; }
+.rag-perspective-wrapper { position: relative; width: 100%; transform-style: preserve-3d; display: flex; justify-content: center; }
+
+.rag-3d-card {
+  width: 100%;
+  max-width: 600px;
+  border-radius: 40px;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+  transform: rotateY(-12deg) rotateX(5deg);
+  transition: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+  animation: ragFloat 6s ease-in-out infinite;
+  z-index: 2;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.rag-perspective-wrapper:hover .rag-3d-card { transform: rotateY(0deg) rotateX(0deg) scale(1.02); box-shadow: 0 50px 100px rgba(14, 58, 91, 0.2); animation-play-state: paused; }
+.rag-image-glow { position: absolute; top: 50%; left: 50%; width: 130%; height: 130%; background: radial-gradient(circle, rgba(47, 128, 166, 0.2) 0%, transparent 70%); transform: translate(-50%, -50%) translateZ(-10px); pointer-events: none; opacity: 0.7; }
+
+@keyframes ragFloat { 0%, 100% { transform: translateY(0px) rotateY(-12deg) rotateX(5deg); } 50% { transform: translateY(-20px) rotateY(-10deg) rotateX(4deg); } }
+
+/* --- BENTO RAG LAYOUT (Compactado) --- */
+.rag-section-bento { padding: 80px 0; }
+.rag-section-header-compact { text-align: center; margin-bottom: 50px; }
+.rag-eyebrow { color: var(--rag-sky); font-weight: 700; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
+.rag-display-h2-compact { font-family: 'Oswald'; font-size: 3rem; text-transform: uppercase; color: var(--rag-navy); margin-top: 5px; }
+
+.rag-bento-layout-v4 { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 25px; }
+.rag-bento-right-stack { display: flex; flex-direction: column; gap: 25px; }
+
+.rag-bento-card { 
+  border-radius: 35px; 
+  padding: 45px; 
+  border: 1px solid rgba(0,0,0,0.05); 
+  transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1); 
+  display: flex;
+  flex-direction: column;
+}
+
+.rag-bento-main { height: 100%; justify-content: center; }
+.rag-bento-sm { flex: 1; justify-content: center; padding: 35px; }
+
+.rag-bento-card:hover { transform: translateY(-10px); box-shadow: 0 30px 60px rgba(0,0,0,0.08); }
+.rag-bento-navy { background: var(--rag-navy); color: white; }
+.rag-bento-white { background: white; color: var(--rag-text-main); }
+.rag-bento-pale-blue { background: var(--rag-bg-pale-blue); color: var(--rag-navy); }
+
+.rag-bento-card label { font-size: 0.7rem; text-transform: uppercase; opacity: 0.6; margin-bottom: 15px; display: block; }
+.rag-bento-card h2 { font-family: 'Oswald'; font-size: 3.2rem; margin-bottom: 20px; text-transform: uppercase; }
+.rag-bento-card h3 { font-family: 'Oswald'; font-size: 2rem; text-transform: uppercase; }
+
+/* --- VIDEO --- */
+.rag-video-full { background: #000; padding: 0; }
+.rag-video-box { width: 100%; aspect-ratio: 16/9; max-height: 80vh; }
+.rag-video-box iframe { width: 100%; height: 100%; border: none; }
+
+/* --- TECNICAS GRID (Compactado) --- */
+.rag-section-grid { padding: 90px 0; }
+.rag-grid-header { margin-bottom: 60px; } 
+.rag-grid-subtitle { font-size: 1.25rem; color: var(--rag-text-alt); margin-top: 15px; font-weight: 300; }
+
+.rag-display-h2 { font-family: 'Oswald'; font-size: 3.5rem; text-transform: uppercase; color: var(--rag-navy); }
+.rag-display-h2 span { color: var(--rag-sky); }
+
+.rag-tech-gallery { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 35px !important; }
+.rag-tech-item { background: white; border-radius: 30px; overflow: hidden; border: 1px solid rgba(0,0,0,0.03); display: flex; flex-direction: column; height: 100%; transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1); }
+.rag-tech-item:hover { transform: translateY(-15px) scale(1.02); box-shadow: 0 40px 80px rgba(14, 58, 91, 0.18); }
+.rag-tech-img { width: 100%; aspect-ratio: 4/3; position: relative; cursor: zoom-in; overflow: hidden; }
+.rag-tech-img img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s; }
+.rag-tech-zoom { position: absolute; inset: 0; background: rgba(14, 58, 91, 0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; color: white; font-weight: 700; }
+.rag-tech-item:hover .rag-tech-zoom { opacity: 1; }
+.rag-tech-content { padding: 40px; flex-grow: 1; display: flex; flex-direction: column; }
+.rag-tech-content h4 { font-family: 'Oswald'; font-size: 1.6rem; color: var(--rag-navy); margin-bottom: 15px; }
+
+/* META: SUELO COMO PUNTO APARTE SOLICITADO */
+.rag-tech-meta { margin-top: auto; padding-top: 20px; border-top: 1px solid #f0f0f0; display: flex; flex-direction: column; gap: 12px; }
+.rag-meta-line { display: block; font-size: 0.85rem; line-height: 1.4; }
+.rag-meta-line strong { color: var(--rag-sky); font-weight: 700; margin-right: 5px; }
+
+/* --- LEGAL (Compactado) --- */
+.rag-section-legal { padding: 90px 0; }
+.rag-legal-box { background: white; padding: 70px; border-radius: 45px; box-shadow: 0 40px 100px rgba(0,0,0,0.06); display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+
+/* HOVER PORTAL DGA SOLICITADO */
+.rag-dga-link-premium { 
+  display: inline-block; 
+  margin-top: 2rem; 
+  padding: 16px 35px; 
+  border: 2px solid var(--rag-sky); 
+  border-radius: 50px; 
+  color: var(--rag-sky); 
+  text-decoration: none; 
+  font-weight: 700; 
+  transition: all 0.3s ease;
+  background: transparent;
+}
+
+.rag-dga-link-premium:hover { 
+  background: var(--rag-sky); 
+  color: white; 
+  box-shadow: 0 10px 20px rgba(47, 128, 166, 0.3);
+  transform: translateY(-2px);
+}
+
+/* ESPACIOS EN DOCUMENTOS SOLICITADO */
+.rag-doc-item-v4 { 
+  background: var(--rag-bg-ice-gray); 
+  padding: 22px 30px; 
+  border-radius: 20px; 
+  text-decoration: none; 
+  color: var(--rag-text-main); 
+  display: flex; 
+  align-items: center; 
+  gap: 25px; 
+  margin-bottom: 15px; 
+  transition: 0.3s; 
+}
+.rag-doc-item-v4:hover { background: var(--rag-navy); color: white; transform: translateX(8px); }
+.rag-doc-tag-v4 { font-size: 0.7rem; font-weight: 800; background: rgba(0,0,0,0.06); padding: 5px 12px; border-radius: 6px; color: var(--rag-navy); }
+.rag-doc-item-v4:hover .rag-doc-tag-v4 { background: rgba(255,255,255,0.2); color: white; }
+
+.rag-doc-info-v4 { display: flex; flex-direction: column; gap: 6px; } /* Gap para separar título de ley */
+.rag-doc-info-v4 strong { font-size: 1.15rem; font-weight: 600; }
+.rag-doc-info-v4 small { font-size: 0.85rem; opacity: 0.7; margin-top: 2px; }
+
+/* --- LIGHTBOX --- */
+.rag-modal-overlay-v4 { position: fixed; inset: 0; background: rgba(255,255,255,0.98); backdrop-filter: blur(20px); z-index: 99999; display: flex; align-items: center; justify-content: center; }
+.rag-modal-body-v4 { max-width: 1000px; width: 95%; text-align: center; position: relative; }
+.rag-modal-body-v4 img { width: 100%; border-radius: 30px; box-shadow: 0 50px 120px rgba(0,0,0,0.25); border: 4px solid white; }
+.rag-modal-close-v4 { position: absolute; top: -70px; right: 0; background: rgba(0,0,0,0.05); border: none; font-size: 2.2rem; cursor: pointer; color: var(--rag-navy); width: 60px; height: 60px; border-radius: 50%; }
+
+/* --- RESPONSIVE --- */
 @media (max-width: 1100px) {
-  .info-grid .panel { grid-column: span 12; }
+  .rag-tech-gallery { grid-template-columns: repeat(2, 1fr) !important; }
+  .rag-bento-layout-v4 { grid-template-columns: 1fr; }
+  .rag-bento-right-stack { flex-direction: row; }
 }
 
-/* Pequeña estilización para subtítulos cortos en paneles */
-.kicker {
-  font-size: var(--fs-sm);
-  letter-spacing: .02em;
-  text-transform: uppercase;
-  color: var(--blue-800);
-  margin: 0 0 .25rem 0;
-}
-
-.legal{
-  margin-bottom: 3rem;
-}
-
-/* === Ajustes específicos dentro de la sección de Técnicas === */
-.section.techniques .tech-card {
-  background: var(--tech-card-bg);
-  border-color: var(--tech-card-border);
-}
-.section.techniques .tech-card--accent {
-  background: var(--tech-card-bg);
-  border-left-color: var(--blue-600);
-}
-
-/* Layout horizontal refinado */
-.tech-card--horizontal .tech-image {
-  width: 240px;
-  min-width: 200px;
-  margin: 0;
-}
-.tech-card--horizontal .tech-body {
-  display: block;
-}
-.tech-card--horizontal h4 {
-  margin-top: 0.1rem;
-}
-.tech-card--horizontal p {
-  margin: 0.35rem 0 0.5rem 0;
-}
-
-/* ===== Responsivo para cards horizontales ===== */
-@media (max-width: 900px) {
-  .tech-card--horizontal {
-    grid-template-columns: 1fr;
-  }
-  .tech-card--horizontal .tech-image {
-    width: 100%;
-    min-width: 0;
-    margin-bottom: 0.6rem;
-  }
-}
-
-/* ===== Margen superior alineado para títulos solicitados ===== */
-/* Técnicas de recarga */
-.section.techniques .subsection-head {
-  margin-top: var(--space-4);
-}
-/* Soluciones hídricas integrales (la sección posterior con id=diseno-operacion-cont) */
-#diseno-operacion-cont .subsection-head {
-  margin-top: var(--space-4);
+@media (max-width: 850px) {
+  .rag-section-bento, .rag-section-grid, .rag-section-legal { padding: 60px 0; }
+  .rag-hero-grid, .rag-legal-box, .rag-tech-gallery { grid-template-columns: 1fr !important; }
+  .rag-hero-visual { order: -1; margin-bottom: 20px; }
+  .rag-bento-right-stack { flex-direction: column; }
 }

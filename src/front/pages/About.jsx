@@ -1,106 +1,47 @@
 import React from "react";
 import "../../styles/About.css";
+
+// Importación de Imágenes
 import orlandoImg from "../imagenes/Orlando Jimenez.jpg";
 import claudioImg from "../imagenes/Claudio Arriagada.jpg";
 import evaImg from "../imagenes/eva-saez.jpg";
-import benjaminImg from "../imagenes/benjamin-santana.png";
+import benjaminImg from "../imagenes/benjamin-santana.jpg";
 import russellImg from "../imagenes/russell-martin.jpg";
 import enriqueImg from "../imagenes/enrique-fernandez.jpg";
 import jordiImg from "../imagenes/jordi-escorcia.jpg";
 import diegoImg from "../imagenes/diego-anguita.jpg";
 import reynaldoImg from "../imagenes/reynaldo-payano.png";
-import alejandraImg from "../imagenes/alejandra-espinoza.png";
 
 const TEAM_MAIN = [
-  {
-    name: "Claudio Arriagada",
-    role: "Gerente General",
-    initials: "CA",
-    tag: "Chile",
-    bio: "Ingeniero Agrónomo (UACh) y Perito Agrícola (IPA Adolfo Matthei). Especialista en proyectos de riego desde 2004 y en producción de berries por más de 17 años.",
-    photo: claudioImg,
-  },
-  {
-    name: "Orlando Jiménez",
-    role: "Socio Director",
-    initials: "OJ",
-    tag: "Chile",
-    bio: "Ingeniero Agrónomo (U. de Chile), MSc y PhD (Oxford). Ex CEO de CSIRO para América Latina (12 años). Lideró programas de gestión integrada de cuencas, incluyendo recarga de acuíferos.",
-    photo: orlandoImg,
-  },
-  {
-    name: "Eva Saez",
-    initials: "ES",
-    tag: "España",
-    bio: "Hidrogeóloga con un MSc. en Ingeniería del Terreno con especialidad en Hidrología Subterránea de la Universidad Politécnica de Catalunya (UPC).",
-    photo: evaImg,
-  },
-  {
-    name: "Benjamín Santana",
-    initials: "BS",
-    tag: "Chile",
-    bio: "Geólogo (U.Andrés Bello) con licencia de piloto de dron y dominio de SIG, enfocado en el mapeo y análisis técnico de terreno.",
-    photo: benjaminImg,
-  },
-  {
-    name: "Diego Anguita",
-    initials: "DA",
-    tag: "Chile",
-    bio: "Ingeniero Civil en Informática, MBA y Máster en Redes. Experto en gestión estratégica de TI, innovación, optimización de procesos e inteligencia artificial, con trayectoria en dirección de proyectos y liderazgo organizacional.",
-    photo: diegoImg,
-  },
+  { name: "Claudio Arriagada", initials: "CA", tag: "Chile", bio: "Gerente general. Ingeniero Agrónomo (UACh). Especialista en proyectos de riego desde 2004 y en producción de berries por más de 17 años.", photo: claudioImg },
+  { name: "Orlando Jiménez", initials: "OJ", tag: "Chile", bio: "Socio director. Ingeniero Agrónomo (U. de Chile), MSc y PhD (Oxford). Ex CEO de CSIRO para América Latina (12 años).", photo: orlandoImg },
+  { name: "Eva Saez", initials: "ES", tag: "España", bio: "Hidrogeóloga con un MSc. en Ingeniería del Terreno con especialidad en Hidrología Subterránea (UPC).", photo: evaImg },
+  { name: "Benjamín Santana", initials: "BS", tag: "Chile", bio: "Geólogo (U.Andrés Bello) con licencia de piloto de dron y dominio de SIG, enfocado en el mapeo y análisis técnico de terreno.", photo: benjaminImg },
+  { name: "Diego Anguita", initials: "DA", tag: "Chile", bio: "Ingeniero Civil en Informática, MBA y Máster en Redes. Experto en gestión estratégica de TI e IA aplicada.", photo: diegoImg },
 ];
 
 const TEAM_ASSOCIATES = [
-  {
-    name: "Russel Martin",
-    initials: "RM",
-    tag: "Australia",
-    bio: "Hidrogeólogo líder global en implementación de recarga de acuíferos. 30 años de experiencia y participación en más de 60 proyectos en todo el mundo.",
-    photo: russellImg,
-  },
-  {
-    name: "Enrique Fernández",
-    initials: "EF",
-    tag: "España",
-    bio: "Hidrogeólogo líder en recarga gestionada de acuíferos, con más de 90 proyectos a nivel global. Autor, coautor y editor de 22 libros en gestión hídrica.",
-    photo: enriqueImg,
-  },
-  {
-    name: "Jordi Escorcia",
-    initials: "JE",
-    tag: "Chile",
-    bio: "Geólogo (UAB), Máster en Hidrología Subterránea (UPC). Más de 20 años de experiencia en hidrogeología, minería y medio ambiente, con énfasis en modelación hidrogeológica y docencia universitaria.",
-    photo: jordiImg,
-  },
-  {
-    name: "Reynaldo Payano",
-    initials: "RP",
-    tag: "Chile",
-    bio: "Ingeniero Civil Hidrólogo, PhD. 15 años de experiencia en recursos hídricos. Gerente General y socio fundador de INRHED, especialista en estudios hidrológicos y planificación hídrica internacional.",
-    photo: reynaldoImg,
-  },
+  { name: "Russel Martin", initials: "RM", tag: "Australia", bio: "Hidrogeólogo líder global en implementación de recarga de acuíferos con participación en más de 60 proyectos mundiales.", photo: russellImg },
+  { name: "Enrique Fernández", initials: "EF", tag: "España", bio: "Hidrogeólogo líder en RAG con más de 90 proyectos globales y autor de 22 libros técnicos.", photo: enriqueImg },
+  { name: "Jordi Escorcia", initials: "JE", tag: "Chile", bio: "Geólogo (UAB), Máster en Hidrología Subterránea (UPC). Especialista en modelación hidrogeológica y minería.", photo: jordiImg },
+  { name: "Reynaldo Payano", initials: "RP", tag: "Chile", bio: "Ingeniero Civil Hidrólogo, PhD. Especialista en estudios hidrológicos y planificación hídrica internacional.", photo: reynaldoImg },
 ];
 
-function TeamSection({ title, subtitle, list, anchor, tone = "tone-a" }) {
+function TeamSection({ title, subtitle, list, anchor, tone = "bg-section-a" }) {
   return (
-    <section
-      className={`section about-team ${tone}`}
-      id={anchor}
-      aria-labelledby={`${anchor}-title`}
-    >
+    <section className={`section about-team ${tone}`} id={anchor}>
       <div className="container">
-        <div className="section-head">
-          <div className="linea-divisora"></div>
-          <h2 id={`${anchor}-title`}>{title}</h2>
-          {subtitle && <p className="section-subtitle">{subtitle}</p>}
-        </div>
+        <header className="section-head-centered">
+          <div className="accent-line-centered"></div>
+          <h2>{title}</h2>
+          {subtitle && <p className="section-subtitle-centered">{subtitle}</p>}
+        </header>
 
-        <ul className="team-grid" role="list">
+        <div className="team-grid">
           {list.map((m) => (
-            <li key={m.name} className="member-card" aria-label={m.name}>
+            <div key={m.name} className="member-card">
               <div className="member-header">
-                <div className="member-avatar" aria-hidden="true">
+                <div className="member-avatar">
                   {m.photo ? (
                     <img src={m.photo} alt={m.name} className="avatar-photo" />
                   ) : (
@@ -109,14 +50,14 @@ function TeamSection({ title, subtitle, list, anchor, tone = "tone-a" }) {
                 </div>
                 <div className="member-heading">
                   <h3 className="member-name">{m.name}</h3>
-                  {m.role && <span className="member-role">{m.role}</span>}
                   <span className="member-tag">{m.tag}</span>
                 </div>
               </div>
+              <div className="member-divider"></div>
               <p className="member-bio">{m.bio}</p>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
     </section>
   );
@@ -125,54 +66,53 @@ function TeamSection({ title, subtitle, list, anchor, tone = "tone-a" }) {
 export default function About() {
   return (
     <main className="ac-about">
-      {/* Quiénes somos: fondo blanco */}
-      <section className="section about-intro" aria-labelledby="about-title">
+      <section className="about-hero bg-section-b">
         <div className="container">
-          <div className="linea-divisora"></div>
-          <header className="section-head">
-            <h1 id="about-title" className="about-title">Quiénes somos</h1>
-            <p className="section-subtitle">
-              <strong>Acuíferos Chile</strong> es una empresa de ingeniería especializada en el diseño y construcción de proyectos de{" "}
-              <strong>Recarga de Acuíferos Gestionada (RAG)</strong>. Nuestro equipo reúne ingenieros agrónomos, civiles hidráulicos e
-              hidrogeólogos con amplia trayectoria en gestión hídrica, conformado por profesionales de distintas nacionalidades y trayectorias internacionales.
-            </p>
-            <p className="section-subtitle">
-              Combinamos ciencia aplicada, innovación tecnológica y rigurosidad técnica para entregar{" "}
-              <strong>soluciones llave en mano</strong>, que fortalecen la seguridad hídrica, aseguran el cumplimiento normativo y
-              promueven la sostenibilidad de los recursos subterráneos.
-            </p>
-
+          <header className="hero-header">
+            <div className="accent-line"></div>
+            <h1 className="about-title">Quiénes somos</h1>
           </header>
 
-          {/* NUEVO: Misión (card con fondo blanco y hover) */}
-          <div className="mission-callout" role="note" aria-label="Nuestra misión">
-            <h2 className="mission-title">Nuestra misión</h2>
-            <p className="mission-text">
-              Nuestra misión es transformar la gestión de los acuíferos para construir resiliencia hídrica ante el cambio climático.
-              En un contexto de sequías recurrentes y lluvias torrenciales ineficaces para la recarga (que se pierden como escorrentía),
-              aportamos conocimiento, experiencia y resultados medibles para asegurar el agua en beneficio de las comunidades,
-              la agricultura y el medio ambiente.
-            </p>
+          <div className="hero-grid-layout">
+            <div className="hero-main-text">
+              <p className="lead-text">
+                <strong>Acuíferos Chile</strong> es una firma de ingeniería de alta especialidad dedicada al diseño y ejecución de sistemas de
+                <span className="text-highlight"> Recarga de Acuíferos Gestionada (RAG)</span>.
+              </p>
+              <p className="support-text">
+                Combinamos ciencia aplicada y tecnología de vanguardia para entregar soluciones llave en mano que fortalecen la seguridad hídrica ante el desafío climático.
+              </p>
+            </div>
+
+            <aside className="mission-compact">
+              <div className="mission-inner">
+                <div className="mission-head">
+                  <i className="fas fa-bullseye"></i>
+                  <h2>Nuestra misión</h2>
+                </div>
+                <p>
+                  Transformar la gestión hídrica para construir resiliencia. Convertimos la escorrentía en reservas estratégicas para las comunidades y la agricultura.
+                </p>
+              </div>
+            </aside>
           </div>
         </div>
       </section>
 
-      {/* Equipo principal: fondo azul muy suave */}
       <TeamSection
-        title="Equipo principal"
+        title="Equipo Principal"
         anchor="equipo-principal"
-        subtitle="Un equipo senior con experiencia comprobada en RAG, hidrología aplicada y gestión integrada de cuencas."
+        subtitle="Liderazgo senior con trayectoria internacional en hidrología y gestión de cuencas."
         list={TEAM_MAIN}
-        tone="tone-a"
+        tone="bg-section-a"
       />
 
-      {/* Asociados: fondo azul suave alternativo */}
       <TeamSection
-        title="Asociados"
+        title="Asociados Estratégicos"
         anchor="asociados"
-        subtitle="Especialistas que complementan capacidades técnicas y territoriales."
+        subtitle="Expertos globales que complementan nuestra visión técnica y territorial."
         list={TEAM_ASSOCIATES}
-        tone="tone-b"
+        tone="bg-section-b"
       />
     </main>
   );
