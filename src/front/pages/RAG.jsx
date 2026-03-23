@@ -102,6 +102,9 @@ export default function RAG() {
               allowFullScreen
             />
           </div>
+          <div className="rag-video-caption">
+            <p>Video © CSIRO — <a href="https://www.youtube.com/watch?v=Lwtxygc5Yms" target="_blank" rel="noreferrer">Ver en YouTube</a></p>
+          </div>
         </section>
 
         {/* --- TECNICAS GRID --- */}
