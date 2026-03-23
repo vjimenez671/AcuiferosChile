@@ -107,7 +107,7 @@ export default function RAG() {
         {/* --- TECNICAS GRID --- */}
         <section className="rag-section-grid rag-bg-ice-blue" id="tecnicas-scroll">
           <div className="rag-container">
-            <div className="rag-grid-header">
+            <div className="rag-grid-header centered">
               <h2 className="rag-display-h2">Técnicas de <span>Infiltración</span></h2>
               <p className="rag-grid-subtitle">Cinco soluciones de ingeniería adaptadas a la hidrogeología local.</p>
             </div>

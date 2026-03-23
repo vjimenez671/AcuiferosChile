@@ -35,12 +35,12 @@ function TeamSection({ title, subtitle, list, tone }) {
   return (
     <section className={`about-team-section ${tone}`}>
       <div className="container">
-        <div className="home-section-header">
-          <span className="home-eyebrow">Expertos</span>
-          <h2 className="home-display-h2">
+        <div className="about-section-header centered">
+          <span className="about-eyebrow">Expertos</span>
+          <h2 className="about-display-h2">
             {mainText} <span>{highlightText}</span>
           </h2>
-          {subtitle && <p className="home-subtitle">{subtitle}</p>}
+          {subtitle && <p className="about-subtitle">{subtitle}</p>}
         </div>
 
         <div className="about-team-grid">
@@ -80,14 +80,14 @@ export default function About() {
         <div className="container">
           <div className="about-hero-layout">
             <div className="about-hero-text">
-              <span className="home-tag-premium">Nuestra Identidad</span>
+              <span className="about-tag-premium">Nuestra Identidad</span>
               <h1 className="about-hero-h1">Ciencia aplicada al <br /><span>futuro del agua.</span></h1>
               <p className="about-lead">
                 <strong>Acuíferos Chile</strong> es una firma de ingeniería de alta especialidad dedicada al diseño y ejecución de sistemas de
                 <span className="text-highlight"> Recarga de Acuíferos Gestionada (RAG)</span>.
               </p>
               <p className="about-support">
-                Combinamos <strong>rigor científico</strong> y tecnología de vanguardia para entregar soluciones llave en mano que fortalecen la seguridad hídrica.
+                Combinamos <strong>rigor científico</strong> y tecnología de vanguardia para entregar soluciones llave en mano que fortalecen la seguridad hídrica ante el desafío climático.
               </p>
             </div>
 
@@ -96,7 +96,7 @@ export default function About() {
                 <i className="fas fa-bullseye"></i>
               </div>
               <h3>Nuestra <span>Misión</span></h3>
-              <p>Transformar la gestión hídrica para construir <strong>resiliencia</strong>. Convertimos la escorrentía en reservas estratégicas para las comunidades.</p>
+              <p>Transformar la gestión hídrica para construir <strong>resiliencia</strong>. Convertimos la escorrentía en reservas estratégicas para las comunidades y la agricultura.</p>
               <div className="about-mission-glow"></div>
             </div>
           </div>
