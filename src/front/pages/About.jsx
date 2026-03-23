@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../../styles/About.css";
 
 // Importación de Imágenes
@@ -27,34 +27,40 @@ const TEAM_ASSOCIATES = [
   { name: "Reynaldo Payano", initials: "RP", tag: "Chile", bio: "Ingeniero Civil Hidrólogo, PhD. Especialista en estudios hidrológicos y planificación hídrica internacional.", photo: reynaldoImg },
 ];
 
-function TeamSection({ title, subtitle, list, anchor, tone = "bg-section-a" }) {
-  return (
-    <section className={`section about-team ${tone}`} id={anchor}>
-      <div className="container">
-        <header className="section-head-centered">
-          <div className="accent-line-centered"></div>
-          <h2>{title}</h2>
-          {subtitle && <p className="section-subtitle-centered">{subtitle}</p>}
-        </header>
+function TeamSection({ title, subtitle, list, tone }) {
+  const words = title.split(' ');
+  const mainText = words.slice(0, -1).join(' ');
+  const highlightText = words[words.length - 1];
 
-        <div className="team-grid">
+  return (
+    <section className={`about-team-section ${tone}`}>
+      <div className="container">
+        <div className="home-section-header">
+          <span className="home-eyebrow">Expertos</span>
+          <h2 className="home-display-h2">
+            {mainText} <span>{highlightText}</span>
+          </h2>
+          {subtitle && <p className="home-subtitle">{subtitle}</p>}
+        </div>
+
+        <div className="about-team-grid">
           {list.map((m) => (
-            <div key={m.name} className="member-card">
-              <div className="member-header">
-                <div className="member-avatar">
+            <div key={m.name} className="about-member-card">
+              <div className="about-member-header">
+                <div className="about-member-avatar">
                   {m.photo ? (
-                    <img src={m.photo} alt={m.name} className="avatar-photo" />
+                    <img src={m.photo} alt={m.name} />
                   ) : (
-                    <span className="avatar-initials">{m.initials}</span>
+                    <div className="about-avatar-placeholder">{m.initials}</div>
                   )}
                 </div>
-                <div className="member-heading">
-                  <h3 className="member-name">{m.name}</h3>
-                  <span className="member-tag">{m.tag}</span>
+                <div className="about-member-info">
+                  <span className="about-member-tag">{m.tag}</span>
+                  <h3>{m.name}</h3>
                 </div>
               </div>
-              <div className="member-divider"></div>
-              <p className="member-bio">{m.bio}</p>
+              <div className="about-member-divider"></div>
+              <p className="about-member-bio">{m.bio}</p>
             </div>
           ))}
         </div>
@@ -64,55 +70,51 @@ function TeamSection({ title, subtitle, list, anchor, tone = "bg-section-a" }) {
 }
 
 export default function About() {
-  return (
-    <main className="ac-about">
-      <section className="about-hero bg-section-b">
-        <div className="container">
-          <header className="hero-header">
-            <div className="accent-line"></div>
-            <h1 className="about-title">Quiénes somos</h1>
-          </header>
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
-          <div className="hero-grid-layout">
-            <div className="hero-main-text">
-              <p className="lead-text">
+  return (
+    <main className="about-unique-context">
+      <section className="about-hero about-bg-main">
+        <div className="container">
+          <div className="about-hero-layout">
+            <div className="about-hero-text">
+              <span className="home-tag-premium">Nuestra Identidad</span>
+              <h1 className="about-hero-h1">Ciencia aplicada al <br /><span>futuro del agua.</span></h1>
+              <p className="about-lead">
                 <strong>Acuíferos Chile</strong> es una firma de ingeniería de alta especialidad dedicada al diseño y ejecución de sistemas de
                 <span className="text-highlight"> Recarga de Acuíferos Gestionada (RAG)</span>.
               </p>
-              <p className="support-text">
-                Combinamos ciencia aplicada y tecnología de vanguardia para entregar soluciones llave en mano que fortalecen la seguridad hídrica ante el desafío climático.
+              <p className="about-support">
+                Combinamos <strong>rigor científico</strong> y tecnología de vanguardia para entregar soluciones llave en mano que fortalecen la seguridad hídrica.
               </p>
             </div>
 
-            <aside className="mission-compact">
-              <div className="mission-inner">
-                <div className="mission-head">
-                  <i className="fas fa-bullseye"></i>
-                  <h2>Nuestra misión</h2>
-                </div>
-                <p>
-                  Transformar la gestión hídrica para construir resiliencia. Convertimos la escorrentía en reservas estratégicas para las comunidades y la agricultura.
-                </p>
+            <div className="about-mission-card">
+              <div className="about-mission-icon">
+                <i className="fas fa-bullseye"></i>
               </div>
-            </aside>
+              <h3>Nuestra <span>Misión</span></h3>
+              <p>Transformar la gestión hídrica para construir <strong>resiliencia</strong>. Convertimos la escorrentía en reservas estratégicas para las comunidades.</p>
+              <div className="about-mission-glow"></div>
+            </div>
           </div>
         </div>
       </section>
 
       <TeamSection
         title="Equipo Principal"
-        anchor="equipo-principal"
         subtitle="Liderazgo senior con trayectoria internacional en hidrología y gestión de cuencas."
         list={TEAM_MAIN}
-        tone="bg-section-a"
+        tone="about-bg-alt"
       />
 
       <TeamSection
         title="Asociados Estratégicos"
-        anchor="asociados"
         subtitle="Expertos globales que complementan nuestra visión técnica y territorial."
         list={TEAM_ASSOCIATES}
-        tone="bg-section-b"
+        tone="about-bg-main"
       />
     </main>
   );

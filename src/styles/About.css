@@ -1,184 +1,202 @@
-:root {
-  --blue-brand: #0E3A5B;
-  --blue-light: #2F80A6;
-  --white: #ffffff;
-  --bg-a: #e8f2fd; /* Fondo Equipo Principal */
-  --bg-b: #f4f9ff; /* Fondo Hero y Asociados */
-  --text-main: #1A2E3D;
-  --text-muted: #546E7A;
-  --shadow-subtle: 0 4px 20px rgba(14, 58, 91, 0.05);
-  --shadow-hover: 0 15px 35px rgba(14, 58, 91, 0.12);
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Oswald:wght@700&display=swap');
+
+.about-unique-context {
+  --a-navy: #0E3A5B;
+  --a-sky: #2F80A6;
+  --a-ice: #e8f2fd;
+  --a-white: #ffffff;
+  --a-gray: #f5f5f7;
+  --a-text: #1d1d1f;
+  --a-text-alt: #424245;
+  
+  background-color: var(--a-white);
+  font-family: 'Inter', sans-serif;
+  color: var(--a-text);
+  -webkit-font-smoothing: antialiased;
 }
 
-.container {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 2rem;
-}
-
-.bg-section-a { background-color: var(--bg-a); }
-.bg-section-b { background-color: var(--bg-b); }
+.about-bg-main { background-color: var(--a-white); }
+.about-bg-alt { background-color: var(--a-ice); }
 
 /* --- HERO SECTION --- */
 .about-hero {
-  padding: 40px 0 60px;
+  padding: 120px 0 100px;
+  border-bottom: 1px solid rgba(14, 58, 91, 0.05);
 }
 
-.hero-header { margin-bottom: 0.5rem; }
-
-.accent-line {
-  width: 40px;
-  height: 4px;
-  background: var(--blue-light);
-  margin-bottom: 0.8rem;
-}
-
-.about-title {
-  font-family: 'Oswald', sans-serif;
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: var(--blue-brand);
-  text-transform: uppercase;
-  margin: 0;
-}
-
-.hero-grid-layout {
+.about-hero-layout {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
-  gap: 3.5rem;
-  margin-top: 1.5rem;
-  align-items: start;
-}
-
-.hero-main-text {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.lead-text { font-size: 1.2rem; line-height: 1.6; color: var(--text-main); margin: 0; }
-.text-highlight { color: var(--blue-light); font-weight: 600; }
-.support-text { font-size: 1.05rem; color: var(--text-muted); line-height: 1.8; margin: 0; }
-
-/* --- TARJETA MISIÓN (AJUSTADA) --- */
-.mission-compact {
-  background: var(--white);
-  border-radius: 20px;
-  border: 1px solid rgba(14, 58, 91, 0.1);
-  padding: 1.8rem;
-  box-shadow: var(--shadow-subtle);
-  transition: all 0.4s ease;
-  
-  /* Bajar un poco para no tapar el título */
-  margin-top: -25px; 
-  position: relative;
-  z-index: 10;
-}
-
-.mission-compact:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-hover);
-  border-color: var(--blue-light);
-}
-
-.mission-head { display: flex; align-items: center; gap: 12px; margin-bottom: 0.8rem; }
-.mission-head i { color: var(--blue-light); font-size: 1.3rem; }
-.mission-head h2 { font-family: 'Oswald', sans-serif; font-size: 1.5rem; font-weight: 600; color: var(--blue-brand); margin: 0; text-transform: uppercase; }
-.mission-inner p { font-size: 0.95rem; line-height: 1.6; color: var(--text-muted); margin: 0; }
-
-/* --- SECCIONES DE EQUIPO --- */
-.about-team { padding: 60px 0; }
-
-.section-head-centered {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
+  gap: 80px;
   align-items: center;
-  margin-bottom: 3rem;
 }
 
-.accent-line-centered {
-  width: 40px;
-  height: 4px;
-  background: var(--blue-light);
-  margin-bottom: 1rem;
-}
-
-.section-head-centered h2 {
+/* Corregido: Título con color visible sobre fondo blanco */
+.about-hero-h1 {
   font-family: 'Oswald', sans-serif;
-  font-size: 2.2rem;
-  font-weight: 600;
-  color: var(--blue-brand);
-  margin-bottom: 0.5rem;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  line-height: 1.1;
+  color: var(--a-navy); /* Color base oscuro */
   text-transform: uppercase;
+  letter-spacing: -1.5px;
+  margin-bottom: 1.5rem;
 }
 
-.section-subtitle-centered {
-  font-size: 1rem;
-  color: var(--text-muted);
-  max-width: 600px;
-  margin: 0 auto;
+.about-hero-h1 span {
+  background: linear-gradient(90deg, var(--a-navy), var(--a-sky));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
 }
 
-/* --- GRID Y EFECTO HOVER EN CARDS --- */
-.team-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.8rem;
+.about-lead {
+  font-size: 1.4rem;
+  line-height: 1.6;
+  color: var(--a-navy);
+  margin-bottom: 1.5rem;
+  font-weight: 300;
 }
 
-.member-card {
-  background: var(--white);
-  border-radius: 20px;
-  padding: 1.8rem;
-  box-shadow: 0 4px 15px rgba(14, 58, 91, 0.04);
-  border: 1px solid rgba(14, 58, 91, 0.05);
-  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+.about-lead strong { font-weight: 700; color: var(--a-sky); }
+
+.text-highlight { 
+  background: rgba(47, 128, 166, 0.08);
+  padding: 2px 8px;
+  border-radius: 6px;
+  color: var(--a-sky);
+  font-weight: 600;
+}
+
+.about-support {
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: var(--a-text-alt);
+}
+
+/* --- MISSION CARD (HOVER EFECTO) --- */
+.about-mission-card {
+  background: var(--a-navy);
+  color: white;
+  padding: 50px;
+  border-radius: 45px;
   position: relative;
+  box-shadow: 0 30px 60px rgba(14, 58, 91, 0.2);
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   overflow: hidden;
+  cursor: default;
 }
 
-/* EFECTO HOVER INTEGRANTES */
-.member-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(14, 58, 91, 0.12);
-  border-color: rgba(47, 128, 166, 0.3);
+.about-mission-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 50px 100px rgba(14, 58, 91, 0.4);
 }
 
-.member-header { display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.2rem; }
-.member-avatar { 
-  width: 70px; 
-  height: 70px; 
-  border-radius: 50%; 
-  overflow: hidden; 
-  border: 2px solid var(--bg-a); 
-  flex-shrink: 0; 
-  transition: transform 0.4s ease;
+.about-mission-icon {
+  width: 60px; height: 60px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--a-sky);
+  border-radius: 18px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.8rem; margin-bottom: 30px;
+  transition: 0.4s;
 }
 
-.member-card:hover .member-avatar {
-  transform: scale(1.05);
-  border-color: var(--blue-light);
+.about-mission-card:hover .about-mission-icon {
+  background: var(--a-sky);
+  color: white;
+  transform: rotate(10deg);
 }
 
-.avatar-photo { width: 100%; height: 100%; object-fit: cover; }
-.avatar-initials { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--blue-brand); font-size: 1.4rem; background: var(--bg-b); }
-
-.member-name { font-size: 1.1rem; font-weight: 700; color: var(--blue-brand); margin-bottom: 0.2rem; }
-.member-tag { font-size: 0.65rem; text-transform: uppercase; background: #eef4f9; color: var(--blue-light); padding: 3px 10px; border-radius: 12px; font-weight: 700; }
-
-.member-divider {
-  height: 1px;
-  background: linear-gradient(90deg, var(--blue-light) 0%, transparent 100%);
-  opacity: 0.15;
-  margin-bottom: 1.2rem;
+.about-mission-card h3 {
+  font-family: 'Oswald';
+  font-size: 2.2rem;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  position: relative; z-index: 2;
 }
 
-.member-bio { font-size: 0.9rem; line-height: 1.6; color: var(--text-muted); }
+.about-mission-card h3 span { color: var(--a-sky); }
 
-@media (max-width: 992px) {
-  .mission-compact { margin-top: 0; }
-  .hero-grid-layout { grid-template-columns: 1fr; gap: 2rem; }
-  .about-title { text-align: center; }
-  .hero-header { display: flex; flex-direction: column; align-items: center; }
+.about-mission-card p {
+  font-size: 1.15rem; line-height: 1.7;
+  opacity: 0.85; position: relative; z-index: 2;
+}
+
+/* Efecto de brillo interno al hover */
+.about-mission-glow {
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: radial-gradient(circle, rgba(47, 128, 166, 0.15) 0%, transparent 70%);
+  opacity: 0;
+  transition: 0.6s opacity;
+  pointer-events: none;
+}
+
+.about-mission-card:hover .about-mission-glow { opacity: 1; }
+
+/* --- TEAM SECTIONS --- */
+.about-team-section { padding: 100px 0; }
+
+.about-team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-top: 60px;
+}
+
+.about-bg-alt .about-member-card { background: var(--a-white); }
+.about-bg-main .about-member-card { background: var(--a-gray); }
+
+.about-member-card {
+  padding: 40px;
+  border-radius: 40px;
+  transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border: 1px solid rgba(0,0,0,0.03);
+}
+
+.about-member-card:hover {
+  transform: translateY(-15px);
+  box-shadow: 0 45px 90px rgba(14, 58, 91, 0.12);
+  border-color: var(--a-sky);
+}
+
+.about-member-header { display: flex; align-items: center; gap: 25px; margin-bottom: 30px; }
+
+.about-member-avatar {
+  width: 90px; height: 90px; border-radius: 50%;
+  overflow: hidden; background: #fff; border: 3px solid transparent;
+  transition: 0.4s; flex-shrink: 0;
+}
+
+.about-member-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+.about-member-tag {
+  font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
+  color: white; background: var(--a-sky);
+  padding: 4px 14px; border-radius: 50px;
+}
+
+.about-member-info h3 {
+  font-family: 'Oswald'; font-size: 1.5rem; color: var(--a-navy);
+  text-transform: uppercase; margin-top: 10px;
+}
+
+.about-member-divider {
+  height: 3px; width: 50px; background: var(--a-sky);
+  margin-bottom: 25px; opacity: 0.3;
+}
+
+.about-member-bio { font-size: 1rem; line-height: 1.7; color: var(--a-text-alt); }
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1100px) {
+  .about-team-grid { grid-template-columns: repeat(2, 1fr); }
+  .about-hero-layout { grid-template-columns: 1fr; gap: 50px; }
+}
+
+@media (max-width: 768px) {
+  .about-team-grid { grid-template-columns: 1fr; }
+  .about-hero-h1 { font-size: 2.8rem; }
 }
