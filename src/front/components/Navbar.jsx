@@ -8,8 +8,9 @@ export const Navbar = () => {
   const location = useLocation();
 
   const toggle = () => {
-    setOpen(!open);
-    document.body.style.overflow = !open ? 'hidden' : 'auto';
+    const newState = !open;
+    setOpen(newState);
+    document.body.style.overflow = newState ? 'hidden' : 'auto';
   };
 
   const close = () => {
@@ -25,7 +26,7 @@ export const Navbar = () => {
     <nav className={`navbar ${open ? "menu-open" : ""}`}>
       <div className="container navbar-container">
         <div className="navbar-brand">
-          <Link to="/" className="brand-link">
+          <Link to="/" className="brand-link" onClick={close}>
             <div className="contenedor-logo">
               <img src={logoSrc} alt="Logo" />
             </div>
@@ -52,10 +53,9 @@ export const Navbar = () => {
           <li className="elemento"><Link to="/rag">¿Qué es RAG?</Link></li>
           <li className="elemento">
             <a href="https://ia.acuiferoschile.cl" target="_blank" rel="noreferrer" className="nav-accent-link">
-              Evalúa tu terreno <i className="fas fa-microchip" style={{ fontSize: '0.7rem', marginLeft: '4px' }}></i>
+              Evalúa tu terreno <i className="fas fa-microchip"></i>
             </a>
           </li>
-          <li className="elemento"><Link to="/blog">Blog</Link></li>
           <li className="elemento"><Link to="/contacto">Contacto</Link></li>
         </ul>
       </div>
