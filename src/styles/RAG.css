@@ -8,6 +8,7 @@
   --rag-bg-ice-gray: #f5f5f7;  
   --rag-bg-ice-blue: #e8f2fd;  
   --rag-bg-pale-blue: #dcebfa; 
+  --rag-dark-footer: #071927; 
   
   --rag-text-main: #1d1d1f;
   --rag-text-alt: #86868b;
@@ -31,21 +32,25 @@
 .rag-bg-ice-blue { background-color: var(--rag-bg-ice-blue); }
 .rag-bg-pale-blue-sec { background-color: var(--rag-bg-pale-blue); }
 
-/* --- HERO RAG --- */
+/* --- HERO RAG (Altura Intermedia) --- */
 .rag-hero-v3 {
-  min-height: 65vh;
+  min-height: 60vh;
   display: flex;
   align-items: center;
   perspective: 1500px;
-  padding-top: 20px; 
-  padding-bottom: 40px;
+  padding-top: 25px; /* Punto medio entre los 40px iniciales y los 15px previos */
+  padding-bottom: 20px;
 }
 
 .rag-hero-grid {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
   gap: 60px;
-  align-items: center;
+  align-items: center; 
+}
+
+.rag-hero-info {
+  padding-top: 0; 
 }
 
 .rag-tag-premium {
@@ -57,13 +62,15 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
+  margin-bottom: 25px; 
+  display: inline-block;
 }
 
 .rag-hero-h1 {
   font-family: 'Oswald', sans-serif;
   font-size: clamp(3.5rem, 8vw, 5.5rem);
   line-height: 0.9;
-  margin: 15px 0;
+  margin: 0 0 15px; 
   color: var(--rag-navy);
   text-transform: uppercase;
   letter-spacing: -3px;
@@ -78,7 +85,7 @@
 .rag-hero-p {
   font-size: 1.4rem;
   color: var(--rag-text-alt);
-  margin-bottom: 40px;
+  margin-bottom: 25px;
   max-width: 550px;
   font-weight: 300;
   line-height: 1.5;
@@ -118,29 +125,57 @@
 .rag-btn-apple-ghost::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: #0071e3; transition: 0.3s; }
 .rag-btn-apple-ghost:hover::after { width: 100%; }
 
-/* --- VISUAL 3D EFECTO HERO --- */
-.rag-hero-visual { perspective: 2000px; }
-.rag-perspective-wrapper { position: relative; width: 100%; transform-style: preserve-3d; display: flex; justify-content: center; }
+/* --- VISUAL IMPACT --- */
+.rag-hero-visual { 
+  perspective: 2000px; 
+  padding-top: 55px; /* Ajuste sutil para mantener el balance con el texto */
+}
+
+.rag-perspective-wrapper { position: relative; width: 100%; transform-style: preserve-3d; display: flex; justify-content: center; align-items: center; }
+
+.rag-image-reflection-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 .rag-3d-card {
   width: 100%;
   max-width: 600px;
   border-radius: 40px;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.12);
-  transform: rotateY(-12deg) rotateX(5deg);
-  transition: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
-  animation: ragFloat 6s ease-in-out infinite;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  transform: rotateY(-10deg) rotateX(4deg);
+  transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+  animation: ragFloat 5s ease-in-out infinite;
   z-index: 2;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.4);
 }
 
-.rag-perspective-wrapper:hover .rag-3d-card { transform: rotateY(0deg) rotateX(0deg) scale(1.02); box-shadow: 0 50px 100px rgba(14, 58, 91, 0.2); animation-play-state: paused; }
-.rag-image-glow { position: absolute; top: 50%; left: 50%; width: 130%; height: 130%; background: radial-gradient(circle, rgba(47, 128, 166, 0.2) 0%, transparent 70%); transform: translate(-50%, -50%) translateZ(-10px); pointer-events: none; opacity: 0.7; }
+.rag-image-reflection {
+  width: 90%;
+  height: 100px;
+  background: linear-gradient(to bottom, rgba(47, 128, 166, 0.15), transparent);
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1), transparent);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent);
+  border-radius: 50%;
+  filter: blur(20px);
+  margin-top: -30px;
+  transform: rotateX(70deg);
+  z-index: 1;
+}
 
-@keyframes ragFloat { 0%, 100% { transform: translateY(0px) rotateY(-12deg) rotateX(5deg); } 50% { transform: translateY(-20px) rotateY(-10deg) rotateX(4deg); } }
+.rag-perspective-wrapper:hover .rag-3d-card { 
+  transform: rotateY(0deg) rotateX(0deg) translateY(-10px); 
+  box-shadow: 0 50px 100px rgba(14, 58, 91, 0.15); 
+}
+
+.rag-image-glow { position: absolute; top: 50%; left: 50%; width: 140%; height: 140%; background: radial-gradient(circle, rgba(47, 128, 166, 0.15) 0%, transparent 70%); transform: translate(-50%, -50%) translateZ(-10px); pointer-events: none; opacity: 0.8; }
+
+@keyframes ragFloat { 0%, 100% { transform: translateY(0px) rotateY(-10deg) rotateX(4deg); } 50% { transform: translateY(-15px) rotateY(-8deg) rotateX(3deg); } }
 
 /* --- BENTO RAG LAYOUT --- */
-.rag-section-bento { padding: 80px 0; }
+.rag-section-bento { padding: 60px 0 80px; }
 .rag-section-header-compact { text-align: center; margin-bottom: 50px; }
 .rag-eyebrow { color: var(--rag-sky); font-weight: 700; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
 .rag-display-h2-compact { font-family: 'Oswald'; font-size: 3rem; text-transform: uppercase; color: var(--rag-navy); margin-top: 5px; }
@@ -173,11 +208,15 @@
 .rag-video-full { background: #000; padding: 0; position: relative; }
 .rag-video-box { width: 100%; aspect-ratio: 16/9; max-height: 80vh; }
 .rag-video-box iframe { width: 100%; height: 100%; border: none; }
-.rag-video-caption { background: #000; padding: 15px 40px; text-align: center; }
+.rag-video-caption { 
+  background: var(--rag-dark-footer); 
+  padding: 15px 40px; 
+  text-align: center; 
+}
 .rag-video-caption p { color: rgba(255,255,255,0.5); font-size: 0.8rem; margin: 0; }
 .rag-video-caption a { color: #0071e3; text-decoration: none; font-weight: 600; }
 
-/* --- TECNICAS GRID (CENTRADO) --- */
+/* --- TECNICAS GRID --- */
 .rag-section-grid { padding: 90px 0; }
 .rag-grid-header.centered { text-align: center; margin-bottom: 60px; max-width: 800px; margin-left: auto; margin-right: auto; } 
 .rag-grid-subtitle { font-size: 1.25rem; color: var(--rag-text-alt); margin-top: 15px; font-weight: 300; }
@@ -257,4 +296,7 @@
 @media (max-width: 850px) {
   .rag-container { padding: 0 20px; }
   .rag-hero-grid, .rag-legal-box, .rag-tech-gallery { grid-template-columns: 1fr !important; }
+  .rag-image-reflection { display: none; }
+  .rag-hero-visual { padding-top: 20px; }
+  .rag-hero-grid { align-items: center; text-align: center; }
 }

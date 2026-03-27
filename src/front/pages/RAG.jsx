@@ -49,7 +49,10 @@ export default function RAG() {
 
               <div className="rag-hero-visual">
                 <div className="rag-perspective-wrapper">
-                  <img src={ragImg} alt="RAG System" className="rag-3d-card" />
+                  <div className="rag-image-reflection-container">
+                    <img src={ragImg} alt="RAG System" className="rag-3d-card" />
+                    <div className="rag-image-reflection"></div>
+                  </div>
                   <div className="rag-image-glow"></div>
                 </div>
               </div>
