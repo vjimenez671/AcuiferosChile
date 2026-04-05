@@ -56,7 +56,9 @@ export const Navbar = () => {
               Evalúa tu terreno <i className="fas fa-microchip"></i>
             </a>
           </li>
+          <li className="elemento"><Link to="/blog">Blog</Link></li>
           <li className="elemento"><Link to="/contacto">Contacto</Link></li>
+
         </ul>
       </div>
     </nav>
