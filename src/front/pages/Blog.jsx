@@ -1,672 +1,230 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { createPortal } from "react-dom";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import "../../styles/Blog.css";
 
-const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3001";
-
-
-const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
-const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
-
-const EMOJI_SET = ["👍","❤️","🔥","👏","😂","😮","😢","🙏","🎉","💡"];
+const POSTS_DATA = [
+  {
+    id: "post-13",
+    type: "carousel",
+    title: "Planificación Hídrica en Otoño",
+    date: "3 de abril de 2026",
+    images: [
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775348886/1_nbsm4f.png",
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775348888/2_gcp40x.png",
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775348887/3_yehmgw.png"
+    ],
+    description: "El inicio del otoño es la etapa clave para observar el comportamiento hídrico del predio antes del invierno. Evaluar oportunidades con anticipación permite transformar la observación técnica en proyectos de seguridad hídrica de largo plazo, evitando decisiones improvisadas ante la urgencia."
+  },
+  {
+    id: "post-12",
+    type: "carousel",
+    title: "Estrategia vs. Improvisación",
+    date: "23 de marzo de 2026",
+    images: [
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775348800/1_nxwas9.png",
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775348800/2_wjmiig.png",
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775348801/3_nabmiv.png"
+    ],
+    description: "La seguridad hídrica no se improvisa; se planifica entendiendo el acuífero antes de que la escasez deje poco margen de acción. Analizamos la realidad de cada predio para detectar errores comunes en la gestión del agua y fortalecer el potencial de Recarga de Acuíferos Gestionada."
+  },
+  {
+    id: "post-11",
+    type: "carousel",
+    title: "Evaluación Digital de Potencial RAG",
+    date: "15 de marzo de 2026",
+    images: [
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775348653/Puedes_tener_una_primera_aproximaci%C3%B3n_en_minutos_con_nuestro_simulador_hv82ua.png",
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775348548/2_dksjoo.png",
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775348552/3_flp5gr.png",
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775348550/4_i30evt.png"
+    ],
+    description: "A través de nuestro simulador online, los productores pueden obtener una primera aproximación técnica del potencial de recarga de sus predios en pocos minutos. Esta herramienta digital facilita la detección de oportunidades hídricas iniciales para profundizar luego en análisis de terreno."
+  },
+  {
+    id: "post-10",
+    type: "video",
+    title: "Señales Críticas en el Acuífero",
+    date: "2 de marzo de 2026",
+    src: "https://res.cloudinary.com/dvqbb7cjs/video/upload/v1775348491/3_se%C3%B1ales_final_2_youhbw.mp4",
+    description: "El aumento en la profundidad de bombeo, la caída de caudales críticos y el alza en los costos de energía son señales de alerta del acuífero. Ayudamos a interpretar estos indicadores para evaluar si un proyecto RAG puede revertir la tendencia y dar estabilidad operativa al campo."
+  },
+  {
+    id: "post-9",
+    type: "carousel",
+    title: "Mitos sobre el Agua Subterránea",
+    date: "22 de febrero de 2026",
+    images: [
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775348154/1_yzyctp.png",
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775348154/2_drbwpz.png",
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775348333/TRES_MITOS_SOBRE_EL_AGUA_SUBTERR%C3%81NEA_b1vhei.png",
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775348155/4_j9d9im.png"
+    ],
+    description: "Desmitificamos conceptos erróneos sobre el agua subterránea que suelen llevar a decisiones costosas. La seguridad hídrica real se construye comprendiendo el funcionamiento dinámico del acuífero y diseñando soluciones de recarga basadas en mediciones y datos técnicos precisos."
+  },
+  {
+    id: "post-8",
+    type: "carousel",
+    title: "Seguridad Hídrica en Años Secos",
+    date: "15 de febrero de 2026",
+    images: [
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775347904/1_hby66b.png",
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775347906/2_nisqzu.png",
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775347906/3_v37prx.png"
+    ],
+    description: "La Recarga de Acuíferos Gestionada busca transformar el agua de invierno en seguridad hídrica para los periodos de escasez. Diseñamos y monitoreamos proyectos evaluando el acuífero y la disponibilidad de agua para que las decisiones productivas se basen en datos técnicos."
+  },
+  {
+    id: "post-7",
+    type: "carousel",
+    title: "Construcción de Seguridad Hídrica en Comunidad",
+    date: "6 de febrero de 2026",
+    images: [
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775347723/orlin_2_kt1yeb.jpg",
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775347722/la_reu_urjy1p.jpg",
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775347721/jordi_vtbyxi.jpg",
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775347724/publico_oqluvl.jpg",
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775347725/si_o_si_stjx8o.jpg"
+    ],
+    description: "Recorremos el sur de Chile para compartir experiencias sobre la Recarga de Acuíferos Gestionada e integrar el conocimiento local con la experiencia técnica de terreno, buscando proteger los acuíferos a largo plazo."
+  },
+  {
+    id: "post-6",
+    type: "video",
+    title: "Monitoreo y Evidencia en Recarga",
+    date: "25 de enero de 2026",
+    src: "https://res.cloudinary.com/dvqbb7cjs/video/upload/v1775347638/sub_monitoreo_publicaci%C3%B3n_3_zzolm4.mp4",
+    description: "La gestión hídrica efectiva requiere datos precisos. Medimos la respuesta de los acuíferos para proporcionar evidencia clara sobre cómo la recarga beneficia a cada pozo, sustentando cada plan hídrico en análisis hidrogeológicos rigurosos."
+  },
+  {
+    id: "post-5",
+    type: "carousel",
+    title: "Seguridad Hídrica a 5 Años",
+    date: "17 de enero de 2026",
+    images: [
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775347369/1_srxqrk.png",
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775347370/2_st4js2.png",
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775347370/3_a1xzai.png"
+    ],
+    description: "Evaluamos el potencial de proyectos de Recarga de Acuíferos Gestionada para reforzar los pozos y asegurar la disponibilidad de agua en el largo plazo, mitigando los riesgos de años secos y costos energéticos elevados."
+  },
+  {
+    id: "post-4",
+    type: "video",
+    title: "Simulador de Potencial RAG",
+    date: "12 de enero de 2026",
+    src: "https://res.cloudinary.com/dvqbb7cjs/video/upload/v1775347253/simulador_facil_sbxxmh.mp4",
+    description: "Nuestra plataforma de inteligencia artificial permite explorar las oportunidades de seguridad hídrica de cada operación de forma remota, analizando el potencial para implementar proyectos de recarga gestionada."
+  },
+  {
+    id: "post-3",
+    type: "image",
+    title: "Análisis y Diseño en Terreno",
+    date: "4 de enero de 2026",
+    src: "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775347106/fdeb79f7-15da-42f4-93c8-dafc6997edd0_btfdlx.jpg",
+    description: "Cada predio cuenta con una historia hídrica única. Integramos el análisis de datos técnicos con el levantamiento en terreno para traducir la realidad hidrogeológica en un proyecto de seguridad hídrica a medida."
+  },
+  {
+    id: "post-2",
+    type: "video",
+    title: "Agua Desaprovechada: El Desafío Actual",
+    date: "27 de diciembre de 2025",
+    src: "https://res.cloudinary.com/dvqbb7cjs/video/upload/v1775344473/sub_agua_Desaprovechada_publicaci%C3%B3n_2_ia8x9h.mp4",
+    description: "La Recarga de Acuíferos Gestionada permite almacenar excedentes de agua bajo el campo para reforzar los caudales de los pozos durante el verano, convirtiendo el agua de invierno en seguridad hídrica real."
+  },
+  {
+    id: "post-1",
+    type: "carousel",
+    title: "Estrategias de Infiltración",
+    date: "4 de diciembre de 2025",
+    images: [
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775344110/1_l1lpxc.png",
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775344109/2_ewsi9j.png",
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775344110/3_jb5vzu.png",
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775344110/4_fwyzcm.png",
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775344110/5_ewujl6.png",
+      "https://res.cloudinary.com/dvqbb7cjs/image/upload/v1775344108/6_l6tmw9.png"
+    ],
+    description: "Utilizamos el subsuelo como un embalse invisible para infiltrar agua de forma controlada. Diseñamos proyectos para predios agrícolas, lecheros y ganaderos integrando hidrogeología e ingeniería hidráulica."
+  }
+];
 
 export default function Blog() {
-  const navigate = useNavigate();
-
-  const [feed, setFeed] = useState({ items: [], page: 1, pages: 1, total: 0, has_next: false, has_prev: false });
-  const [loadingFeed, setLoadingFeed] = useState(false);
-  const [errorFeed, setErrorFeed] = useState("");
-
-  const [isComposerOpen, setComposerOpen] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [errorSubmit, setErrorSubmit] = useState("");
-  const [okMsg, setOkMsg] = useState("");
-  const [form, setForm] = useState({ title: "", content: "", attachment_url: "" });
-
-  const { isAuth, currentUserId } = useMemo(() => {
-    try {
-      const token = !!localStorage.getItem("token");
-      const u = JSON.parse(localStorage.getItem("user") || "null");
-      return { isAuth: token && !!u, currentUserId: u?.id || null };
-    } catch {
-      return { isAuth: false, currentUserId: null };
-    }
-  }, []);
+  const { pathname } = useLocation();
+  const [currentPage] = useState(1);
 
   useEffect(() => {
-    fetchPosts(1);
-  }, []);
-
-  const fetchPosts = async (page = 1) => {
-    setLoadingFeed(true);
-    setErrorFeed("");
-    try {
-
-      const res = await fetch(`${API_URL}/api/posts?page=${page}&per_page=10`);
-      const data = await res.json();
-      if (!res.ok) throw new Error(data?.message || "No se pudieron cargar las publicaciones.");
-      setFeed(data);
-    } catch (err) {
-      setErrorFeed(err.message);
-    } finally {
-      setLoadingFeed(false);
-    }
-  };
-
-  const requireAuth = () => {
-    if (!localStorage.getItem("token")) {
-      navigate("/signin", { replace: true });
-      return false;
-    }
-    return true;
-  };
-
-  const openComposer = () => {
-
-    if (!requireAuth()) return;
-    setErrorSubmit("");
-    setOkMsg("");
-    setComposerOpen(true);
-  };
-  const closeComposer = () => {
-    if (submitting) return;
-    setComposerOpen(false);
-  };
-  const onChange = (e) => {
-    const { name, value } = e.target;
-    setForm((f) => ({ ...f, [name]: value }));
-  };
-
-  const attachFromCloudinary = () => {
-    if (!requireAuth()) return;
-    if (!window.cloudinary || !CLOUD_NAME || !UPLOAD_PRESET) {
-      setErrorSubmit("Cloudinary no está configurado. Usa el campo URL de imagen.");
-      return;
-    }
-    const widget = window.cloudinary.createUploadWidget(
-      {
-        cloudName: CLOUD_NAME,
-        uploadPreset: UPLOAD_PRESET,
-        sources: ["local", "camera", "url"],
-        multiple: false,
-        folder: "blog",
-        language: "es",
-      },
-      (error, result) => {
-        if (!error && result && result.event === "success") {
-          setForm((f) => ({ ...f, attachment_url: result.info.secure_url }));
-        } else if (error) {
-          setErrorSubmit(error.message || "Error subiendo imagen.");
-        }
-      }
-    );
-    widget.open();
-  };
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    if (!requireAuth()) return;
-
-    setErrorSubmit("");
-    setOkMsg("");
-
-    if (!form.title.trim()) {
-      return setErrorSubmit("El título es obligatorio.");
-    }
-
-    setSubmitting(true);
-    try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(`${API_URL}/api/posts`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(form),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data?.message || "Error al publicar.");
-      setOkMsg("¡Publicación creada!");
-      setForm({ title: "", content: "", attachment_url: "" });
-      setComposerOpen(false);
-      fetchPosts(1);
-    } catch (err) {
-      setErrorSubmit(err.message);
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  const loadNext = () => feed.page < feed.pages && fetchPosts(feed.page + 1);
-  const loadPrev = () => feed.page > 1 && fetchPosts(feed.page - 1);
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return (
-    <main className="blog page-container">
+    <div id="blog-unique-context">
+      <main className="blog-main-layout">
+        <header className="blog-header-v5">
+          <div className="blog-container">
+            <span className="blog-badge">Comunicación Estratégica</span>
+            <h1 className="blog-display-h1">Nuestra <span>Vitrina.</span></h1>
+            <p className="blog-header-p">Actualizaciones, proyectos y avances técnicos en Gestión de Acuíferos.</p>
+          </div>
+        </header>
 
-      <section className="composer-card" aria-label="Crear una publicación">
-        <div className="composer-avatar" aria-hidden="true">
-          <div className="avatar-circle">U</div>
-        </div>
-        <button className="composer-button" onClick={openComposer}>
-          ¿Qué quieres compartir hoy?
-        </button>
-        <div className="composer-actions">
-        </div>
-      </section>
-
-
-      {isComposerOpen && (
-        <ACModal onClose={closeComposer} title="Crear publicación">
-          <form className="composer-form" onSubmit={onSubmit}>
-            <label className="field">
-              <span>Título *</span>
-              <input type="text" name="title" value={form.title} onChange={onChange} required />
-            </label>
-            <label className="field">
-              <span>Contenido (opcional)</span>
-              <textarea
-                name="content"
-                rows={6}
-                value={form.content}
-                onChange={onChange}
-                placeholder="Escribe algo (opcional)…"
-              />
-            </label>
-            <div className="grid-attach">
-              <label className="field">
-                <span>URL de imagen (opcional)</span>
-                <input
-                  type="url"
-                  name="attachment_url"
-                  value={form.attachment_url}
-                  onChange={onChange}
-                  placeholder="https://…"
-                />
-              </label>
-              <div className="upload-block">
-                <span className="hint">o</span>
-                <button type="button" className="btn btn-secondary" onClick={attachFromCloudinary}>
-                  Subir imagen
-                </button>
-              </div>
+        <section className="blog-feed-section">
+          <div className="blog-container">
+            <div className="blog-grid">
+              {POSTS_DATA.map((post) => (
+                <article key={post.id} className="blog-post-card">
+                  <div className="blog-post-media">
+                    {post.type === "video" ? (
+                      <video controls className="blog-video-player">
+                        <source src={post.src} type="video/mp4" />
+                      </video>
+                    ) : post.type === "carousel" ? (
+                      <Carousel images={post.images} />
+                    ) : (
+                      <img src={post.src} alt={post.title} className="blog-single-img" />
+                    )}
+                  </div>
+                  <div className="blog-post-info">
+                    <div className="blog-post-meta">
+                      <span className="blog-post-date">{post.date}</span>
+                    </div>
+                    <h2 className="blog-post-title">{post.title}</h2>
+                    <p className="blog-post-desc">{post.description}</p>
+                  </div>
+                </article>
+              ))}
             </div>
-            {form.attachment_url && (
-              <div className="image-preview">
-                <img src={form.attachment_url} alt="Vista previa" />
-              </div>
-            )}
-            {errorSubmit && <div className="error">{errorSubmit}</div>}
-            {okMsg && <div className="ok">{okMsg}</div>}
-            <div className="form-actions">
-              <button type="button" className="btn btn-ghost" onClick={closeComposer} disabled={submitting}>
-                Cancelar
-              </button>
-              <button className="btn btn-primary" disabled={submitting}>
-                {submitting ? "Publicando..." : "Publicar"}
-              </button>
+
+            <div className="blog-pager">
+              <button className="blog-pager-btn disabled">Anterior</button>
+              <span className="blog-pager-info">Página {currentPage} de 1</span>
+              <button className="blog-pager-btn disabled">Siguiente</button>
             </div>
-          </form>
-        </ACModal>
-      )}
-
-
-      <section className="feed">
-        <h2 className="sr-only">Publicaciones recientes</h2>
-        {loadingFeed && <div className="feed-state">Cargando publicaciones…</div>}
-        {errorFeed && <div className="error">{errorFeed}</div>}
-        {!loadingFeed && !errorFeed && feed.items.length === 0 && (
-          <div className="feed-empty">Aún no hay publicaciones. ¡Sé el primero en compartir algo!</div>
-        )}
-
-        {feed.items.map((p) => (
-          <PostCard
-            key={p.id}
-            post={p}
-            currentUserId={currentUserId}
-            onChanged={() => fetchPosts(feed.page)}
-            requireAuth={requireAuth}
-          />
-        ))}
-
-        <div className="pager">
-          <button className="btn btn-ghost" onClick={loadPrev} disabled={!feed.has_prev}>Anterior</button>
-          <span className="pager-info">Página {feed.page} de {feed.pages}</span>
-          <button className="btn btn-ghost" onClick={loadNext} disabled={!feed.has_next}>Siguiente</button>
-        </div>
-      </section>
-    </main>
+          </div>
+        </section>
+      </main>
+    </div>
   );
 }
 
-
-function PostCard({ post, currentUserId, onChanged, requireAuth }) {
-  const [isOpen, setOpen] = useState(false);
-  const [showComments, setShowComments] = useState(false);
-  const [comments, setComments] = useState([]);
-  const [newComment, setNewComment] = useState("");
-  const [busy, setBusy] = useState(false);
-
-  const [isEditing, setEditing] = useState(false);
-  const [editForm, setEditForm] = useState({ title: post.title, content: post.content, attachment_url: post.attachment_url || "" });
-
-  const isAuthor = post?.user?.id === currentUserId;
-
-  useEffect(() => {
-    setEditForm({ title: post.title, content: post.content, attachment_url: post.attachment_url || "" });
-  }, [post]);
-
-  const createdAt = useMemo(() => {
-    try {
-      const d = new Date(post.created_at);
-      const dd = String(d.getDate()).padStart(2, "0");
-      const mm = String(d.getMonth() + 1).padStart(2, "0");
-      const yyyy = d.getFullYear();
-      const time = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-      return `${dd}/${mm}/${yyyy} ${time}`;
-    } catch {
-      return post.created_at;
-    }
-  }, [post.created_at]);
-
-  const openLightbox = () => setOpen(true);
-  const keyOpen = (e) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      setOpen(true);
-    }
-  };
-
-
-  const toggleReaction = async (emoji) => {
-    if (!requireAuth()) return;
-    try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(`${API_URL}/api/posts/${post.id}/reactions`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ emoji })
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data?.message || "No se pudo reaccionar");
-      onChanged?.();
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  const fetchComments = async () => {
-
-    try {
-      const res = await fetch(`${API_URL}/api/posts/${post.id}/comments`, {
-
-        headers: localStorage.getItem("token")
-          ? { Authorization: `Bearer ${localStorage.getItem("token")}` }
-          : {}
-      });
-      if (res.status === 401 || res.status === 403) {
-
-        setComments([]);
-        return;
-      }
-      const data = await res.json();
-      if (!res.ok) throw new Error(data?.message || "Error cargando comentarios");
-      setComments(data);
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  const sendComment = async () => {
-    if (!requireAuth()) return;
-    if (!newComment.trim()) return;
-    setBusy(true);
-    try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(`${API_URL}/api/posts/${post.id}/comments`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ body: newComment })
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data?.message || "No se pudo comentar");
-      setNewComment("");
-      setComments((c) => [...c, data]);
-      onChanged?.();
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  const deleteComment = async (commentId) => {
-    if (!requireAuth()) return;
-    if (!window.confirm("¿Eliminar este comentario?")) return;
-    try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(`${API_URL}/api/posts/${post.id}/comments/${commentId}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data?.message || "No se pudo eliminar");
-      }
-      setComments((c) => c.filter((x) => x.id !== commentId));
-      onChanged?.();
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  const downloadAttachment = () => {
-    if (!post.attachment_url) return;
-    const a = document.createElement("a");
-    a.href = post.attachment_url;
-    a.download = (post.title || "archivo").replace(/\s+/g, "_");
-    a.target = "_blank";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-  };
-
-  const openEdit = () => {
-    if (!requireAuth()) return;
-    setEditing(true);
-  };
-  const closeEdit = () => setEditing(false);
-  const onEditChange = (e) => setEditForm((f) => ({ ...f, [e.target.name]: e.target.value }));
-
-  // === NUEVO: subir imagen con Cloudinary en modal de edición ===
-  const attachFromCloudinaryEdit = () => {
-    if (!requireAuth()) return;
-    if (!window.cloudinary || !CLOUD_NAME || !UPLOAD_PRESET) {
-      alert("Cloudinary no está configurado. Usa el campo URL de imagen.");
-      return;
-    }
-    const widget = window.cloudinary.createUploadWidget(
-      {
-        cloudName: CLOUD_NAME,
-        uploadPreset: UPLOAD_PRESET,
-        sources: ["local", "camera", "url"],
-        multiple: false,
-        folder: "blog",
-        language: "es",
-      },
-      (error, result) => {
-        if (!error && result && result.event === "success") {
-          setEditForm((f) => ({ ...f, attachment_url: result.info.secure_url }));
-        } else if (error) {
-          alert(error.message || "Error subiendo imagen.");
-        }
-      }
-    );
-    widget.open();
-  };
-
-  const submitEdit = async (e) => {
-    e.preventDefault();
-    if (!requireAuth()) return;
-    try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(`${API_URL}/api/posts/${post.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify(editForm)
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data?.message || "No se pudo actualizar");
-      setEditing(false);
-      onChanged?.();
-    } catch (e) {
-      alert(e.message);
-    }
-  };
-
-  const removePost = async () => {
-    if (!requireAuth()) return;
-    if (!window.confirm("¿Eliminar esta publicación?")) return;
-    try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(`${API_URL}/api/posts/${post.id}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data?.message || "No se pudo eliminar");
-      }
-      onChanged?.();
-    } catch (e) {
-      alert(e.message);
-    }
-  };
-
-  useEffect(() => {
-    if (showComments) fetchComments();
-
-  }, [showComments]);
+function Carousel({ images }) {
+  const [idx, setIdx] = useState(0);
+  const next = () => setIdx((prev) => (prev + 1) % images.length);
+  const prev = () => setIdx((prev) => (prev - 1 + images.length) % images.length);
 
   return (
-    <article className="post-card" id={`post-${post.id}`}>
-      <header className="post-header">
-        <div className="post-author">
-          <div className="avatar-circle">
-            {initials(`${post.user?.name || ""} ${post.user?.last_name || ""}`)}
+    <div className="blog-carousel">
+      <img src={images[idx]} alt="Slide" className="blog-carousel-img" />
+      {images.length > 1 && (
+        <>
+          <button className="carousel-btn prev" onClick={prev}>‹</button>
+          <button className="carousel-btn next" onClick={next}>›</button>
+          <div className="carousel-dots">
+            {images.map((_, i) => (
+              <span key={i} className={`dot ${i === idx ? "active" : ""}`} />
+            ))}
           </div>
-          <div className="meta">
-            <div className="name">{post.user?.name} {post.user?.last_name}</div>
-            <div className="time">{createdAt}</div>
-          </div>
-        </div>
-        <div className="post-header-right">
-          {isAuthor && (
-            <div className="owner-actions">
-              <button className="btn btn-quiet" onClick={openEdit} title="Editar">✏️</button>
-              <button className="btn btn-quiet" onClick={removePost} title="Eliminar">🗑️</button>
-            </div>
-          )}
-        </div>
-      </header>
-
-      <h3 className="post-title">{post.title}</h3>
-
-      <div className="post-content" dangerouslySetInnerHTML={{ __html: linkify(post.content) }} />
-
-      {post.attachment_url && (
-        <figure className="post-media">
-          <div
-            className="media-frame"
-            onClick={() => setOpen(true)}
-            onKeyDown={keyOpen}
-            role="button"
-            tabIndex={0}
-            aria-label="Ampliar imagen"
-          >
-            <img
-              src={post.attachment_url}
-              alt={post.title}
-              className="media-image"
-            />
-          </div>
-          {/* Eliminado: botones Descargar / Abrir en pestaña */}
-          {isOpen && <Lightbox imgSrc={post.attachment_url} onClose={() => setOpen(false)} />}
-        </figure>
+        </>
       )}
-
-      <div className="post-actions">
-        <div className="reactions">
-          {EMOJI_SET.map((e) => {
-            const count = post.reactions?.[e] || 0;
-            const mine = (post.my_reactions || []).includes(e);
-            return (
-              <button
-                key={e}
-                className={`reaction ${mine ? "is-active" : ""}`}
-                onClick={() => toggleReaction(e)}
-                title={mine ? "Quitar reacción" : "Reaccionar"}
-              >
-                <span className="emoji">{e}</span>
-                {count > 0 && <span className="count">{count}</span>}
-              </button>
-            );
-          })}
-        </div>
-        <div className="spacer" />
-        <button
-          className="btn btn-comment"
-          onClick={() => setShowComments((s) => !s)}
-        >
-          💬 {post.comment_count || 0}
-        </button>
-        {/* Eliminado: botón Compartir */}
-      </div>
-
-      {showComments && (
-        <div className="comments">
-          {comments.length === 0 && (
-            <div className="subhint">
-              {localStorage.getItem("token")
-                ? "Sé el primero en comentar."
-                : "Inicia sesión para ver o escribir comentarios."}
-            </div>
-          )}
-          {comments.map((c) => (
-            <div className="comment" key={c.id}>
-              <div className="avatar-circle small">
-                {initials(`${c.user?.name || ""} ${c.user?.last_name || ""}`)}
-              </div>
-              <div className="comment-body">
-                <div className="comment-meta">
-                  <span>{c.user?.name} {c.user?.last_name}</span>
-                  {c.user?.id === currentUserId && (
-                    <button className="btn btn-quiet mini" title="Eliminar comentario" onClick={() => deleteComment(c.id)}>✕</button>
-                  )}
-                </div>
-                <div className="comment-text">{c.body}</div>
-              </div>
-            </div>
-          ))}
-          <div className="comment-new">
-            <input
-              placeholder="Escribe un comentario…"
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && sendComment()}
-              onFocus={() => { if (!localStorage.getItem("token")) requireAuth(); }}
-            />
-            <button className="btn btn-primary" onClick={sendComment} disabled={busy || !newComment.trim()}>
-              Enviar
-            </button>
-          </div>
-        </div>
-      )}
-
-      {isEditing && (
-        <ACModal title="Editar publicación" onClose={closeEdit}>
-          <form className="composer-form" onSubmit={submitEdit}>
-            <label className="field">
-              <span>Título *</span>
-              <input name="title" value={editForm.title} onChange={onEditChange} required />
-            </label>
-            <label className="field">
-              <span>Contenido</span>
-              <textarea name="content" rows={6} value={editForm.content} onChange={onEditChange} />
-            </label>
-
-            {/* === NUEVO: bloque de URL + botón Subir imagen (Cloudinary) === */}
-            <div className="grid-attach">
-              <label className="field">
-                <span>URL de imagen (opcional)</span>
-                <input
-                  name="attachment_url"
-                  value={editForm.attachment_url}
-                  onChange={onEditChange}
-                  placeholder="https://…"
-                />
-              </label>
-              <div className="upload-block">
-                <span className="hint">o</span>
-                <button type="button" className="btn btn-secondary" onClick={attachFromCloudinaryEdit}>
-                  Subir imagen
-                </button>
-              </div>
-            </div>
-
-            {editForm.attachment_url && (
-              <div className="image-preview">
-                <img src={editForm.attachment_url} alt="Vista previa" />
-              </div>
-            )}
-
-            <div className="form-actions">
-              <button type="button" className="btn btn-ghost" onClick={closeEdit}>Cancelar</button>
-              <button className="btn btn-primary">Guardar cambios</button>
-            </div>
-          </form>
-        </ACModal>
-      )}
-    </article>
-  );
-}
-
-function Lightbox({ imgSrc, onClose }) {
-  useEffect(() => {
-    const handler = (e) => e.key === "Escape" && onClose();
-    document.addEventListener("keydown", handler);
-    return () => document.removeEventListener("keydown", handler);
-  }, [onClose]);
-
-  return createPortal(
-    <div className="lightbox" onClick={onClose}>
-      <button className="lightbox-close" onClick={onClose}>✕</button>
-      <img
-        src={imgSrc}
-        alt="Imagen ampliada"
-        className="lightbox-image"
-        onClick={(e) => e.stopPropagation()}
-      />
-    </div>,
-    document.body
-  );
-}
-
-function initials(name = "") {
-  const parts = name.split(" ").filter(Boolean);
-  const first = parts[0]?.[0] || "";
-  const last = parts[parts.length - 1]?.[0] || "";
-  return (first + last).toUpperCase();
-}
-
-function linkify(text = "") {
-  const esc = (s) => s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
-  const withLinks = esc(text).replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noreferrer">$1</a>');
-  return withLinks.replace(/\n/g, "<br/>");
-}
-
-function ACModal({ title, onClose, children }) {
-  useEffect(() => {
-    const handler = (e) => e.key === "Escape" && onClose?.();
-    document.addEventListener("keydown", handler);
-    return () => document.removeEventListener("keydown", handler);
-  }, [onClose]);
-
-  const onBackdropClick = (e) => {
-    if (e.target === e.currentTarget) onClose?.();
-  };
-
-  return createPortal(
-    <div className="ac-modal-backdrop" onClick={onBackdropClick} role="dialog" aria-modal="true">
-      <div className="ac-modal" onClick={(e) => e.stopPropagation()}>
-        <div className="ac-modal-head">
-          <h3 className="ac-modal-title">{title}</h3>
-          <button className="ac-modal-close" onClick={onClose} aria-label="Cerrar">✕</button>
-        </div>
-        <div className="ac-modal-body">{children}</div>
-      </div>
-    </div>,
-    document.body
+    </div>
   );
 }
